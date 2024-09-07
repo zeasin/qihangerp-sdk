@@ -45,7 +45,7 @@ spring:
           max-wait: -1ms
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/qihang-erp?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/qihangerp-cbce?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: Andy_123
 server:
@@ -57,7 +57,7 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka/
 
 mybatis-plus:
-  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  mapper-locations: classpath*:mapper/**/*.xml
   type-aliases-package: com.qihang.auth.domain;com.qihang.security.entity;
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启sql日志

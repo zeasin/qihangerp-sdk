@@ -119,8 +119,7 @@ tms模块微服务
 
 #### 3.2、导入数据库
 + 创建数据库`qihang-erp`
-  + 1、导入数据库结构：sql脚本`docs\qihang-erp.sql`
-  + 2、导入系统数据：sql脚本`docs\qihang-erp-sys.sql`
+  + 导入数据库结构：sql脚本`docs\qihangerp-cbce.sql`
 
 #### 3.3、启动服务(项目)
 1.  启动微服务注册中心EurekaServer

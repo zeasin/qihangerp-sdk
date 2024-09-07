@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
  * Hello world!
  *
  */
-@EnableFeignClients(basePackages = "com.qihang.auth")
+//@EnableFeignClients(basePackages = "com.qihang.auth")
 @EnableDiscoveryClient
 @ComponentScan(basePackages={"com.qihang"})
 @MapperScan("com.qihang.auth.mapper")

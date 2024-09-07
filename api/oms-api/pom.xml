@@ -1,12 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+<!--    <parent>-->
+<!--        <groupId>com.qihang</groupId>-->
+<!--        <artifactId>qihangerp-cbce</artifactId>-->
+<!--        <version>0.9.7</version>-->
+<!--    </parent>-->
     <parent>
-        <groupId>com.qihang</groupId>
-        <artifactId>qihangerp-cbce</artifactId>
-        <version>0.9.7</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.2</version>
+        <relativePath/>
     </parent>
-
     <groupId>com.qihang.oms</groupId>
     <artifactId>oms-api</artifactId>
     <packaging>jar</packaging>
@@ -47,6 +52,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>4.0.0</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.kafka</groupId>-->

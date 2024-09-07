@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 /**
@@ -17,6 +19,7 @@ public class SysMenu implements Serializable {
     /**
      * 菜单ID
      */
+    @TableId(value = "menu_id", type = IdType.AUTO)
     private Long menuId;
 
     /**

@@ -1,12 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+<!--    <parent>-->
+<!--        <groupId>com.qihang</groupId>-->
+<!--        <artifactId>qihangerp-cbce</artifactId>-->
+<!--        <version>0.9.7</version>-->
+<!--    </parent>-->
     <parent>
-        <groupId>com.qihang</groupId>
-        <artifactId>qihangerp-cbce</artifactId>
-        <version>0.9.7</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.2</version>
+        <relativePath/>
     </parent>
-
     <artifactId>auth-api</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -20,7 +25,7 @@
 <!--        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>-->
 <!--        <spring-boot.version>3.0.2</spring-boot.version>-->
 <!--        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>-->
-<!--        <jwt.version>0.11.5</jwt.version>-->
+        <jwt.version>0.11.5</jwt.version>
     </properties>
 
     <dependencies>
@@ -69,10 +74,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter</artifactId>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>4.0.0</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
@@ -86,7 +93,7 @@
        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-<!--            <version>4.0.0</version>-->
+            <version>4.0.0</version>
         </dependency>
 
         <dependency>
@@ -110,11 +117,13 @@
 <!--            <version>1.7.25</version>-->
 <!--            <scope>test</scope>-->
 <!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.5</version>
+            <version>3.5.7</version>
         </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba</groupId>-->
 <!--            <artifactId>druid-spring-boot-starter</artifactId>-->
@@ -173,6 +182,12 @@
 <!--            <artifactId>commons-lang3</artifactId>-->
 <!--            <version>3.12.0</version>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.qihang</groupId>
             <artifactId>security</artifactId>
