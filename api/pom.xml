@@ -14,7 +14,6 @@
     <url>http://maven.apache.org</url>
     <modules>
         <module>auth-api</module>
-        <module>offline-api</module>
         <module>oms-api</module>
         <module>tms-api</module>
     </modules>

@@ -116,9 +116,6 @@ tms模块微服务
 
 1. 启动MySQL8
 2. 启动Redis7
-3. 启动Sentinel1.8.7控制台
-4. 启动Nacos2.2.0
-5. 启动Kafka
 
 #### 3.2、导入数据库
 + 创建数据库`qihang-erp`
@@ -126,9 +123,9 @@ tms模块微服务
   + 2、导入系统数据：sql脚本`docs\qihang-erp-sys.sql`
 
 #### 3.3、启动服务(项目)
-1.  启动开放平台业务微服务（tao-api、jd-api、dou-api、pdd-api等平台接口api微服务）
-2.  启动sys-api、oms-api微服务
-3.  启动微服务网关（api）
+1.  启动微服务注册中心EurekaServer
+2.  启动gateway网关
+3.  启动业务微服务（auth-api、oms-api、tms-api）
 
 #### 3.4、运行前端
 + Nodejs版本：v16.20.0
