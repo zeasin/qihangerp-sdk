@@ -84,7 +84,7 @@ graph TD
 
 #### 2.2 eureka-server
 
-**微服务发现中心**
+**微服务注册中心**
 
 #### 2.3 gateway
 
