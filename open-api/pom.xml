@@ -15,12 +15,7 @@
     <version>2.0.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>tao-api</module>
-        <module>jd-api</module>
-        <module>pdd-api</module>
-        <module>dou-api</module>
-        <module>wei-api</module>
-<!--        <module>kwai-api</module>-->
+
     </modules>
     <properties>
         <java.version>17</java.version>
