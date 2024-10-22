@@ -20,7 +20,6 @@
     <modules>
         <module>sys-api</module>
         <module>scm-api</module>
-        <module>seller-api</module>
     </modules>
     <properties>
         <java.version>17</java.version>

@@ -13,7 +13,7 @@
     <version>0.9.7</version>
     <packaging>pom</packaging>
 
-    <name>qihangerp-cbce</name>
+    <name>qihangerp-scm</name>
     <url>http://maven.apache.org</url>
     <modules>
         <module>api</module>
