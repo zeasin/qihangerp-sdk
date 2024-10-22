@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qihang.oms.mapper.ErpGoodsInventoryDetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.qihang.oms.domain.ErpGoodsInventoryDetail">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="inventoryid" column="inventoryId" jdbcType="BIGINT"/>
+            <result property="inqty" column="inQty" jdbcType="INTEGER"/>
+            <result property="originqty" column="originQty" jdbcType="BIGINT"/>
+            <result property="currentqty" column="currentQty" jdbcType="BIGINT"/>
+            <result property="purprice" column="purPrice" jdbcType="DOUBLE"/>
+            <result property="entryid" column="entryId" jdbcType="BIGINT"/>
+            <result property="entryitemid" column="entryItemId" jdbcType="BIGINT"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="specid" column="specId" jdbcType="INTEGER"/>
+            <result property="goodsid" column="goodsId" jdbcType="INTEGER"/>
+            <result property="inlocation" column="inLocation" jdbcType="INTEGER"/>
+            <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="createby" column="createBy" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,inventoryId,inQty,
+        originQty,currentQty,purPrice,
+        entryId,entryItemId,remark,
+        specId,goodsId,inLocation,
+        createTime,createBy
+    </sql>
+</mapper>
