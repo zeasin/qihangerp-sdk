@@ -26,11 +26,13 @@ public class LoginUser implements UserDetails
      * 部门ID
      */
     private Long deptId;
+    private Long sellerId;
 
     /**
      * 用户唯一标识
      */
     private String token;
+    private String tokenValue;
 
     /**
      * 登录时间
@@ -88,6 +90,22 @@ public class LoginUser implements UserDetails
         this.deptId = deptId;
         this.user = user;
         this.permissions = permissions;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public String getTokenValue() {
+        return tokenValue;
+    }
+
+    public void setTokenValue(String tokenValue) {
+        this.tokenValue = tokenValue;
     }
 
     public Long getUserId()

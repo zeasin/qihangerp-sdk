@@ -47,7 +47,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
         String url =request.getRequestURI();
 //        log.info("intercept " + url);
 //        log.info("token: " + token); || request.getRequestURI().equals("/getInfo") || request.getRequestURI().equals("/logout")
-        if(request.getRequestURI().equals("/login") ){
+        if(request.getRequestURI().equals("/login") || request.getRequestURI().equals("/seller/login")){
             // 登录页面，放行
             chain.doFilter(request, response);
             return;
