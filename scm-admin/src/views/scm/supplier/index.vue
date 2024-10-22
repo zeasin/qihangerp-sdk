@@ -18,9 +18,9 @@
         />
       </el-form-item>
 
-      <el-form-item label="联系人" prop="linkMan">
+      <el-form-item label="联系人" prop="linkman">
         <el-input
-          v-model="queryParams.linkMan"
+          v-model="queryParams.linkman"
           placeholder="请输入联系人"
           clearable
           @keyup.enter.native="handleQuery"
@@ -100,10 +100,12 @@
 <!--          <span>{{ parseTime(scope.row.beginDate, '{y}-{m}-{d}') }}</span>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="职位" align="center" prop="place" />
-      <el-table-column label="联系人" align="center" prop="linkMan" />
+
+      <el-table-column label="联系人" align="center" prop="linkman" />
       <el-table-column label="联系方式" align="center" prop="contact" />
+
+      <el-table-column label="职位" align="center" prop="place" />
+      <el-table-column label="备注" align="center" prop="remark" />
 <!--      <el-table-column label="省" align="center" prop="province" />-->
 <!--      <el-table-column label="市" align="center" prop="city" />-->
 <!--      <el-table-column label="区县" align="center" prop="county" />-->
@@ -111,7 +113,7 @@
 <!--      <el-table-column label="分管采购员" align="center" prop="purchaserName" />-->
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.createtime) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -151,47 +153,46 @@
         <el-form-item label="供应商编码" prop="number">
           <el-input v-model="form.number" placeholder="请输入供应商编码" />
         </el-form-item>
-        <el-form-item label="税率" prop="taxRate">
-          <el-input v-model="form.taxRate" placeholder="请输入税率" />
-        </el-form-item>
-        <el-form-item label="期初应付款" prop="amount">
-          <el-input v-model="form.amount" placeholder="请输入期初应付款" />
-        </el-form-item>
-        <el-form-item label="期初预付款" prop="periodMoney">
-          <el-input v-model="form.periodMoney" placeholder="请输入期初预付款" />
-        </el-form-item>
-        <el-form-item label="初期往来余额" prop="difMoney">
-          <el-input v-model="form.difMoney" placeholder="请输入初期往来余额" />
-        </el-form-item>
-        <el-form-item label="余额日期" prop="beginDate">
-          <el-date-picker clearable
-            v-model="form.beginDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择余额日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-        <el-form-item label="职位" prop="place">
-          <el-input v-model="form.place" placeholder="请输入职位" />
-        </el-form-item>
+<!--        <el-form-item label="税率" prop="taxRate">-->
+<!--          <el-input v-model="form.taxRate" placeholder="请输入税率" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="期初应付款" prop="amount">-->
+<!--          <el-input v-model="form.amount" placeholder="请输入期初应付款" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="期初预付款" prop="periodMoney">-->
+<!--          <el-input v-model="form.periodMoney" placeholder="请输入期初预付款" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="初期往来余额" prop="difMoney">-->
+<!--          <el-input v-model="form.difMoney" placeholder="请输入初期往来余额" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="余额日期" prop="beginDate">-->
+<!--          <el-date-picker clearable-->
+<!--            v-model="form.beginDate"-->
+<!--            type="date"-->
+<!--            value-format="yyyy-MM-dd"-->
+<!--            placeholder="请选择余额日期">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
+
+
         <el-form-item label="联系人" prop="linkMan">
-          <el-input v-model="form.linkMan" placeholder="请输入联系人" />
+          <el-input v-model="form.linkman" placeholder="请输入联系人" />
         </el-form-item>
         <el-form-item label="联系方式" prop="contact">
           <el-input v-model="form.contact" placeholder="请输入联系方式" />
         </el-form-item>
-        <el-form-item label="省" prop="province">
-          <el-input v-model="form.province" placeholder="请输入省" />
+        <el-form-item label="职位" prop="place">
+          <el-input v-model="form.place" placeholder="请输入职位" />
         </el-form-item>
-        <el-form-item label="市" prop="city">
-          <el-input v-model="form.city" placeholder="请输入市" />
-        </el-form-item>
-        <el-form-item label="区县" prop="county">
-          <el-input v-model="form.county" placeholder="请输入区县" />
-        </el-form-item>
+<!--        <el-form-item label="省" prop="province">-->
+<!--          <el-input v-model="form.province" placeholder="请输入省" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="市" prop="city">-->
+<!--          <el-input v-model="form.city" placeholder="请输入市" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="区县" prop="county">-->
+<!--          <el-input v-model="form.county" placeholder="请输入区县" />-->
+<!--        </el-form-item>-->
         <el-form-item label="详细地址" prop="address">
           <el-input v-model="form.address" placeholder="请输入详细地址" />
         </el-form-item>
@@ -200,6 +201,9 @@
         </el-form-item>
         <el-form-item label="分管采购员" prop="purchaserName">
           <el-input v-model="form.purchaserName" placeholder="请输入分管采购员" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -211,7 +215,7 @@
 </template>
 
 <script>
-import { listSupplier, getSupplier, delSupplier, addSupplier, updateSupplier } from "@/api/scm/supplier";
+import { listSupplier, getSupplier, delSupplier, addSupplier, updateSupplier } from "@/api/goods/supplier";
 
 export default {
   name: "Supplier",
