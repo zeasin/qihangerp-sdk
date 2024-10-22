@@ -18,9 +18,8 @@
     <name>api</name>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>auth-api</module>
-        <module>oms-api</module>
-        <module>tms-api</module>
+        <module>sys-api</module>
+        <module>scm-api</module>
     </modules>
     <properties>
         <java.version>17</java.version>

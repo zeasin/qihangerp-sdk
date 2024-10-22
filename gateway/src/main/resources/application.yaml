@@ -9,33 +9,19 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: auth_api_route
-          uri: lb://auth-api
+        - id: sys_api_route
+          uri: lb://sys-api
           predicates:
-            - Path=/auth-api/**
+            - Path=/sys-api/**
           filters:
             - StripPrefix=1
-        # oms-api
-        - id: oms_api_route
-          uri: lb://oms-api
+        - id: scm_api_route
+          uri: lb://scm-api
           predicates:
-            - Path=/oms-api/**
+            - Path=/scm-api/**
           filters:
             - StripPrefix=1
-        # offline-api
-        - id: offline_api_route
-          uri: lb://offline-api
-          predicates:
-            - Path=/offline-api/**
-          filters:
-            - StripPrefix=1
-        # tao-api
-        - id: tao_api_route
-          uri: lb://tao-api
-          predicates:
-            - Path=/tao-api/**
-          filters:
-            - StripPrefix=1
+
 eureka:
   client:
     serviceUrl:
