@@ -29,42 +29,25 @@ SDK核心包
 + MySQL数据库创建
   + 运行MySQL脚本`docs\sql\qihangerp-scm.sql`导入数据到主库`qihangerp-scm`
 
-+ 启动nacos
-  + 启动
-  
-    **一般情况下：下载nacos2.3.2解压之后直接运行：**
-  
-    `startup.cmd -m standalone`
- 
-  + 添加Nacos配置
-    + 项目dataId`qihangerp-scm.yaml`（配置内容从docs\qihangerp-scm.yaml复制即可）
-
 + 启动Redis
 
 
   
-### 3.2、启动后端
-
-+ 启动`service`下面的所有微服务
-+ 启动`api-scm`项目
-+ 启动`api-dcm`项目
-
-### 3.3、启动前端 `vue-scm`、`vue-dcm`
-+ `npm install`
-+ `npm run dev`
-+ 打包`npm run build:prod`
-+ 访问web
-  + 访问地址：`http://localhost`
-  + 登录名：`admin`
-  + 登录密码：`admin123`
+### 3.2、启动`api`项目
 
 
+### 3.3、访问接口文档
+
++ 访问地址：`http://localhost:8080/open-api/index.html`
+ 
 
 
 
 ## 四、期待您的支持
 
 **感谢大家的关注与支持！希望利用本人从事电商10余年的经验帮助到大家提升工作效率！**
+
+<img src="docs/star.jpg"  />
 
 💖 如果觉得有用记得点 Star⭐
 
