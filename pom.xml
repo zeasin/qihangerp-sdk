@@ -8,17 +8,15 @@
         <relativePath/>
       </parent>
 
-    <groupId>com.qihang</groupId>
-    <artifactId>qihangerp-scm</artifactId>
+    <groupId>cn.qihangerp</groupId>
+    <artifactId>qihangerp-sdk</artifactId>
     <version>0.9.7</version>
     <packaging>pom</packaging>
 
-    <name>qihangerp-scm</name>
+    <name>qihangerp-sdk</name>
     <url>http://maven.apache.org</url>
     <modules>
         <module>api</module>
-        <module>eureka-server</module>
-        <module>gateway</module>
         <module>core</module>
     </modules>
 
