@@ -70,7 +70,7 @@
 <!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
 <!--        </dependency>-->
         <dependency>
-            <groupId>com.qihang</groupId>
+            <groupId>cn.qihangerp</groupId>
             <artifactId>security</artifactId>
             <version>1.0</version>
         </dependency>

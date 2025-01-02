@@ -10,11 +10,11 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.qihang.oms.mapper")
 @ComponentScan(basePackages={"com.qihang"})
 @SpringBootApplication
-public class ScmApi {
+public class Api {
     public static void main( String[] args )
     {
         System.out.println( "Hello oms-api!" );
-        SpringApplication.run(ScmApi.class, args);
+        SpringApplication.run(Api.class, args);
     }
 
 }

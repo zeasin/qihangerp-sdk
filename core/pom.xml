@@ -7,8 +7,9 @@
         <version>3.0.2</version>
         <relativePath/>
     </parent>
-
+    <groupId>cn.qihangerp</groupId>
     <artifactId>core</artifactId>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <name>core</name>
@@ -19,9 +20,21 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-boot.version>3.0.2</spring-boot.version>
+        <spring-cloud.version>2022.0.0</spring-cloud.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+        <jwt.version>0.11.5</jwt.version>
+        <!--        <maven.compiler.source>17</maven.compiler.source>-->
+        <!--        <maven.compiler.target>17</maven.compiler.target>-->
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

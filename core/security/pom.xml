@@ -7,11 +7,10 @@
 <!--        <version>2.8.4</version>-->
 <!--    </parent>-->
     <parent>
-        <groupId>com.qihang</groupId>
+        <groupId>cn.qihangerp</groupId>
         <artifactId>core</artifactId>
-        <version>0.9.7</version>
+        <version>1.0</version>
     </parent>
-    <groupId>com.qihang</groupId>
     <artifactId>security</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
