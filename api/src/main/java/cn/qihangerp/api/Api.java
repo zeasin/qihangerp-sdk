@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @MapperScan("cn.qihangerp.api.mapper")
-//@ComponentScan(basePackages={"com.qihang"})
+@ComponentScan(basePackages={"cn.qihangerp"})
 @SpringBootApplication
 public class Api {
     public static void main( String[] args )
