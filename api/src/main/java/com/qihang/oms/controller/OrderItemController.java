@@ -1,20 +1,14 @@
 package com.qihang.oms.controller;
 
 
-import com.qihang.common.common.AjaxResult;
-import com.qihang.common.common.PageQuery;
-import com.qihang.common.common.PageResult;
-import com.qihang.common.common.TableDataInfo;
+import com.qihang.common.common.*;
 import com.qihang.oms.domain.ErpSaleOrderItem;
 import com.qihang.oms.domain.bo.OrderItemListBo;
 import com.qihang.oms.domain.vo.OrderItemListVo;
 import com.qihang.oms.service.ErpSaleOrderItemService;
 import com.qihang.oms.service.ErpSaleOrderService;
-import com.qihang.security.common.BaseController;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.bind.annotation.*;
 
 /**

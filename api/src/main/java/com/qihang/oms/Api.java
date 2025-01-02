@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class Api {
     public static void main( String[] args )
     {
-        System.out.println( "Hello oms-api!" );
+        System.out.println( "Hello api!" );
         SpringApplication.run(Api.class, args);
     }
 

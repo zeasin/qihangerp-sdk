@@ -1,19 +1,16 @@
 package com.qihang.oms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qihang.common.common.AjaxResult;
-import com.qihang.common.common.PageQuery;
-import com.qihang.common.common.PageResult;
-import com.qihang.common.common.TableDataInfo;
+import com.qihang.common.common.*;
 import com.qihang.oms.domain.SShop;
 import com.qihang.oms.domain.SShopPlatform;
 import com.qihang.oms.domain.SysLogisticsCompany;
 import com.qihang.oms.service.SShopPlatformService;
 import com.qihang.oms.service.SShopService;
 import com.qihang.oms.service.SysLogisticsCompanyService;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -37,7 +34,7 @@ public class ShopController extends BaseController {
     /**
      * 查询店铺列表logistics
      */
-    @PreAuthorize("@ss.hasPermi('shop:shop:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(SShop shop)
     {
@@ -56,7 +53,7 @@ public class ShopController extends BaseController {
     /**
      * 获取店铺详细信息
      */
-    @PreAuthorize("@ss.hasPermi('shop:shop:query')")
+
     @GetMapping(value = "/shop/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -72,7 +69,7 @@ public class ShopController extends BaseController {
     /**
      * 新增店铺
      */
-    @PreAuthorize("@ss.hasPermi('shop:shop:add')")
+
     @PostMapping("/shop")
     public AjaxResult add(@RequestBody SShop shop)
     {
@@ -83,7 +80,7 @@ public class ShopController extends BaseController {
     /**
      * 修改店铺
      */
-    @PreAuthorize("@ss.hasPermi('shop:shop:edit')")
+
     @PutMapping("/shop")
     public AjaxResult edit(@RequestBody SShop shop)
     {
@@ -105,7 +102,7 @@ public class ShopController extends BaseController {
     /**
      * 删除店铺
      */
-    @PreAuthorize("@ss.hasPermi('shop:shop:remove')")
+
 	@DeleteMapping("/shop/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

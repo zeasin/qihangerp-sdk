@@ -3,9 +3,10 @@ package com.qihang.oms.service.impl;
 import com.qihang.common.common.ServiceException;
 import com.qihang.common.constant.UserConstants;
 import com.qihang.common.utils.StringUtils;
+import com.qihang.oms.domain.SysUser;
 import com.qihang.oms.mapper.SysUserMapper;
-import com.qihang.security.entity.SysUser;
-import com.qihang.security.service.ISysUserService;
+
+import com.qihang.oms.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

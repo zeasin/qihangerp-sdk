@@ -1,8 +1,5 @@
 package com.qihang.oms.controller;
 
-
-
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.qihang.common.common.*;
 import com.qihang.oms.domain.ErpGoods;
 import com.qihang.oms.domain.ErpGoodsSpec;
@@ -10,13 +7,13 @@ import com.qihang.oms.domain.bo.GoodsAddBo;
 import com.qihang.oms.service.ErpGoodsService;
 import com.qihang.oms.service.ErpGoodsSpecService;
 import com.qihang.oms.vo.GoodsSpecListVo;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,7 +61,6 @@ public class GoodsController extends BaseController
     /**
      * 查询商品管理列表
      */
-    @PreAuthorize("@ss.hasPermi('goods:goods:list')")
     @GetMapping("/list")
     public TableDataInfo list(ErpGoods goods, PageQuery pageQuery)
     {
@@ -75,7 +71,6 @@ public class GoodsController extends BaseController
     /**
      * 获取商品管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('goods:goods:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -84,7 +79,7 @@ public class GoodsController extends BaseController
     /**
      * 获取商品管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('goods:goods:query')")
+
     @GetMapping(value = "/sku/{id}")
     public AjaxResult getSkuInfo(@PathVariable("id") Long id)
     {
@@ -93,11 +88,11 @@ public class GoodsController extends BaseController
     /**
      * 新增商品管理
      */
-    @PreAuthorize("@ss.hasPermi('goods:goods:add')")
+
     @PostMapping("/add")
     public AjaxResult add(@RequestBody GoodsAddBo goods)
     {
-        ResultVo<Long> resultVo = goodsService.insertGoods(getUsername(), goods);
+        ResultVo<Long> resultVo = goodsService.insertGoods("getUsername()", goods);
         if(resultVo.getCode()!=0) return AjaxResult.error(resultVo.getMsg());
         else return AjaxResult.success(resultVo.getData());
 //        goods.setCreateBy(getUsername());
@@ -111,7 +106,6 @@ public class GoodsController extends BaseController
     /**
      * 修改商品管理
      */
-    @PreAuthorize("@ss.hasPermi('goods:goods:edit')")
     @PutMapping
     public AjaxResult edit(@RequestBody ErpGoods goods)
     {
@@ -126,7 +120,6 @@ public class GoodsController extends BaseController
     /**
      * 删除商品管理
      */
-    @PreAuthorize("@ss.hasPermi('goods:goods:remove')")
     @DeleteMapping("/del/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

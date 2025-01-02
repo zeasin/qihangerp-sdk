@@ -1,10 +1,11 @@
 package com.qihang.oms.controller;
 
+import com.qihang.common.common.BaseController;
 import com.qihang.common.common.PageQuery;
 import com.qihang.common.common.TableDataInfo;
 import com.qihang.oms.domain.SysShopPullLogs;
 import com.qihang.oms.service.SysShopPullLogsService;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,18 +1,14 @@
 package com.qihang.oms.controller;
 
 
-import com.qihang.common.common.AjaxResult;
-import com.qihang.common.common.PageQuery;
-import com.qihang.common.common.PageResult;
-import com.qihang.common.common.TableDataInfo;
+import com.qihang.common.common.*;
 import com.qihang.common.mq.MqType;
 import com.qihang.oms.domain.ErpSaleOrder;
 import com.qihang.oms.domain.ErpSaleOrderItem;
 import com.qihang.oms.service.ErpSaleOrderService;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -34,7 +30,7 @@ public class OrderController extends BaseController
     /**
      * 查询店铺订单列表
      */
-    @PreAuthorize("@ss.hasPermi('shop:order:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(ErpSaleOrder order, PageQuery pageQuery)
     {
@@ -49,7 +45,6 @@ public class OrderController extends BaseController
     /**
      * 获取店铺订单详细信息
      */
-    @PreAuthorize("@ss.hasPermi('shop:order:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {

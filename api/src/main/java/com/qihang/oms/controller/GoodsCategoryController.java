@@ -3,6 +3,7 @@ package com.qihang.oms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qihang.common.common.AjaxResult;
+import com.qihang.common.common.BaseController;
 import com.qihang.common.common.TableDataInfo;
 import com.qihang.oms.domain.ErpGoodsCategory;
 import com.qihang.oms.domain.ErpGoodsCategoryAttribute;
@@ -10,7 +11,7 @@ import com.qihang.oms.domain.ErpGoodsCategoryAttributeValue;
 import com.qihang.oms.service.ErpGoodsCategoryAttributeService;
 import com.qihang.oms.service.ErpGoodsCategoryAttributeValueService;
 import com.qihang.oms.service.ErpGoodsCategoryService;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class GoodsCategoryController  extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody ErpGoodsCategory category)
     {
-        category.setCreateBy(getUsername());
+
         category.setCreateTime(new Date());
         category.setIsdelete(0);
         return toAjax(categoryService.save(category));
@@ -50,7 +51,6 @@ public class GoodsCategoryController  extends BaseController {
     @PutMapping
     public AjaxResult edit(@RequestBody ErpGoodsCategory category)
     {
-        category.setUpdateBy(getUsername());
         category.setUpdateTime(new Date());
         return toAjax(categoryService.updateById(category));
     }

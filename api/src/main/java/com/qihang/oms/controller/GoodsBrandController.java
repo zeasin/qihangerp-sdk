@@ -2,11 +2,12 @@ package com.qihang.oms.controller;
 
 
 import com.qihang.common.common.AjaxResult;
+import com.qihang.common.common.BaseController;
 import com.qihang.common.common.PageQuery;
 import com.qihang.common.common.TableDataInfo;
 import com.qihang.oms.domain.ErpGoodsBrand;
 import com.qihang.oms.service.ErpGoodsBrandService;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class GoodsBrandController extends BaseController {
     public AjaxResult add(@RequestBody ErpGoodsBrand erpGoodsBrand)
     {
         erpGoodsBrand.setStatus(1);
-        erpGoodsBrand.setCreateBy(getUsername());
+
         erpGoodsBrand.setCreateTime(new Date());
         return toAjax(brandService.save(erpGoodsBrand));
     }
@@ -52,7 +53,7 @@ public class GoodsBrandController extends BaseController {
     @PutMapping
     public AjaxResult edit(@RequestBody ErpGoodsBrand erpGoodsBrand)
     {
-        erpGoodsBrand.setUpdateBy(getUsername());
+
         erpGoodsBrand.setUpdateTime(new Date());
         return toAjax(brandService.updateById(erpGoodsBrand));
     }

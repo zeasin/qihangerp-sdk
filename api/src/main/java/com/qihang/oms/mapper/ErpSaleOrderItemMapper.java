@@ -5,7 +5,8 @@ import com.qihang.oms.domain.ErpSaleOrderItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qihang.oms.domain.bo.OrderItemListBo;
 import com.qihang.oms.domain.vo.OrderItemListVo;
-import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.Param;
+
 
 import java.util.List;
 

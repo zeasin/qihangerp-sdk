@@ -2,11 +2,12 @@ package com.qihang.oms.controller;
 
 
 import com.qihang.common.common.AjaxResult;
+import com.qihang.common.common.BaseController;
 import com.qihang.common.common.PageQuery;
 import com.qihang.common.common.TableDataInfo;
 import com.qihang.oms.domain.ScmSupplier;
 import com.qihang.oms.service.ScmSupplierService;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

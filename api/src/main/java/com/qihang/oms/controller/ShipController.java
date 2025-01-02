@@ -1,10 +1,7 @@
 package com.qihang.oms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qihang.common.common.AjaxResult;
-import com.qihang.common.common.PageQuery;
-import com.qihang.common.common.PageResult;
-import com.qihang.common.common.TableDataInfo;
+import com.qihang.common.common.*;
 import com.qihang.oms.domain.ErpSaleOrder;
 import com.qihang.oms.domain.SShop;
 import com.qihang.oms.domain.SShopPlatform;
@@ -12,9 +9,9 @@ import com.qihang.oms.domain.SysLogisticsCompany;
 import com.qihang.oms.domain.bo.ShipStockUpBo;
 import com.qihang.oms.domain.bo.ShipWaybillBo;
 import com.qihang.oms.service.*;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;

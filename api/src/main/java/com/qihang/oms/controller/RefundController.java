@@ -2,15 +2,16 @@ package com.qihang.oms.controller;
 
 
 import com.qihang.common.common.AjaxResult;
+import com.qihang.common.common.BaseController;
 import com.qihang.common.common.PageQuery;
 import com.qihang.common.common.TableDataInfo;
 import com.qihang.oms.domain.ErpSaleAfterRefund;
 import com.qihang.oms.domain.ErpSaleOrder;
 import com.qihang.oms.service.ErpSaleAfterRefundService;
 import com.qihang.oms.service.ErpSaleOrderService;
-import com.qihang.security.common.BaseController;
+
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

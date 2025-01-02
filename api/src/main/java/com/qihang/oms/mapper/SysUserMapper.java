@@ -1,6 +1,7 @@
 package com.qihang.oms.mapper;
 
-import com.qihang.security.entity.SysUser;
+
+import com.qihang.oms.domain.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
