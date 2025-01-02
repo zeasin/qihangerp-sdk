@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qihang.oms.mapper.ErpGoodsSpecMapper">
+<mapper namespace="cn.qihangerp.api.mapper.ErpGoodsSpecMapper">
 
-    <resultMap id="BaseResultMap" type="com.qihang.oms.domain.ErpGoodsSpec">
+    <resultMap id="BaseResultMap" type="cn.qihangerp.api.domain.ErpGoodsSpec">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="goodsId" column="goods_id" jdbcType="BIGINT"/>
             <result property="specName" column="spec_name" jdbcType="VARCHAR"/>
