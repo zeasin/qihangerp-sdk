@@ -90,7 +90,13 @@ public class ApiResultVo<T> {
         result.setList(list);
         return result;
     }
-
+    public static <T> ApiResultVo<T> success(List<T> list){
+        ApiResultVo<T> result = new ApiResultVo<>();
+        result.setCode(ApiResultVoEnum.SUCCESS.getIndex());
+        result.setMsg("SUCCESS");
+        result.setList(list);
+        return result;
+    }
     public static <T> ApiResultVo<T> success(T data){
         ApiResultVo<T> result = new ApiResultVo<>();
         result.setCode(ApiResultVoEnum.SUCCESS.getIndex());
