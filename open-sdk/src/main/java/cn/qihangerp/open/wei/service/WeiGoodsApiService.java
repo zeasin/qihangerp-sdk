@@ -12,8 +12,12 @@ import org.springframework.web.service.annotation.PostExchange;
 
 @HttpExchange
 public interface WeiGoodsApiService {
+
+
+//    @PostExchange("/channels/ec/product/list/get")
     @PostExchange("/channels/ec/product/list/get")
     GoodsListVo getGoodsList(@RequestParam(name = "access_token") String access_token, @RequestBody GoodsListApiBo bo);
+
     @PostExchange("/channels/ec/product/get")
     GoodsDetailVo getGoodsDetail(@RequestParam(name = "access_token") String access_token, @RequestBody GoodsDetailApiBo bo);
 }

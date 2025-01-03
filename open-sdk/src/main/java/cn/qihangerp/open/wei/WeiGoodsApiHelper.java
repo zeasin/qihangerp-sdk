@@ -2,6 +2,7 @@ package cn.qihangerp.open.wei;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.common.RemoteUtil;
 import cn.qihangerp.open.wei.bo.GoodsDetailApiBo;
 import cn.qihangerp.open.wei.bo.GoodsListApiBo;
@@ -10,7 +11,9 @@ import cn.qihangerp.open.wei.model.Product;
 import cn.qihangerp.open.wei.service.WeiGoodsApiService;
 import cn.qihangerp.open.wei.vo.GoodsDetailVo;
 import cn.qihangerp.open.wei.vo.GoodsListVo;
+import com.alibaba.fastjson2.JSONObject;
 
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +37,9 @@ public class WeiGoodsApiHelper {
         GoodsListApiBo apiBo = new GoodsListApiBo();
         apiBo.setPage_size(pageSize);
         apiBo.setStatus(5);
+        //https://api.weixin.qq.com/channels/ec/product/list/get?access_token=ACCESS_TOKEN
+        HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson("https://api.weixin.qq.com/channels/ec/product/list/get?access_token=" + accessToken, JSONObject.toJSONString(apiBo));
+        String body = stringHttpResponse.body();
         GoodsListVo res = remoting.getGoodsList(accessToken, apiBo);
         if(res.getErrcode() == 0){
             // 第一页数据

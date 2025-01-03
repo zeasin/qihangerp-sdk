@@ -344,13 +344,13 @@ public class DateUtil {
 
 
 
-    public static void main(String[] args) {
-        // System.out.println(dateTimeToStamp("2021-06-08 00:41:23"));
-
-        Long endTime=System.currentTimeMillis() / 1000;
-        System.out.println(endTime-60 * 60 *24*7);
-        System.out.println(getSpecifiedDayAfter("2021-08-23"));
-     }
+//    public static void main(String[] args) {
+//        // System.out.println(dateTimeToStamp("2021-06-08 00:41:23"));
+//
+//        Long endTime=System.currentTimeMillis() / 1000;
+//        System.out.println(endTime-60 * 60 *24*7);
+//        System.out.println(getSpecifiedDayAfter("2021-08-23"));
+//     }
 
     /**
      * 时间转时间戳
