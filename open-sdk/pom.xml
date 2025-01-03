@@ -42,9 +42,15 @@
             <version>1.9.13</version> <!-- jd-sdk依赖 -->
         </dependency>
         <dependency>
-            <groupId>cn.qihangerp</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version>
+            <scope>provided</scope>
         </dependency>
+        <!--        <dependency>-->
+<!--            <groupId>cn.qihangerp</groupId>-->
+<!--            <artifactId>common</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
     </dependencies>
 </project>
