@@ -1,4 +1,4 @@
-package cn.qihangerp.common.http;
+package cn.qihangerp.open.common;
 
 import okhttp3.*;
 

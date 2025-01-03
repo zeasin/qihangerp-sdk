@@ -1,4 +1,4 @@
-package cn.qihangerp.common.common;
+package cn.qihangerp.open.common;
 /**
  * 描述：
  * 结果枚举

@@ -1,7 +1,7 @@
 package cn.qihangerp.open.dou;
 
-import cn.qihangerp.common.common.ApiResultVo;
-import cn.qihangerp.common.common.ApiResultVoEnum;
+import cn.qihangerp.open.common.ApiResultVo;
+import cn.qihangerp.open.common.ApiResultVoEnum;
 import cn.qihangerp.open.dou.model.WaybillCode;
 import cn.qihangerp.open.dou.model.WaybillPrintData;
 import cn.qihangerp.open.dou.request.WaybillApplyRequest;

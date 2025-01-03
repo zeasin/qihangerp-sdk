@@ -1,4 +1,4 @@
-package cn.qihangerp.common.utils;
+package cn.qihangerp.open.common;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

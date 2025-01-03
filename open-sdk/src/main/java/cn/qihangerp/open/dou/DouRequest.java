@@ -1,4 +1,4 @@
-package cn.qihangerp.open;
+package cn.qihangerp.open.dou;
 
 public class DouRequest {
     private Long shopId;//店铺Id

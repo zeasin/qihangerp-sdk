@@ -1,9 +1,5 @@
-package cn.qihangerp.open;
+package cn.qihangerp.open.common;
 
-import cn.qihangerp.common.http.ExpressClient;
-import cn.qihangerp.common.http.OkHttpClientHelper;
-import cn.qihangerp.common.utils.UniqueIDGenerator;
-import com.alibaba.fastjson2.JSONObject;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
