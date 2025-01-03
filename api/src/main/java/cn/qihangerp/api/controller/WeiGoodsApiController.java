@@ -1,15 +1,15 @@
 package cn.qihangerp.api.controller;
 
-import cn.qihangerp.api.common.PullRequest;
+import cn.qihangerp.api.request.GoodsRequest;
 import cn.qihangerp.api.domain.ErpSaleAfterInfo;
 import cn.qihangerp.common.common.AjaxResult;
-import cn.qihangerp.common.common.ResultVoEnum;
 import cn.qihangerp.common.enums.HttpStatus;
 import cn.qihangerp.open.common.ApiResultVo;
-import cn.qihangerp.open.common.RemoteUtil;
-import cn.qihangerp.open.wei.WeiGoodsApiHelper;
+import cn.qihangerp.open.common.ApiResultVoEnum;
+import cn.qihangerp.open.wei.WeiGoodsApiService;
 import cn.qihangerp.open.wei.WeiTokenApiHelper;
-import cn.qihangerp.open.wei.vo.Token;
+import cn.qihangerp.open.wei.model.Product;
+import cn.qihangerp.open.wei.response.WeiTokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,16 +19,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @Tag(name = "开放平台-微信小店", description = "")
 @RequestMapping("/wei/goods")
 @RestController
 @AllArgsConstructor
 public class WeiGoodsApiController {
+    private final WeiGoodsApiService goodsApiService;
 //    private final WeiApiCommon apiCommon;
 
     @Operation(summary = "拉取店铺商品列表", description = "拉取店铺商品列表")
@@ -38,20 +37,22 @@ public class WeiGoodsApiController {
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
     @PostMapping(value = "/pull_goods_list")
-    public AjaxResult pullList(@Valid @RequestBody PullRequest params)  {
+    public AjaxResult pullList(@Valid @RequestBody GoodsRequest params)  {
         if (params.getShopId() == null || params.getShopId() <= 0) {
 //            return ApiResul new ApiResult(HttpStatus.PARAMS_ERROR, "参数错误，没有店铺Id");
             return AjaxResult.error(HttpStatus.PARAMS_ERROR, "参数错误，没有店铺Id");
         }
         if(StringUtils.isEmpty(params.getAccessToken())){
-            ApiResultVo<Token> token = WeiTokenApiHelper.getToken(params.getAppKey(), params.getAppSecret());
+            ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(params.getAppKey(), params.getAppSecret());
             if(token.getCode()==0) {
                 params.setAccessToken(token.getData().getAccess_token());
             }else{
                 return AjaxResult.error(HttpStatus.PARAMS_ERROR, "参数错误，"+token.getMsg());
             }
         }
-        WeiGoodsApiHelper.pullGoodsList(params.getAccessToken());
+        ApiResultVo<Product> productApiResultVo = goodsApiService.pullGoodsList(params.getAccessToken());
+
+//        WeiGoodsApiHelper.pullGoodsList(params.getAccessToken());
 //        Date currDateTime = new Date();
 //        long startTime = System.currentTimeMillis();
 //        var checkResult = apiCommon.checkBefore(params.getShopId());
@@ -65,14 +66,21 @@ public class WeiGoodsApiController {
 //        String appSecret = checkResult.getData().getAppSecret();
 //
 ////        ApiResultVo<Product> productApiResultVo = WeiGoodsApiHelper.pullGoodsList(accessToken);
-////        if(productApiResultVo.getCode() == 0){
-////            // 成功
-////            for (var product:productApiResultVo.getList()){
-////                OmsWeiGoods goods = new OmsWeiGoods();
-////                BeanUtils.copyProperties(product,goods);
-////                weiGoodsService.saveAndUpdateGoods(params.getShopId(),goods);
-////            }
-////        }
+        if(productApiResultVo.getCode() == 0){
+            // 成功
+//            for (var product:productApiResultVo.getList()){
+//                OmsWeiGoods goods = new OmsWeiGoods();
+//                BeanUtils.copyProperties(product,goods);
+//                weiGoodsService.saveAndUpdateGoods(params.getShopId(),goods);
+//            }
+//            productApiResultVo.getTotalRecords()
+            return AjaxResult.success(productApiResultVo.getList());
+        } else if(productApiResultVo.getCode() == ApiResultVoEnum.TokenFail.getIndex()){
+            return AjaxResult.error(ApiResultVoEnum.TokenFail.getIndex(),"Token失效，请重新获取！");
+        }
+        else{
+            return AjaxResult.error(productApiResultVo.getMsg());
+        }
 //
 //        GoodsApiService remoting = RemoteUtil.Remoting(serverUrl, GoodsApiService.class);
 //        GoodsListApiBo apiBo = new GoodsListApiBo();
@@ -111,6 +119,6 @@ public class WeiGoodsApiController {
 //        }
 
 
-        return AjaxResult.success();
+
     }
 }

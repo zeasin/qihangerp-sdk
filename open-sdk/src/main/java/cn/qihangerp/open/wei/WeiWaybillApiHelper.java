@@ -5,8 +5,8 @@ import cn.qihangerp.open.common.ApiResultVoEnum;
 import cn.qihangerp.open.common.RemoteUtil;
 import cn.qihangerp.open.wei.bo.ewaybill.WaybillRequest;
 
+import cn.qihangerp.open.wei.response.WeiTokenResponse;
 import cn.qihangerp.open.wei.service.WeiWaybillApiService;
-import cn.qihangerp.open.wei.vo.Token;
 import cn.qihangerp.open.wei.vo.ewaybill.EwaybillOrderCreateVo;
 import org.springframework.util.StringUtils;
 
@@ -14,7 +14,7 @@ public class WeiWaybillApiHelper {
 
     public static ApiResultVo<EwaybillOrderCreateVo> getWaybillCode(String appId, String appSecret, String accessToken, WaybillRequest request){
         if(!StringUtils.hasText(accessToken)) {
-            ApiResultVo<Token> token = WeiTokenApiHelper.getToken(appId, appSecret);
+            ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(appId, appSecret);
             if (token.getCode() != ApiResultVoEnum.SUCCESS.getIndex())
                 return ApiResultVo.error(ApiResultVoEnum.ApiException, "获取Token失败");
             accessToken = token.getData().getAccess_token();
@@ -32,7 +32,7 @@ public class WeiWaybillApiHelper {
     public static ApiResultVo<String> ewaybillOrderPreCreate(String appId, String appSecret, String accessToken,WaybillRequest request)  {
         String serverUrl = "https://api.weixin.qq.com";
         if(!StringUtils.hasText(accessToken)) {
-            ApiResultVo<Token> token = WeiTokenApiHelper.getToken(appId, appSecret);
+            ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(appId, appSecret);
             if (token.getCode() != ApiResultVoEnum.SUCCESS.getIndex())
                 return ApiResultVo.error(ApiResultVoEnum.ApiException, "获取Token失败");
             accessToken = token.getData().getAccess_token();
@@ -55,7 +55,7 @@ public class WeiWaybillApiHelper {
     public static ApiResultVo<EwaybillOrderCreateVo> ewaybillOrderCreate(String appId, String appSecret, String accessToken,WaybillRequest request)  {
         String serverUrl = "https://api.weixin.qq.com";
         if(!StringUtils.hasText(accessToken)) {
-            ApiResultVo<Token> token = WeiTokenApiHelper.getToken(appId, appSecret);
+            ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(appId, appSecret);
             if (token.getCode() != ApiResultVoEnum.SUCCESS.getIndex())
                 return ApiResultVo.error(ApiResultVoEnum.ApiException, "获取Token失败");
             accessToken = token.getData().getAccess_token();

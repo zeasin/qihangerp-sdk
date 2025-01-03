@@ -1,4 +1,4 @@
-package cn.qihangerp.api.common;
+package cn.qihangerp.api.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class PullRequest {
+public class GoodsRequest {
 
     @NotNull(message="店铺ID不能为空")
     @Min(value = 1, message = "shopId必须大于0")
