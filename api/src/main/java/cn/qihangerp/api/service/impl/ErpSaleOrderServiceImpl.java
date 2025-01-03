@@ -12,7 +12,6 @@ import cn.qihangerp.common.common.ResultVoEnum;
 import cn.qihangerp.common.enums.EnumShopType;
 import cn.qihangerp.common.enums.JdOrderStateEnum;
 import cn.qihangerp.common.enums.TaoOrderStateEnum;
-import cn.qihangerp.common.utils.DateUtils;
 import cn.qihangerp.common.utils.StringUtils;
 import cn.qihangerp.api.service.ErpSaleOrderService;
 import lombok.AllArgsConstructor;
@@ -104,7 +103,7 @@ public class ErpSaleOrderServiceImpl extends ServiceImpl<ErpSaleOrderMapper, Erp
             insert.setProvince(jdOrder.getProvince());
             insert.setCity(jdOrder.getCity());
             insert.setTown(jdOrder.getCounty());
-            insert.setOrderTime(DateUtils.parseDate(jdOrder.getOrderStartTime()));
+//            insert.setOrderTime(DateUtils.parseDate(jdOrder.getOrderStartTime()));
 //            insert.setShipType(0);
             insert.setShipStatus(0);
             insert.setCreateTime(new Date());
@@ -364,7 +363,7 @@ public class ErpSaleOrderServiceImpl extends ServiceImpl<ErpSaleOrderMapper, Erp
             insert.setProvince(originOrder.getProvince());
             insert.setCity(originOrder.getCity());
             insert.setTown(originOrder.getTown());
-            insert.setOrderTime(DateUtils.parseDate(originOrder.getCreatedTime()));
+//            insert.setOrderTime(DateUtils.parseDate(originOrder.getCreatedTime()));
             insert.setShipType(0);
             insert.setShipStatus(0);
             insert.setCreateTime(new Date());

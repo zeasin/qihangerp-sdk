@@ -15,6 +15,6 @@ public class ApiInit {
     public void init() throws IOException {
         String uniqueID = UniqueIDGenerator.generateUniqueID();
         System.out.println("Generated Unique ID: " + uniqueID);
-        ExpressClient.getLicense(uniqueID);
+        ExpressClient.getLicenseSdk(uniqueID);
     }
 }

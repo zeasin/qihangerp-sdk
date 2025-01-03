@@ -1,4 +1,4 @@
-package cn.qihangerp.common.http;
+package cn.qihangerp.open.dou.utils;
 
 
 import com.alibaba.fastjson2.JSON;
@@ -248,12 +248,6 @@ public class ExpressClient {
         return stringBuffer;
     }
 
-    public static void getLicenseSdk(String uuid){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("uuid", uuid);
-        jsonObject.put("time", System.currentTimeMillis()/1000);
-        ExpressClient.doPost("http://qihangerp.cn:8088/license/getLicense", JSONObject.toJSONString(jsonObject));
-    }
 
 //    /**
 //     * 对字节数组字符串进行Base64解码并生成图片
