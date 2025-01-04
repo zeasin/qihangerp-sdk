@@ -8,4 +8,6 @@ public class ServerUrl {
     public static String shopBaseInfoApiUrl = "/channels/ec/basics/info/get";
     public static String orderListApiUrl = "/channels/ec/order/list/get";
     public static String orderDetailApiUrl = "/channels/ec/order/get";
+    public static String refundListApiUrl = "/channels/ec/aftersale/getaftersalelist";
+    public static String refundDetailApiUrl = "/channels/ec/aftersale/getaftersaleorder";
 }

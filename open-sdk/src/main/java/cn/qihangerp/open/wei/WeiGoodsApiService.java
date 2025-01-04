@@ -72,8 +72,7 @@ public class WeiGoodsApiService {
 
             }else if(jsonObject.getInteger("errcode") == 42001){
                 return ApiResultVo.error(ApiResultVoEnum.TokenFail,jsonObject.getString("errmsg"));
-            }
-            else {
+            } else {
                 return ApiResultVo.error(ApiResultVoEnum.ApiException,jsonObject.getString("errmsg"));
             }
         }else{

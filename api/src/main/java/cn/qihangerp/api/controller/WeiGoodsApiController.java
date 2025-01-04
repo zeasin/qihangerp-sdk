@@ -42,14 +42,14 @@ public class WeiGoodsApiController {
 //            return ApiResul new ApiResult(HttpStatus.PARAMS_ERROR, "参数错误，没有店铺Id");
             return AjaxResult.error(HttpStatus.PARAMS_ERROR, "参数错误，没有店铺Id");
         }
-        if(StringUtils.isEmpty(params.getAccessToken())){
-            ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(params.getAppKey(), params.getAppSecret());
-            if(token.getCode()==0) {
-                params.setAccessToken(token.getData().getAccess_token());
-            }else{
-                return AjaxResult.error(HttpStatus.PARAMS_ERROR, "参数错误，"+token.getMsg());
-            }
-        }
+//        if(StringUtils.isEmpty(params.getAccessToken())){
+//            ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(params.getAppKey(), params.getAppSecret());
+//            if(token.getCode()==0) {
+//                params.setAccessToken(token.getData().getAccess_token());
+//            }else{
+//                return AjaxResult.error(HttpStatus.PARAMS_ERROR, "参数错误，"+token.getMsg());
+//            }
+//        }
         ApiResultVo<Product> productApiResultVo = goodsApiService.pullGoodsList(params.getAccessToken());
 
 //        WeiGoodsApiHelper.pullGoodsList(params.getAccessToken());

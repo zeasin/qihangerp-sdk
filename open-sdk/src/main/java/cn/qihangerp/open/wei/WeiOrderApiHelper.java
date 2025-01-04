@@ -30,6 +30,10 @@ public class WeiOrderApiHelper {
         if(pageSize==null || pageSize<=0){
             pageSize = 100;
         }
+        // 确保 startTime 和 endTime 的顺序
+        if (startTime.isAfter(endTime)) {
+            return ApiResultVo.error(ApiResultVoEnum.ParamsError,"结束时间必须大于开始时间");
+        }
         // 计算两个时间点之间的天数差
         long daysBetween = ChronoUnit.DAYS.between(startTime, endTime);
 
@@ -69,6 +73,10 @@ public class WeiOrderApiHelper {
 
                 }
             }
+        }else if(jsonObject.getInteger("errcode") == 42001){
+            return ApiResultVo.error(ApiResultVoEnum.TokenFail,jsonObject.getString("errmsg"));
+        } else {
+            return ApiResultVo.error(ApiResultVoEnum.ApiException,jsonObject.getString("errmsg"));
         }
         return ApiResultVo.success(lists.size(), lists);
     }

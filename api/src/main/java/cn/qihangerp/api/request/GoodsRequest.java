@@ -15,15 +15,13 @@ public class GoodsRequest {
     @Schema(description = "店铺ID", example = "123", required = true)
     private Long shopId;//店铺Id
 
-    private Long orderId;//订单编号
-
-    @NotEmpty(message="appKey不能为空")
-    @Schema(description = "appKey", required = true)
-    private String appKey;
-
-    @NotEmpty(message="appSecret不能为空")
-    @Schema(description = "appSecret", required = true)
-    private String appSecret;
+//    @NotEmpty(message="appKey不能为空")
+//    @Schema(description = "appKey", required = true)
+//    private String appKey;
+//
+//    @NotEmpty(message="appSecret不能为空")
+//    @Schema(description = "appSecret", required = true)
+//    private String appSecret;
 
     @Schema(description = "accessToken，不传就重新获取")
     private String accessToken;
