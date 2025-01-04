@@ -68,7 +68,7 @@ SDK支持输出各平台原生字段数据和封装之后的标准字段数据�
 
 ### 4.4 获取授权与服务
 
-[如何获取授权与服务]()
+[如何获取授权与服务](https://mp.weixin.qq.com/s/mATn2nfc5bUePohS_s2WGw)
 
 
 
