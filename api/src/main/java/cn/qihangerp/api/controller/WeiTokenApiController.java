@@ -1,5 +1,6 @@
 package cn.qihangerp.api.controller;
 
+import cn.qihangerp.api.request.TokenCheckRequest;
 import cn.qihangerp.api.request.TokenRequest;
 import cn.qihangerp.common.common.AjaxResult;
 import cn.qihangerp.open.common.ApiResultVo;
@@ -32,6 +33,22 @@ public class WeiTokenApiController {
     @PostMapping(value = "/get_token")
     public AjaxResult getToken(@Valid @RequestBody TokenRequest request)  {
         ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(request.getAppKey(), request.getAppSecret());
+        if(token.getCode() == 0){
+            return AjaxResult.success(token.getData());
+        }else {
+            return AjaxResult.error("获取Token失败");
+        }
+    }
+
+    @Operation(summary = "检查Token有效性", description = "检查Token有效性")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "成功",
+                    content = @Content(schema = @Schema(implementation = WeiTokenResponse.class))),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @PostMapping(value = "/check_token")
+    public AjaxResult checkToken(@Valid @RequestBody TokenCheckRequest request)  {
+        ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.checkToken(request.getAppKey(), request.getAppSecret(), request.getAccessToken());
         if(token.getCode() == 0){
             return AjaxResult.success(token.getData());
         }else {
