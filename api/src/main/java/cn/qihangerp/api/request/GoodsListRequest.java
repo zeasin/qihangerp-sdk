@@ -8,21 +8,22 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class GoodsRequest {
+public class GoodsListRequest {
 
     @NotNull(message="店铺ID不能为空")
     @Min(value = 1, message = "shopId必须大于0")
     @Schema(description = "店铺ID", example = "123", required = true)
     private Long shopId;//店铺Id
 
-//    @NotEmpty(message="appKey不能为空")
-//    @Schema(description = "appKey", required = true)
-//    private String appKey;
-//
-//    @NotEmpty(message="appSecret不能为空")
-//    @Schema(description = "appSecret", required = true)
-//    private String appSecret;
+    @NotEmpty(message="appKey不能为空")
+    @Schema(description = "appKey", required = true)
+    private String appKey;
 
-    @Schema(description = "accessToken，不传就重新获取")
+    @NotEmpty(message="appSecret不能为空")
+    @Schema(description = "appSecret", required = true)
+    private String appSecret;
+
+    @NotEmpty(message="accessToken不能为空")
+    @Schema(description = "accessToken")
     private String accessToken;
 }
