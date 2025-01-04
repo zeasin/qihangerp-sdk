@@ -2,20 +2,20 @@ package cn.qihangerp.open.wei;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.RemoteUtil;
-import cn.qihangerp.open.wei.bo.CreateTimeRangeBo;
-import cn.qihangerp.open.wei.bo.OrderDetailBo;
-import cn.qihangerp.open.wei.bo.OrderListBo;
-
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.wei.model.Order;
-import cn.qihangerp.open.wei.service.WeiOrderApiService;
-import cn.qihangerp.open.wei.vo.OrderDetailVo;
-import cn.qihangerp.open.wei.vo.OrderListVo;
-
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.util.StringUtils;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class WeiOrderApiHelper {
@@ -26,85 +26,107 @@ public class WeiOrderApiHelper {
      * @return
      * @throws
      */
-    public static ApiResultVo<Order> pullOrderList(LocalDateTime startTime, LocalDateTime  endTime, String accessToken ) {
-        String serverUrl = "https://api.weixin.qq.com";
-//        ApiResultVo<Token> token = TokenApiHelper.getToken(appId, appSecret);
-//        if(token.getCode() != ApiResultVoEnum.SUCCESS.getIndex()) return ApiResultVo.error(ApiResultVoEnum.ApiException,"获取Token失败");
-//        String accessToken = token.getData().getAccess_token();
+    public static ApiResultVo<Order> pullOrderList(LocalDateTime startTime, LocalDateTime  endTime, String accessToken, Integer pageSize, Integer status) {
+        if(pageSize==null || pageSize<=0){
+            pageSize = 100;
+        }
+        // 计算两个时间点之间的天数差
+        long daysBetween = ChronoUnit.DAYS.between(startTime, endTime);
+
+        // 判断时间差是否超过7天
+        if (daysBetween > 7) {
+            return ApiResultVo.error(ApiResultVoEnum.ParamsError,"开始时间与结束时间不能超过7天");
+        }
+
+        String listResult = pullOrderList(accessToken,pageSize,startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,
+                endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,"");
+
+        if(!StringUtils.hasText(listResult)){
+            return ApiResultVo.error(ApiResultVoEnum.ApiException);
+        }
 
         List<Order> lists = new ArrayList<>();
-
-        WeiOrderApiService remoting = RemoteUtil.Remoting(serverUrl, WeiOrderApiService.class);
-        OrderListBo apiBo = new OrderListBo();
-        apiBo.setPage_size(100);
-        CreateTimeRangeBo tbo= new CreateTimeRangeBo();
-        tbo.setStart_time(startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000);
-        tbo.setEnd_time(endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000);
-        apiBo.setCreate_time_range(tbo);
-
-        OrderListVo result = remoting.getOrderList(accessToken, apiBo);
-
-        if(result.getErrcode() == 0) {
-            // 拉取到了数据 拉取详情
-            if(result.getOrder_id_list()!=null&&result.getOrder_id_list().length>0) {
-                for (var orderId : result.getOrder_id_list()) {
-                    OrderDetailBo bo = new OrderDetailBo();
-                    bo.setOrder_id(orderId.toString());
-                    OrderDetailVo orderDetail = remoting.getOrderDetail(accessToken, bo);
-                    if(orderDetail.getErrcode() == 0) {
-                        lists.add(orderDetail.getOrder());
-                    }
-                }
-            }
-            Boolean isHas_more = result.isHas_more();
-            String next_key = result.getNext_key();
-            while (isHas_more){
-
-                apiBo.setNext_key(next_key);
-                OrderListVo resultNext = remoting.getOrderList(accessToken, apiBo);
-                if(resultNext.getErrcode() == 0) {
-                    // 拉取到了数据 拉取详情
-                    if(resultNext.getOrder_id_list()!=null&&resultNext.getOrder_id_list().length>0) {
-                        for (var orderId : resultNext.getOrder_id_list()) {
-                            OrderDetailBo bo = new OrderDetailBo();
-                            bo.setOrder_id(orderId.toString());
-                            OrderDetailVo orderDetail = remoting.getOrderDetail(accessToken, bo);
-                            if(orderDetail.getErrcode() == 0) {
-                                lists.add(orderDetail.getOrder());
-                            }
+        JSONObject jsonObject = JSONObject.parseObject(listResult);
+        if(jsonObject.getInteger("errcode") == 0) {
+            JSONArray orderIds = jsonObject.getJSONArray("order_id_list");
+            if (orderIds != null && orderIds.size() > 0) {
+                orderIds.forEach(orderId -> {
+                    String detailResult = pullOrderDetail(accessToken, orderId.toString());
+                    if (StringUtils.hasText(detailResult)) {
+                        JSONObject detailJsonObject = JSONObject.parseObject(detailResult);
+                        if (detailJsonObject.getInteger("errcode") == 0) {
+                            Order order = JSONObject.parseObject(detailJsonObject.getString("order"), Order.class);
+                            lists.add(order);
                         }
                     }
-                    next_key = resultNext.getNext_key();
-                    isHas_more = resultNext.isHas_more();
+                });
+                // 判断是否还有下一页
+                Boolean isHas_more = jsonObject.getBoolean("has_more");
+                String next_key = jsonObject.getString("next_key");
+                while (isHas_more) {
+                    String listResultPage = pullOrderList(accessToken, pageSize, startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 1000,
+                            endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 1000, next_key);
+
                 }
             }
-        }else {
-            return ApiResultVo.error(ApiResultVoEnum.ApiException,result.getErrmsg());
         }
         return ApiResultVo.success(lists.size(), lists);
     }
+    protected static String pullOrderList(String accessToken, Integer pageSize,Long startTime,Long endTime,String nextKey) {
+        Map<String,Object> updateTimeRange = new HashMap<>();
+        updateTimeRange.put("start_time",startTime);
+        updateTimeRange.put("end_time",endTime);
+
+        Map<String,Object> params = new HashMap<>();
+        params.put("update_time_range",updateTimeRange);
+        params.put("page_size",pageSize);
+        if(StringUtils.hasText(nextKey)){
+            params.put("next_key",nextKey);
+        }
+
+        try {
+            // 创建 ObjectMapper 实例
+            ObjectMapper objectMapper = new ObjectMapper();
+            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.orderListApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+            return stringHttpResponse.body();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    protected static String pullOrderDetail(String accessToken, String orderId) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("order_id",orderId);
+        try {
+            // 创建 ObjectMapper 实例
+            ObjectMapper objectMapper = new ObjectMapper();
+            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.orderDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+            return stringHttpResponse.body();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static ApiResultVo<Order> pullOrderDetail(Long orderId, String accessToken ) {
         String serverUrl = "https://api.weixin.qq.com";
 //        ApiResultVo<Token> token = TokenApiHelper.getToken(appId, appSecret);
 //        if (token.getCode() != ApiResultVoEnum.SUCCESS.getIndex())
 //            return ApiResultVo.error(ApiResultVoEnum.ApiException, "获取Token失败");
 //        String accessToken = token.getData().getAccess_token();
+        String result = pullOrderDetail(accessToken, orderId.toString());
 
-
-        WeiOrderApiService remoting = RemoteUtil.Remoting(serverUrl, WeiOrderApiService.class);
-        OrderDetailBo bo = new OrderDetailBo();
-        bo.setOrder_id(orderId.toString());
-        OrderDetailVo result = remoting.getOrderDetail(accessToken, bo);
-
-        if (result.getErrcode() == 0) {
-            // 拉取到了数据 拉取详情
-            if (result.getOrder() != null) {
-              return ApiResultVo.success(result.getOrder());
-            }
-        }else {
-            return ApiResultVo.error(ApiResultVoEnum.ApiException,result.getErrmsg());
+        if (!StringUtils.hasText(result)) {
+            return ApiResultVo.error(ApiResultVoEnum.ApiException);
         }
-        return ApiResultVo.error(ApiResultVoEnum.ApiException);
+
+        JSONObject detailJsonObject = JSONObject.parseObject(result);
+        if (detailJsonObject.getInteger("errcode") == 0) {
+            Order order = JSONObject.parseObject(detailJsonObject.getString("order"), Order.class);
+            return ApiResultVo.success(order);
+        }else {
+            return ApiResultVo.error(ApiResultVoEnum.ApiException);
+        }
     }
 
 }
