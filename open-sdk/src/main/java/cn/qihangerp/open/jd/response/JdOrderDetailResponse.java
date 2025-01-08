@@ -1,4 +1,4 @@
-package cn.qihangerp.open.jd.model;
+package cn.qihangerp.open.jd.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class OrderDetail {
+public class JdOrderDetailResponse {
 
 
     @JsonProperty("orderSellerPrice")
@@ -28,7 +28,7 @@ public class OrderDetail {
     @JsonProperty("payType")
     private String payType;
     @JsonProperty("itemInfoList")
-    private List<ItemInfoListDTO> itemInfoList;
+    private List<JdOrderItemResponse> itemInfoList;
     @JsonProperty("waybill")
     private String waybill;
     @JsonProperty("pin")
@@ -129,30 +129,7 @@ public class OrderDetail {
         private String invoiceTitle;
     }
 
-    @NoArgsConstructor
-    @Data
-    public static class ItemInfoListDTO {
-        @JsonProperty("wareId")
-        private String wareId;
-        @JsonProperty("giftPoint")
-        private String giftPoint;
-        @JsonProperty("skuName")
-        private String skuName;
-        @JsonProperty("itemTotal")
-        private String itemTotal;
-        @JsonProperty("outerSkuId")
-        private String outerSkuId;
-        @JsonProperty("jdPrice")
-        private String jdPrice;
-        @JsonProperty("invoiceContentId")
-        private String invoiceContentId;
-        @JsonProperty("productNo")
-        private String productNo;
-        @JsonProperty("skuId")
-        private String skuId;
-        @JsonProperty("newStoreId")
-        private String newStoreId;
-    }
+
 
     @NoArgsConstructor
     @Data

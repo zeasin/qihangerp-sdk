@@ -4,8 +4,8 @@ package cn.qihangerp.open.jd;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
 import cn.qihangerp.open.jd.model.JiaMi;
-import cn.qihangerp.open.jd.model.OrderDetail;
-import cn.qihangerp.open.jd.model.OrderInfo;
+import cn.qihangerp.open.jd.response.JdOrderDetailResponse;
+import cn.qihangerp.open.jd.response.JdOrderListResponse;
 import cn.qihangerp.open.common.DateUtil;
 import cn.qihangerp.open.common.SignUtil;
 import com.alibaba.fastjson2.JSONObject;
@@ -113,12 +113,12 @@ public class JdOrderApiHelper {
      * @param accessToken
      * @return
      */
-    public static ApiResultVo<OrderInfo> pullOrder(LocalDateTime startTime, LocalDateTime endTime, String appKey, String appSecret, String accessToken) {
+    public static ApiResultVo<JdOrderListResponse> pullOrder(LocalDateTime startTime, LocalDateTime endTime, String appKey, String appSecret, String accessToken) {
         Integer page = 1;
         Integer pageSize = 10;
         // 拉取接口
         String result = pullOrder(startTime,endTime,1,pageSize,appKey,appSecret,accessToken);
-        List<OrderInfo> orderList = new ArrayList<>();
+        List<JdOrderListResponse> orderList = new ArrayList<>();
         if(StringUtils.hasText(result)) {
             JSONObject jsonObject = JSONObject.parseObject(result);
             if (jsonObject.getJSONObject("error_response") == null) {
@@ -133,7 +133,7 @@ public class JdOrderApiHelper {
 
                         // 获取结果
 //                    JSONArray orderInfoList = orderResult.getJSONArray("orderInfoList");
-                        orderList.addAll(jsonObject.getJSONObject("jingdong_pop_order_enSearch_responce").getJSONObject("searchorderinfo_result").getList("orderInfoList", OrderInfo.class));
+                        orderList.addAll(jsonObject.getJSONObject("jingdong_pop_order_enSearch_responce").getJSONObject("searchorderinfo_result").getList("orderInfoList", JdOrderListResponse.class));
                         if (orderTotal > pageSize) {
                             while (totalPage > page) {
                                 page++;
@@ -141,7 +141,7 @@ public class JdOrderApiHelper {
                                 if (StringUtils.hasText(result1)) {
                                     JSONObject jsonObject1 = JSONObject.parseObject(result1);
                                     if ("0".equals(jsonObject1.getJSONObject("jingdong_pop_order_enSearch_responce").getString("code"))) {
-                                        orderList.addAll(jsonObject1.getJSONObject("jingdong_pop_order_enSearch_responce").getJSONObject("searchorderinfo_result").getList("orderInfoList", OrderInfo.class));
+                                        orderList.addAll(jsonObject1.getJSONObject("jingdong_pop_order_enSearch_responce").getJSONObject("searchorderinfo_result").getList("orderInfoList", JdOrderListResponse.class));
                                     }
                                 }
                             }
@@ -161,7 +161,7 @@ public class JdOrderApiHelper {
         return ApiResultVo.success(orderList.size(),orderList);
     }
 
-    public static ApiResultVo<OrderDetail> pullOrderDetail(Long orderId, String appKey, String appSecret, String accessToken) {
+    public static ApiResultVo<JdOrderDetailResponse> pullOrderDetail(Long orderId, String appKey, String appSecret, String accessToken) {
         log.info("=======开始拉取JD订单详情{}，参数：{}=========", LocalDateTime.now(), orderId);
 
         String url="https://api.jd.com/routerjson";
@@ -220,8 +220,8 @@ public class JdOrderApiHelper {
                 if (jsonObject.getJSONObject("error_response") == null) {
 
                     if ("0".equals(jsonObject.getJSONObject("jingdong_pop_order_enGet_responce").getString("code"))) {
-                        OrderDetail orderDetail = jsonObject.getJSONObject("jingdong_pop_order_enGet_responce").getJSONObject("orderDetailInfo").getObject("orderInfo",OrderDetail.class);
-                        return ApiResultVo.success(orderDetail);
+                        JdOrderDetailResponse jdOrderDetailResponse = jsonObject.getJSONObject("jingdong_pop_order_enGet_responce").getJSONObject("orderDetailInfo").getObject("orderInfo", JdOrderDetailResponse.class);
+                        return ApiResultVo.success(jdOrderDetailResponse);
                     }
                 }
                 else {

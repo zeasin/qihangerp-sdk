@@ -1,4 +1,4 @@
-package cn.qihangerp.open.jd.model;
+package cn.qihangerp.open.jd.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class GoodsSku {
+public class JdGoodsSkuListResponse {
 
     @JsonProperty("wareTitle")
     private String wareTitle;

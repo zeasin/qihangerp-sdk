@@ -1,5 +1,6 @@
-package cn.qihangerp.open.jd.model;
+package cn.qihangerp.open.jd.response;
 
+import cn.qihangerp.open.jd.model.ConsigneeInfoDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class OrderInfo {
+public class JdOrderListResponse {
 
     @JsonProperty("orderSellerPrice")
     private String orderSellerPrice;

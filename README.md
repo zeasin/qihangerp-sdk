@@ -26,22 +26,15 @@ SDK支持输出各平台原生字段数据和封装之后的标准字段数据�
 
 
 ## 三、如何使用？
-### 3.1、开发环境配置
-+ MySQL数据库创建
-  + 运行MySQL脚本`docs\sql\qihangerp-scm.sql`导入数据到主库`qihangerp-scm`
 
-+ 启动Redis
+### 3.1、启动`api`项目
 
 
-  
-### 3.2、启动`api`项目
-
-
-### 3.3、访问接口文档
+### 3.2、访问接口文档
 
 + 访问地址：`http://localhost:8080/open-api/index.html`
- 
 
+### 3.3、使用`postman`请求API
 
 
 ## 四、期待您的支持

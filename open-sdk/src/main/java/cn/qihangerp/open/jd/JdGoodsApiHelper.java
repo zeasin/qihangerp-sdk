@@ -3,7 +3,7 @@ package cn.qihangerp.open.jd;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.jd.model.GoodsSku;
+import cn.qihangerp.open.jd.response.JdGoodsSkuListResponse;
 import cn.qihangerp.open.common.DateUtil;
 import cn.qihangerp.open.common.SignUtil;
 import com.alibaba.fastjson2.JSONObject;
@@ -27,7 +27,7 @@ public class JdGoodsApiHelper {
     private static final String GOODS_FIELDS = "jdPrice,wareId,title,spuId,images,itemNum,outerId,logo,weight,width,height,length,modified,created,offlineTime,onlineTime,mobileDesc,afterSales,marketPrice,costPrice,brandName,stockNum,sellPoint,afterSaleDesc,categoryId";
     private static final String SKU_FIELDS ="wareId,skuId,status,saleAttrs,jdPrice,outerId,logo,skuName,wareTitle,modified,created";
 
-    protected static String pullGoods(Integer pageNo,Integer pageSize,String appKey,String appSecret,String accessToken){
+    protected static String pullGoodsSkuList(Integer pageNo,Integer pageSize,String appKey,String appSecret,String accessToken){
         String url="https://api.jd.com/routerjson";
 
         Map<String, String> params = new HashMap<>();
@@ -96,12 +96,12 @@ public class JdGoodsApiHelper {
      * @param accessToken
      * @return
      */
-    public static ApiResultVo<GoodsSku> pullGoods(String appKey, String appSecret, String accessToken) {
+    public static ApiResultVo<JdGoodsSkuListResponse> pullGoodsSkuList(String appKey, String appSecret, String accessToken) {
         Integer page = 1;
         Integer pageSize = 50;
         // 拉取接口
-        String result = pullGoods(1, pageSize, appKey, appSecret, accessToken);
-        List<GoodsSku> skusList = new ArrayList<>();
+        String result = pullGoodsSkuList(1, pageSize, appKey, appSecret, accessToken);
+        List<JdGoodsSkuListResponse> skusList = new ArrayList<>();
         if (!StringUtils.hasText(result)) return ApiResultVo.error(ApiResultVoEnum.ApiException, "接口请求错误");
 
         JSONObject jsonObject = JSONObject.parseObject(result);
@@ -121,15 +121,15 @@ public class JdGoodsApiHelper {
 //                        goodsSku.setAttrs("");
 //                    }
 //                    String s = JSONObject.toJSONString(skuList.get(49));
-                skusList.addAll(jsonObject.getJSONObject("jingdong_sku_read_searchSkuList_responce").getJSONObject("page").getList("data", GoodsSku.class));
+                skusList.addAll(jsonObject.getJSONObject("jingdong_sku_read_searchSkuList_responce").getJSONObject("page").getList("data", JdGoodsSkuListResponse.class));
                 if (totalItem > pageSize) {
                     while (totalPage > page) {
                         page++;
-                        String result1 = pullGoods(page, pageSize, appKey, appSecret, accessToken);
+                        String result1 = pullGoodsSkuList(page, pageSize, appKey, appSecret, accessToken);
                         if (StringUtils.hasText(result1)) {
                             JSONObject jsonObject1 = JSONObject.parseObject(result1);
                             if ("0".equals(jsonObject1.getJSONObject("jingdong_sku_read_searchSkuList_responce").getString("code"))) {
-                                skusList.addAll(jsonObject1.getJSONObject("jingdong_sku_read_searchSkuList_responce").getJSONObject("page").getList("data", GoodsSku.class));
+                                skusList.addAll(jsonObject1.getJSONObject("jingdong_sku_read_searchSkuList_responce").getJSONObject("page").getList("data", JdGoodsSkuListResponse.class));
                             }
                         }
                     }
