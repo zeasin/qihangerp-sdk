@@ -1,4 +1,4 @@
-package cn.qihangerp.open.tao.model;
+package cn.qihangerp.open.tao.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class Refund {
+public class TaoRefundResponse {
     @JsonProperty("alipay_no")
     private String alipayNo;
     @JsonProperty("buyer_nick")

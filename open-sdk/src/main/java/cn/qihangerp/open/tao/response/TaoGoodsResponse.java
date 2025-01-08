@@ -1,8 +1,8 @@
-package cn.qihangerp.open.tao.model;
+package cn.qihangerp.open.tao.response;
 
 import java.util.List;
 
-public class GoodsItem {
+public class TaoGoodsResponse {
     /**
      * approve_status : onsale
      * cid : 50001709
@@ -29,7 +29,7 @@ public class GoodsItem {
      */
 
     private String approve_status;
-    private int cid;
+    private Long cid;
     private String delist_time;
     private boolean has_discount;
     private boolean has_invoice;
@@ -51,13 +51,13 @@ public class GoodsItem {
     private String type;
     private int valid_thru;
 
-    private List<GoodsItemSku> skuList;
+    private List<TaoGoodsSkuResponse> skuList;
 
-    public List<GoodsItemSku> getSkuList() {
+    public List<TaoGoodsSkuResponse> getSkuList() {
         return skuList;
     }
 
-    public void setSkuList(List<GoodsItemSku> skuList) {
+    public void setSkuList(List<TaoGoodsSkuResponse> skuList) {
         this.skuList = skuList;
     }
 
@@ -69,11 +69,11 @@ public class GoodsItem {
         this.approve_status = approve_status;
     }
 
-    public int getCid() {
+    public Long getCid() {
         return cid;
     }
 
-    public void setCid(int cid) {
+    public void setCid(Long cid) {
         this.cid = cid;
     }
 

@@ -3,9 +3,9 @@ package cn.qihangerp.open.tao;
 
 
 import cn.qihangerp.open.common.*;
-import cn.qihangerp.open.tao.model.TradeDetail1;
+import cn.qihangerp.open.tao.response.TaoOrderDetailResponse;
 import cn.qihangerp.open.tao.model.TradeItem;
-import cn.qihangerp.open.tao.model.TradeList;
+import cn.qihangerp.open.tao.response.TaoOrderListResponse;
 import cn.qihangerp.open.tao.service.TaoOrderApiService;
 
 import com.alibaba.fastjson2.JSONArray;
@@ -36,7 +36,7 @@ public class TaoOrderApiHelper {
      * @param sessionKey
      * @return
      */
-    public static ApiResultVo<TradeList> pullTradeList(LocalDateTime startModified, LocalDateTime endModified , String appKey, String appSecret, String sessionKey) {
+    public static ApiResultVo<TaoOrderListResponse> pullTradeList(LocalDateTime startModified, LocalDateTime endModified , String appKey, String appSecret, String sessionKey) {
         Integer pageNo = 1;
         String resultString = pullOrderList(startModified, endModified, pageNo, appKey, appSecret, sessionKey);
         if (!StringUtils.hasText(resultString))
@@ -50,11 +50,11 @@ public class TaoOrderApiHelper {
             Boolean hasNext = (Boolean) dataResult.get("has_next");
             JSONObject orderListResult = (JSONObject) dataResult.get("trades");
             //组合的订单列表
-            List<TradeList> tradeBeans = new ArrayList<>();
+            List<TaoOrderListResponse> tradeBeans = new ArrayList<>();
             if (orderListResult != null) {
                 for (Object item : (JSONArray) orderListResult.get("trade")) {
 
-                    TradeList tradeBean = JSONObject.parseObject(item.toString(), TradeList.class);
+                    TaoOrderListResponse tradeBean = JSONObject.parseObject(item.toString(), TaoOrderListResponse.class);
                     // 转换orders
                     JSONObject s = (JSONObject) item;
                     JSONObject ss = (JSONObject) s.get("orders");
@@ -74,7 +74,7 @@ public class TaoOrderApiHelper {
                     if (orderListResult1 != null) {
                         for (Object item : (JSONArray) orderListResult1.get("trade")) {
 //                            String s = JSONObject.toJSONString(item);
-                            TradeList tradeBean = JSONObject.parseObject(JSONObject.toJSONString(item), TradeList.class);
+                            TaoOrderListResponse tradeBean = JSONObject.parseObject(JSONObject.toJSONString(item), TaoOrderListResponse.class);
                             // 转换orders
                             JSONObject s = (JSONObject) item;
                             JSONObject ss = (JSONObject) s.get("orders");
@@ -152,7 +152,7 @@ public class TaoOrderApiHelper {
      * @return
      * @throws
      */
-    public static ApiResultVo<TradeDetail1> pullOrderDetail(Long tid, String appKey, String appSecret, String sessionKey) {
+    public static ApiResultVo<TaoOrderDetailResponse> pullOrderDetail(Long tid, String appKey, String appSecret, String sessionKey) {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
         Map<String, String> params = new HashMap<>();
         params.put("app_key", appKey);
@@ -186,7 +186,7 @@ public class TaoOrderApiHelper {
 
             JSONObject orderResult = (JSONObject) dataResult1.get("trade");
             if (!orderResult.isEmpty()) {
-                TradeDetail1 detail = JSONObject.parseObject(orderResult.toJSONString(), TradeDetail1.class);
+                TaoOrderDetailResponse detail = JSONObject.parseObject(orderResult.toJSONString(), TaoOrderDetailResponse.class);
                 return ApiResultVo.success(detail);
             }
         }else {

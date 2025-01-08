@@ -1,6 +1,6 @@
-package cn.qihangerp.open.tao.model;
+package cn.qihangerp.open.tao.response;
 
-public class GoodsItemSku {
+public class TaoGoodsSkuResponse {
 
 
     /**

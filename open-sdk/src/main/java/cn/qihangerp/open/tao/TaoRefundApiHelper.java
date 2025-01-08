@@ -2,7 +2,7 @@ package cn.qihangerp.open.tao;
 
 
 import cn.qihangerp.open.common.*;
-import cn.qihangerp.open.tao.model.Refund;
+import cn.qihangerp.open.tao.response.TaoRefundResponse;
 import cn.qihangerp.open.tao.service.TaoRefundApiService;
 
 import com.alibaba.fastjson2.JSONArray;
@@ -29,7 +29,7 @@ public class TaoRefundApiHelper {
      * @return
      * @throws
      */
-    public static ApiResultVo<Refund> pullRefund(LocalDateTime startTime, LocalDateTime endTime, String appKey, String appSecret, String sessionKey)  {
+    public static ApiResultVo<TaoRefundResponse> pullRefund(LocalDateTime startTime, LocalDateTime endTime, String appKey, String appSecret, String sessionKey)  {
         int pageNo=1;
         String resultString = pullRefundList(startTime,endTime,pageNo, appKey, appSecret, sessionKey);
         if (!StringUtils.hasText(resultString))
@@ -38,7 +38,7 @@ public class TaoRefundApiHelper {
         JSONObject result = JSONObject.parseObject(resultString);
         if (result.get("error_response") == null) {
             //组合的订单列表
-            List<Refund> refundList = new ArrayList<>();
+            List<TaoRefundResponse> taoRefundResponseList = new ArrayList<>();
 
             //没有错误
             JSONObject dataResult = (JSONObject) result.get("refunds_receive_get_response");
@@ -47,8 +47,8 @@ public class TaoRefundApiHelper {
 
             if (dataResult != null) {
 //                List<Refund> refund = JSONArray.parseArray(JSONObject.toJSONString(refunds.getJSONArray("refund")), Refund.class);
-                List<Refund> refund = JSONArray.parseArray(JSONObject.toJSONString(dataResult.getJSONObject("refunds").getJSONArray("refund")), Refund.class);
-                refundList.addAll(refund);
+                List<TaoRefundResponse> taoRefundResponse = JSONArray.parseArray(JSONObject.toJSONString(dataResult.getJSONObject("refunds").getJSONArray("refund")), TaoRefundResponse.class);
+                taoRefundResponseList.addAll(taoRefundResponse);
                 //循环取下一页
                 while (hasNext) {
                     pageNo++;
@@ -59,8 +59,8 @@ public class TaoRefundApiHelper {
                     hasNext = (Boolean) dataResult1.get("has_next");
                     JSONObject orderListResult1 = (JSONObject) dataResult1.get("refunds");
                     if (orderListResult1 != null) {
-                        List<Refund> refund1 = JSONArray.parseArray(JSONObject.toJSONString(dataResult1.getJSONObject("refunds").getJSONArray("refund")), Refund.class);
-                        refundList.addAll(refund1);
+                        List<TaoRefundResponse> taoRefundResponse1 = JSONArray.parseArray(JSONObject.toJSONString(dataResult1.getJSONObject("refunds").getJSONArray("refund")), TaoRefundResponse.class);
+                        taoRefundResponseList.addAll(taoRefundResponse1);
                     }
                 }
 //                return new PullResult(tradeBeans.size(), tradeBeans);
@@ -69,7 +69,7 @@ public class TaoRefundApiHelper {
 //                return new PullResult(0, tradeBeans);
 //                return ApiResultVo.success(0, tradeBeans);
             }
-            return ApiResultVo.success(refundList.size(), refundList);
+            return ApiResultVo.success(taoRefundResponseList.size(), taoRefundResponseList);
         } else {
             // 有错误
             JSONObject errorInfo = (JSONObject) result.get("error_response");
@@ -144,7 +144,7 @@ public class TaoRefundApiHelper {
      * @param refundId
      * @return
      */
-    public static ApiResultVo<Refund> pullRefundDetail(Long refundId, String appKey, String appSecret, String sessionKey){
+    public static ApiResultVo<TaoRefundResponse> pullRefundDetail(Long refundId, String appKey, String appSecret, String sessionKey){
         String fields = "refund_id, alipay_no, tid, oid, buyer_nick, seller_nick, total_fee, status, created, refund_fee, good_status, has_good_return, " +
                 "payment, reason, desc,modified, num_iid, title, price, num, good_return_time, company_name, sid, address, shipping_type, refund_remind_timeout, refund_phase, " +
                 "refund_version, operation_contraint,order_status,sku_id, attribute, outer_id,dispute_type,sku,end_time";
@@ -184,8 +184,8 @@ public class TaoRefundApiHelper {
             //没有错误
             JSONObject dataResult = (JSONObject) result.get("refund_get_response");
             if (dataResult != null) {
-                Refund refund = dataResult.getObject("refund", Refund.class);
-                return ApiResultVo.success(refund);
+                TaoRefundResponse taoRefundResponse = dataResult.getObject("refund", TaoRefundResponse.class);
+                return ApiResultVo.success(taoRefundResponse);
             }else {
                 return ApiResultVo.error(ApiResultVoEnum.Fail,"没有获取到数据");
             }

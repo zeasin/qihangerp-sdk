@@ -1,4 +1,4 @@
-package cn.qihangerp.open.tao.model;
+package cn.qihangerp.open.tao.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class TradeDetail1 {
+public class TaoOrderDetailResponse {
 
     @JsonProperty("adjust_fee")
     private String adjustFee;

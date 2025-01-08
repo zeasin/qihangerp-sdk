@@ -3,8 +3,8 @@ package cn.qihangerp.open.tao;
 
 
 import cn.qihangerp.open.common.*;
-import cn.qihangerp.open.tao.model.GoodsItem;
-import cn.qihangerp.open.tao.model.GoodsItemSku;
+import cn.qihangerp.open.tao.response.TaoGoodsResponse;
+import cn.qihangerp.open.tao.response.TaoGoodsSkuResponse;
 import cn.qihangerp.open.tao.service.TaoGoodsApiService;
 
 import com.alibaba.fastjson2.JSONArray;
@@ -22,7 +22,7 @@ public class TaoGoodsApiHelper {
             "has_showcase,modified,delist_time,postage_id,seller_cids,outer_id,sold_quantity,skus";
     private static final String SKU_FIELDS = "sku_id,iid,num_iid,properties,properties_name,quantity,price,outer_id,created,modified,status,sku_spec_id,barcode";
 
-    public static ApiResultVo<GoodsItem> pullGoodsList(String appKey, String appSecret, String sessionKey) {
+    public static ApiResultVo<TaoGoodsResponse> pullGoodsList(String appKey, String appSecret, String sessionKey) {
         log.info("=======开始全量拉取商品数据{}=========", LocalDateTime.now());
         Integer pageNo = 1;
         String resultString = pullGoodsList(pageNo, appKey, appSecret, sessionKey);
@@ -42,17 +42,17 @@ public class TaoGoodsApiHelper {
 
             JSONObject itemListResult = (JSONObject) dataResult.get("items");
             //组合的订单列表
-            List<GoodsItem> goodsItemList = new ArrayList<>();
+            List<TaoGoodsResponse> taoGoodsResponseList = new ArrayList<>();
 
             if (itemListResult != null) {
                 for (Object item : (JSONArray) itemListResult.get("item")) {
-                    GoodsItem bean = JSONObject.parseObject(item.toString(), GoodsItem.class);
+                    TaoGoodsResponse bean = JSONObject.parseObject(item.toString(), TaoGoodsResponse.class);
                     // 查询sku list
-                    ApiResultVo<GoodsItemSku> goodsItemSkuApiResultVo = pullSku(bean.getNum_iid(), appKey, appSecret, sessionKey);
+                    ApiResultVo<TaoGoodsSkuResponse> goodsItemSkuApiResultVo = pullSku(bean.getNum_iid(), appKey, appSecret, sessionKey);
                     if (goodsItemSkuApiResultVo.getCode() == ApiResultVoEnum.SUCCESS.getIndex()) {
                         bean.setSkuList(goodsItemSkuApiResultVo.getList());
                     }
-                    goodsItemList.add(bean);
+                    taoGoodsResponseList.add(bean);
                 }
                 if (totalPage > 1) {
                     //循环取下一页
@@ -66,22 +66,22 @@ public class TaoGoodsApiHelper {
                         JSONObject orderListResult1 = (JSONObject) dataResult1.get("items");
                         if (orderListResult1 != null) {
                             for (Object item : (JSONArray) orderListResult1.get("item")) {
-                                GoodsItem bean = JSONObject.parseObject(item.toString(), GoodsItem.class);
+                                TaoGoodsResponse bean = JSONObject.parseObject(item.toString(), TaoGoodsResponse.class);
                                 // 查询sku list
-                                ApiResultVo<GoodsItemSku> goodsItemSkuApiResultVo = pullSku(bean.getNum_iid(), appKey, appSecret, sessionKey);
+                                ApiResultVo<TaoGoodsSkuResponse> goodsItemSkuApiResultVo = pullSku(bean.getNum_iid(), appKey, appSecret, sessionKey);
                                 if (goodsItemSkuApiResultVo.getCode() == ApiResultVoEnum.SUCCESS.getIndex()) {
                                     bean.setSkuList(goodsItemSkuApiResultVo.getList());
                                 }
-                                goodsItemList.add(bean);
+                                taoGoodsResponseList.add(bean);
                             }
                         }
                     }
                 }
 //                return new PullResult(tradeBeans.size(), tradeBeans);
-                return ApiResultVo.success(goodsItemList.size(), goodsItemList);
+                return ApiResultVo.success(taoGoodsResponseList.size(), taoGoodsResponseList);
             } else {
 //                return new PullResult(0, tradeBeans);
-                return ApiResultVo.success(0, goodsItemList);
+                return ApiResultVo.success(0, taoGoodsResponseList);
             }
 
         } else {
@@ -132,7 +132,7 @@ public class TaoGoodsApiHelper {
         return result;
     }
 
-    protected static ApiResultVo<GoodsItemSku> pullSku(Long numIid, String appKey, String appSecret, String sessionKey) {
+    protected static ApiResultVo<TaoGoodsSkuResponse> pullSku(Long numIid, String appKey, String appSecret, String sessionKey) {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
 
         Map<String, String> params = new HashMap<>();
@@ -171,11 +171,11 @@ public class TaoGoodsApiHelper {
             JSONObject dataResult = (JSONObject) result.get("item_skus_get_response");
             JSONObject itemListResult = (JSONObject) dataResult.get("skus");
             //组合的订单列表
-            List<GoodsItemSku> skuList = new ArrayList<>();
+            List<TaoGoodsSkuResponse> skuList = new ArrayList<>();
 
             if (itemListResult != null) {
                 if (itemListResult.get("sku") != null) {
-                    skuList = JSONArray.parseArray(itemListResult.get("sku").toString(), GoodsItemSku.class);
+                    skuList = JSONArray.parseArray(itemListResult.get("sku").toString(), TaoGoodsSkuResponse.class);
                 }
 //                for (Object item : (JSONArray) itemListResult.get("sku")) {
 //                    GoodsItemSku bean = JSONObject.parseObject(item.toString(), GoodsItemSku.class);

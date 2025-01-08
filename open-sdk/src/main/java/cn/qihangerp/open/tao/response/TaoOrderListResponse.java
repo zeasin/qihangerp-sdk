@@ -1,8 +1,10 @@
-package cn.qihangerp.open.tao.model;
+package cn.qihangerp.open.tao.response;
+
+import cn.qihangerp.open.tao.model.TradeItem;
 
 import java.util.List;
 
-public class TradeList {
+public class TaoOrderListResponse {
 
     /**
      * adjust_fee : 0.00
