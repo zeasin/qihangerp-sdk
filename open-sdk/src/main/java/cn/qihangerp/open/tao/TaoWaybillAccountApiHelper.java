@@ -4,13 +4,12 @@ package cn.qihangerp.open.tao;
 
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.model.WaybillBranchAccountList;
-import cn.qihangerp.open.tao.service.TaoWaybillApiService;
-
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -76,14 +75,17 @@ public class TaoWaybillAccountApiHelper {
         }
         // 组合url参数
         StringJoiner joiner = new StringJoiner("&");
-        params.forEach((key, value) -> joiner.add(key + "=" + value));
+        params.forEach((key, value) -> joiner.add(key + "=" +  URLEncoder.encode(value)));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
 
         // 调用接口
-        TaoWaybillApiService remoting = RemoteUtil.Remoting(url, TaoWaybillApiService.class);
-        String result = remoting.getWaybillList();
-        return result;
+//        TaoWaybillApiService remoting = RemoteUtil.Remoting(url, TaoWaybillApiService.class);
+//        String result = remoting.getWaybillList();
+//
+//        return result;
+        String resultString = HttpUtils.doGet(url);
+        return resultString;
     }
 
 

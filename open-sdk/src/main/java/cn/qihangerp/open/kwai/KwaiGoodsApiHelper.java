@@ -3,9 +3,10 @@ package cn.qihangerp.open.kwai;
 
 
 import cn.qihangerp.open.common.ApiResultVo;
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.kwai.model.KwaiGoodsItem;
 import cn.qihangerp.open.kwai.service.KwaiGoodsApiService;
-import cn.qihangerp.open.common.RemoteUtil;
+
 import cn.qihangerp.open.common.SignMethodEnum;
 import cn.qihangerp.open.common.SignUtils;
 import com.alibaba.fastjson2.JSONArray;
@@ -78,10 +79,12 @@ public class KwaiGoodsApiHelper {
 
 
         // 调用接口
-        KwaiGoodsApiService remoting = RemoteUtil.Remoting(serverUrl, KwaiGoodsApiService.class);
-//        JSONObject resultString = remoting.getGoodsList(params);
-        JSONObject result = remoting.getGoodsList(params);
-        return result;
+//        KwaiGoodsApiService remoting = RemoteUtil.Remoting(serverUrl, KwaiGoodsApiService.class);
+////        JSONObject resultString = remoting.getGoodsList(params);
+//        JSONObject result = remoting.getGoodsList(params);
+//        return result;
+        String resultString = HttpUtils.doGet(serverUrl);
+        return JSONObject.parseObject(resultString);
     }
 
 

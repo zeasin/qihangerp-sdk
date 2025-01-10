@@ -5,7 +5,7 @@ package cn.qihangerp.open.tao;
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.response.TaoGoodsResponse;
 import cn.qihangerp.open.tao.response.TaoGoodsSkuResponse;
-import cn.qihangerp.open.tao.service.TaoGoodsApiService;
+
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.net.URLEncoder;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -122,13 +124,15 @@ public class TaoGoodsApiHelper {
         }
         // 组合url参数
         StringJoiner joiner = new StringJoiner("&");
-        params.forEach((key, value) -> joiner.add(key + "=" + value));
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
 
         // 调用接口
-        TaoGoodsApiService remoting = RemoteUtil.Remoting(url, TaoGoodsApiService.class);
-        String result = remoting.getGoodsList();
+        String result = HttpUtils.doGet(url);
+
+//        TaoGoodsApiService remoting = RemoteUtil.Remoting(url, TaoGoodsApiService.class);
+//        String result = remoting.getGoodsList();
         return result;
     }
 
@@ -154,13 +158,14 @@ public class TaoGoodsApiHelper {
         }
         // 组合url参数
         StringJoiner joiner = new StringJoiner("&");
-        params.forEach((key, value) -> joiner.add(key + "=" + value));
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
 
         // 调用接口
-        TaoGoodsApiService remoting = RemoteUtil.Remoting(url, TaoGoodsApiService.class);
-        String resultString = remoting.getGoodsList();
+//        TaoGoodsApiService remoting = RemoteUtil.Remoting(url, TaoGoodsApiService.class);
+//        String resultString = remoting.getGoodsList();
+        String resultString = HttpUtils.doGet(url);
         if (!StringUtils.hasText(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名发生错误");
 

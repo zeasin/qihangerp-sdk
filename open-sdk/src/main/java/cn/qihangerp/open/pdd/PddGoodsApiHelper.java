@@ -1,21 +1,18 @@
 package cn.qihangerp.open.pdd;
 
-
-
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.RemoteUtil;
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.pdd.model.Goods;
 import cn.qihangerp.open.pdd.model.GoodsResultVo;
-import cn.qihangerp.open.pdd.service.PddGoodsApiService;
 import cn.qihangerp.open.common.PDDSignGenerator;
-
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,10 +65,12 @@ public class PddGoodsApiHelper {
         }
 
         // 调用接口
-        PddGoodsApiService remoting = RemoteUtil.Remoting(url, PddGoodsApiService.class);
+//        PddGoodsApiService remoting = RemoteUtil.Remoting(url, PddGoodsApiService.class);
         String jsonString = JSONObject.toJSONString(params);
-        String result = remoting.getGoodsList(jsonString);
-        return result;
+//        String result = remoting.getGoodsList(jsonString);
+//        return result;
+        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+        return stringHttpResponse.body();
     }
 
 

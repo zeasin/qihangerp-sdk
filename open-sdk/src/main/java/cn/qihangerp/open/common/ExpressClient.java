@@ -23,8 +23,8 @@ import java.util.*;
 public class ExpressClient {
     private static Logger log = LoggerFactory.getLogger(ExpressClient.class);
     private static final String DEFAULT_CHARSET = "UTF-8";
-    private static String key = "Ywq0uOo6nTEx";
-    private static String serret = "6880dfb586d1442a9bbfd523fc30127f";
+//    private static String key = "Ywq0uOo6nTEx";
+//    private static String serret = "6880dfb586d1442a9bbfd523fc30127f";
 
     /**
      * post请求

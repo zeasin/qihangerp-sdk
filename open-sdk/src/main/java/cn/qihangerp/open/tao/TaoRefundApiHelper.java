@@ -3,14 +3,13 @@ package cn.qihangerp.open.tao;
 
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.response.TaoRefundResponse;
-import cn.qihangerp.open.tao.service.TaoRefundApiService;
-
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -111,14 +110,15 @@ public class TaoRefundApiHelper {
         }
         // 组合url参数
         StringJoiner joiner = new StringJoiner("&");
-        params.forEach((key, value) -> joiner.add(key + "=" + value));
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
 
         // 调用接口
-        TaoRefundApiService remoting = RemoteUtil.Remoting(url, TaoRefundApiService.class);
-        String result = remoting.getRefundList();
-        return result;
+//        TaoRefundApiService remoting = RemoteUtil.Remoting(url, TaoRefundApiService.class);
+//        String result = remoting.getRefundList();
+        String resultString = HttpUtils.doGet(url);
+        return resultString;
     }
 
 //    public static ResultVo<TaoRefund> pullRefundDetail(Long refundId,  String url, String appKey, String appSecret, String sessionKey) throws ApiException {
@@ -169,13 +169,14 @@ public class TaoRefundApiHelper {
         }
         // 组合url参数
         StringJoiner joiner = new StringJoiner("&");
-        params.forEach((key, value) -> joiner.add(key + "=" + value));
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
 
         // 调用接口
-        TaoRefundApiService remoting = RemoteUtil.Remoting(url, TaoRefundApiService.class);
-        String resultString = remoting.getRefundDetail();
+//        TaoRefundApiService remoting = RemoteUtil.Remoting(url, TaoRefundApiService.class);
+//        String resultString = remoting.getRefundDetail();
+        String resultString = HttpUtils.doGet(url);
         if (!StringUtils.hasText(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "接口调用错误");
         // 获取结果

@@ -1,19 +1,16 @@
 package cn.qihangerp.open.pdd;
 
-
-
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.RemoteUtil;
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.pdd.model.WaybillAccount;
-import cn.qihangerp.open.pdd.service.PddWaybillApiService;
 import cn.qihangerp.open.common.PDDSignGenerator;
-
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,10 +77,12 @@ public class PddWaybillAccountApiHelper {
         }
 
         // 调用接口
-        PddWaybillApiService remoting = RemoteUtil.Remoting(url, PddWaybillApiService.class);
+//        PddWaybillApiService remoting = RemoteUtil.Remoting(url, PddWaybillApiService.class);
         String jsonString = JSONObject.toJSONString(params);
-        String result = remoting.getWaybillAccount(jsonString);
-        return result;
+//        String result = remoting.getWaybillAccount(jsonString);
+//        return result;
+        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+        return stringHttpResponse.body();
     }
 
 

@@ -1,21 +1,17 @@
 package cn.qihangerp.open.pdd;
 
-
-
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.RemoteUtil;
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.pdd.model.Order;
 import cn.qihangerp.open.pdd.model.OrderListResultVo;
-import cn.qihangerp.open.pdd.service.PddOrderApiService;
 import cn.qihangerp.open.common.PDDSignGenerator;
-
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,10 +87,12 @@ public class PddOrderApiHelper {
         }
 
         // 调用接口
-        PddOrderApiService remoting = RemoteUtil.Remoting(url, PddOrderApiService.class);
+//        PddOrderApiService remoting = RemoteUtil.Remoting(url, PddOrderApiService.class);
         String jsonString = JSONObject.toJSONString(params);
-        String result = remoting.getOrderList(jsonString);
-        return result;
+//        String result = remoting.getOrderList(jsonString);
+//        return result;
+        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+        return stringHttpResponse.body();
     }
 
     protected static String pullOrderDetail(String clientId, String clientSecret, String accessToken,String orderSn) {
@@ -117,9 +115,11 @@ public class PddOrderApiHelper {
         }
 
         // 调用接口
-        PddOrderApiService remoting = RemoteUtil.Remoting(url, PddOrderApiService.class);
+//        PddOrderApiService remoting = RemoteUtil.Remoting(url, PddOrderApiService.class);
         String jsonString = JSONObject.toJSONString(params);
-        String result = remoting.getOrderList(jsonString);
-        return result;
+//        String result = remoting.getOrderList(jsonString);
+//        return result;
+        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+        return stringHttpResponse.body();
     }
 }

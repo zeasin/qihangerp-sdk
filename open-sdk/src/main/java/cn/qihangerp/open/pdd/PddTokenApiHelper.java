@@ -3,14 +3,13 @@ package cn.qihangerp.open.pdd;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.RemoteUtil;
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.pdd.model.Token;
-import cn.qihangerp.open.pdd.service.PddTokenApiService;
 import cn.qihangerp.open.common.PDDSignGenerator;
-
 import com.alibaba.fastjson2.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,9 +57,11 @@ public class PddTokenApiHelper {
         }
 
         // 调用接口
-        PddTokenApiService remoting = RemoteUtil.Remoting(url, PddTokenApiService.class);
+//        PddTokenApiService remoting = RemoteUtil.Remoting(url, PddTokenApiService.class);
         String jsonString = JSONObject.toJSONString(params);
-        String result = remoting.getToken(jsonString);
-        return result;
+//        String result = remoting.getToken(jsonString);
+//        return result;
+        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+        return stringHttpResponse.body();
     }
 }

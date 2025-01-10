@@ -3,8 +3,6 @@ package cn.qihangerp.open.wei;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
 import cn.qihangerp.open.common.HttpUtils;
-import cn.qihangerp.open.common.RemoteUtil;
-
 import cn.qihangerp.open.wei.model.Product;
 
 import com.alibaba.fastjson2.JSONObject;

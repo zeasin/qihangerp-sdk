@@ -6,12 +6,11 @@ import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.response.TaoOrderDetailResponse;
 import cn.qihangerp.open.tao.model.TradeItem;
 import cn.qihangerp.open.tao.response.TaoOrderListResponse;
-import cn.qihangerp.open.tao.service.TaoOrderApiService;
-
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -134,13 +133,15 @@ public class TaoOrderApiHelper {
         }
         // 组合url参数
         StringJoiner joiner = new StringJoiner("&");
-        params.forEach((key, value) -> joiner.add(key + "=" + value));
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
 
         // 调用接口
-        TaoOrderApiService remoting = RemoteUtil.Remoting(url, TaoOrderApiService.class);
-        return remoting.getOrderList();
+//        TaoOrderApiService remoting = RemoteUtil.Remoting(url, TaoOrderApiService.class);
+//        return remoting.getOrderList();
+        String resultString = HttpUtils.doGet(url);
+        return resultString;
     }
 
     /**
@@ -172,13 +173,15 @@ public class TaoOrderApiHelper {
         }
         // 组合url参数
         StringJoiner joiner = new StringJoiner("&");
-        params.forEach((key, value) -> joiner.add(key + "=" + value));
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
 
         // 调用接口
-        TaoOrderApiService remoting = RemoteUtil.Remoting(url, TaoOrderApiService.class);
-        String resultString = remoting.getOrderDetail();
+//        TaoOrderApiService remoting = RemoteUtil.Remoting(url, TaoOrderApiService.class);
+//        String resultString = remoting.getOrderDetail();
+        String resultString = HttpUtils.doGet(url);
+
         JSONObject result = JSONObject.parseObject(resultString);
         if(result.get("error_response") == null) {
             //没有错误

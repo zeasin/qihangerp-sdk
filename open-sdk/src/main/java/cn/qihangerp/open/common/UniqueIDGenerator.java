@@ -10,7 +10,8 @@ public class UniqueIDGenerator {
     // 获取 MAC 地址
     public static String getMacAddress() {
         try {
-            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+//            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+            NetworkInterface networkInterface = NetworkInterface.getByName("eth0");
             byte[] mac = networkInterface.getHardwareAddress();
             if (mac != null) {
                 StringBuilder sb = new StringBuilder();
@@ -32,7 +33,11 @@ public class UniqueIDGenerator {
             // 在 Windows 上可以使用命令行查询硬盘序列号
             if (System.getProperty("os.name").startsWith("Windows")) {
                 return executeCommand("wmic diskdrive get serialnumber");
-            } else {
+            } else if (System.getProperty("os.name").contains("mac")) {
+                //  macOS 系统
+                return executeCommand("system_profiler SPSerialATADataType | grep 'Serial Number' | sed 's/.*Serial Number: //' | tr -d '[:space:]'");
+            }
+            else {
                 // 在 Linux 上通过命令获取硬盘序列号
                 return executeCommand("lsblk -o SERIAL -n | head -n 1");
             }

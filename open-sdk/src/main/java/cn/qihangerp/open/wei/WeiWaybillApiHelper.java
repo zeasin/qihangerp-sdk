@@ -2,12 +2,12 @@ package cn.qihangerp.open.wei;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.RemoteUtil;
 import cn.qihangerp.open.wei.bo.ewaybill.WaybillRequest;
 
 import cn.qihangerp.open.wei.response.WeiTokenResponse;
-import cn.qihangerp.open.wei.service.WeiWaybillApiService;
+
 import cn.qihangerp.open.wei.vo.ewaybill.EwaybillOrderCreateVo;
+import cn.qihangerp.open.wei.vo.ewaybill.EwaybillOrderPreCreateVo;
 import org.springframework.util.StringUtils;
 
 public class WeiWaybillApiHelper {
@@ -38,9 +38,11 @@ public class WeiWaybillApiHelper {
             accessToken = token.getData().getAccess_token();
         }
 
-        WeiWaybillApiService remoting = RemoteUtil.Remoting(serverUrl, WeiWaybillApiService.class);
+//        WeiWaybillApiService remoting = RemoteUtil.Remoting(serverUrl, WeiWaybillApiService.class);
+//
+//        var res = remoting.ewaybillOrderPreCreate(accessToken, request);
+        EwaybillOrderPreCreateVo res = new EwaybillOrderPreCreateVo();
 
-        var res = remoting.ewaybillOrderPreCreate(accessToken, request);
         if(res.getErrcode() == 0){
             // 数据
             return ApiResultVo.success(res.getEwaybill_order_id());
@@ -61,9 +63,10 @@ public class WeiWaybillApiHelper {
             accessToken = token.getData().getAccess_token();
         }
 
-        WeiWaybillApiService remoting = RemoteUtil.Remoting(serverUrl, WeiWaybillApiService.class);
-
-        var res = remoting.ewaybillOrderCreate(accessToken, request);
+//        WeiWaybillApiService remoting = RemoteUtil.Remoting(serverUrl, WeiWaybillApiService.class);
+//
+//        var res = remoting.ewaybillOrderCreate(accessToken, request);
+        EwaybillOrderCreateVo res = new EwaybillOrderCreateVo();
         if(res.getErrcode() == 0){
             // 数据
             return ApiResultVo.success(res);

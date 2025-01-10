@@ -3,12 +3,13 @@ package cn.qihangerp.open.kwai;
 
 
 import cn.qihangerp.open.common.ApiResultVo;
+import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.kwai.service.KwaiOrderApiService;
-import cn.qihangerp.open.common.RemoteUtil;
 import cn.qihangerp.open.common.SignMethodEnum;
 import cn.qihangerp.open.common.SignUtils;
 import com.alibaba.fastjson2.JSONObject;
 
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -64,8 +65,11 @@ public class KwaiOrderApiHelper {
 
 
         // 调用接口
-        KwaiOrderApiService remoting = RemoteUtil.Remoting(serverUrl, KwaiOrderApiService.class);
-        JSONObject result = remoting.getOrderList(params);
+//        KwaiOrderApiService remoting = RemoteUtil.Remoting(serverUrl, KwaiOrderApiService.class);
+//        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+//        return stringHttpResponse.body();
+//        JSONObject result = remoting.getOrderList(params);
+        JSONObject result = new JSONObject();
         if (result.getInteger("result") == 1) {
             // 成功
             Map<String,Object> data = (LinkedHashMap) result.get("data");
