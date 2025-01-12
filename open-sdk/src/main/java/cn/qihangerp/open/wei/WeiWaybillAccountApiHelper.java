@@ -10,7 +10,7 @@ import cn.qihangerp.open.wei.vo.ewaybill.DeliveryGetVo;
 import cn.qihangerp.open.wei.vo.ewaybill.DeliveryVo;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.http.HttpResponse;
 import java.util.HashMap;
@@ -52,7 +52,7 @@ public class WeiWaybillAccountApiHelper {
     }
     public static ApiResultVo<AccountVo> getAccountList(String appId, String appSecret, String accessToken) {
         String serverUrl = "https://api.weixin.qq.com";
-        if (!StringUtils.hasText(accessToken)) {
+        if (!StringUtils.isNotBlank(accessToken)) {
             ApiResultVo<WeiTokenResponse> token = WeiTokenApiHelper.getToken(appId, appSecret);
             if (token.getCode() != ApiResultVoEnum.SUCCESS.getIndex())
                 return ApiResultVo.error(ApiResultVoEnum.ApiException, "获取Token失败");

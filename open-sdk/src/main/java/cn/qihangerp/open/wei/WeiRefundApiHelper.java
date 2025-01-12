@@ -9,7 +9,8 @@ import cn.qihangerp.open.wei.vo.RefundDetailVo;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -18,8 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 public class WeiRefundApiHelper {
 
 
@@ -39,7 +38,7 @@ public class WeiRefundApiHelper {
 
         String listResult = pullRefundList(accessToken,startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,"");
 
-        if(!StringUtils.hasText(listResult)){
+        if(!StringUtils.isNotBlank(listResult)){
             return ApiResultVo.error(ApiResultVoEnum.ApiException);
         }
         JSONObject jsonObject = JSONObject.parseObject(listResult);
@@ -48,7 +47,7 @@ public class WeiRefundApiHelper {
             if (orderIds != null && orderIds.size() > 0) {
                 orderIds.forEach(orderId -> {
                     String detailResult = pullRefundDetail(accessToken, orderId.toString());
-                    if (StringUtils.hasText(detailResult)) {
+                    if (StringUtils.isNotBlank(detailResult)) {
                         JSONObject detailJsonObject = JSONObject.parseObject(detailResult);
                         if (detailJsonObject.getInteger("errcode") == 0) {
                             AfterSaleOrder order = JSONObject.parseObject(detailJsonObject.getString("after_sale_order"), AfterSaleOrder.class);
@@ -75,7 +74,7 @@ public class WeiRefundApiHelper {
     }
     public  static ApiResultVo<AfterSaleOrder> pullRefundDetail(Long refundId, String accessToken) {
        String result = pullRefundDetail(accessToken,refundId.toString());
-        if(!StringUtils.hasText(result)){
+        if(!StringUtils.isNotBlank(result)){
             return ApiResultVo.error(ApiResultVoEnum.ApiException);
         }
 
@@ -95,7 +94,7 @@ public class WeiRefundApiHelper {
         params.put("begin_create_time",startTime);
         params.put("end_create_time",endTime);
 
-        if(StringUtils.hasText(nextKey)){
+        if(StringUtils.isNotBlank(nextKey)){
             params.put("next_key",nextKey);
         }
 

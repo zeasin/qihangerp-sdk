@@ -5,9 +5,8 @@ import cn.qihangerp.open.common.ApiResultVoEnum;
 import cn.qihangerp.open.wei.model.Product;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +25,14 @@ public class WeiGoodsApiService {
 //        WeiGoodsApiService remoting = RemoteUtil.Remoting(serverUrl, WeiGoodsApiService.class);
         Integer pageSize = 30;
         String listResult = WeiGoodsApiHelper.pullGoodsList(accessToken, 5, pageSize, null);
-        if(StringUtils.hasText(listResult)){
+        if(StringUtils.isNotBlank(listResult)){
             JSONObject jsonObject = JSONObject.parseObject(listResult);
             if(jsonObject.getInteger("errcode") == 0){
                 JSONArray productIds = jsonObject.getJSONArray("product_ids");
                 if(productIds != null && productIds.size() > 0) {
                     productIds.forEach(productId -> {
                         String detailResult = WeiGoodsApiHelper.pullGoodsDetail(accessToken, productId.toString(), null);
-                        if (StringUtils.hasText(detailResult)) {
+                        if (StringUtils.isNotBlank(detailResult)) {
                             JSONObject detailJsonObject = JSONObject.parseObject(detailResult);
                             if (detailJsonObject.getInteger("errcode") == 0) {
                                 Product goodsDetail = JSONObject.parseObject(detailJsonObject.getString("product"), Product.class);
@@ -47,14 +46,14 @@ public class WeiGoodsApiService {
                         while (productList.size() < totalNum) {
                             String nextKey = jsonObject.getString("next_key");
                             String pageResult = WeiGoodsApiHelper.pullGoodsList(accessToken, null, pageSize, nextKey);
-                            if (StringUtils.hasText(pageResult)) {
+                            if (StringUtils.isNotBlank(pageResult)) {
                                 JSONObject jsonObject1 = JSONObject.parseObject(pageResult);
                                 if(jsonObject1.getInteger("errcode") == 0) {
                                     JSONArray productIds1 = jsonObject1.getJSONArray("product_ids");
                                     if(productIds1 != null && productIds1.size() > 0) {
                                         productIds1.forEach(productId -> {
                                             String detailResult = WeiGoodsApiHelper.pullGoodsDetail(accessToken, productId.toString(), null);
-                                            if (StringUtils.hasText(detailResult)) {
+                                            if (StringUtils.isNotBlank(detailResult)) {
                                                 JSONObject detailJsonObject = JSONObject.parseObject(detailResult);
                                                 if (detailJsonObject.getInteger("errcode") == 0) {
                                                     Product goodsDetail = JSONObject.parseObject(detailJsonObject.getString("product"), Product.class);

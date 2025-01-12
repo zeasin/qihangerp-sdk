@@ -1,18 +1,13 @@
 package cn.qihangerp.open.tao;
 
-
-
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.response.TaoGoodsResponse;
 import cn.qihangerp.open.tao.response.TaoGoodsSkuResponse;
-
-
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
 import java.net.URLEncoder;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
@@ -28,7 +23,7 @@ public class TaoGoodsApiHelper {
         log.info("=======开始全量拉取商品数据{}=========", LocalDateTime.now());
         Integer pageNo = 1;
         String resultString = pullGoodsList(pageNo, appKey, appSecret, sessionKey);
-        if (!StringUtils.hasText(resultString))
+        if (!StringUtils.isNotBlank(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名发生错误");
 
         // 获取结果
@@ -166,7 +161,7 @@ public class TaoGoodsApiHelper {
 //        TaoGoodsApiService remoting = RemoteUtil.Remoting(url, TaoGoodsApiService.class);
 //        String resultString = remoting.getGoodsList();
         String resultString = HttpUtils.doGet(url);
-        if (!StringUtils.hasText(resultString))
+        if (!StringUtils.isNotBlank(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名发生错误");
 
         // 获取结果

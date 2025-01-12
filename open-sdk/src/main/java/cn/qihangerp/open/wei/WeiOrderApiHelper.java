@@ -7,7 +7,8 @@ import cn.qihangerp.open.wei.model.Order;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -45,7 +46,7 @@ public class WeiOrderApiHelper {
         String listResult = pullOrderList(accessToken,pageSize,startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,
                 endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,"");
 
-        if(!StringUtils.hasText(listResult)){
+        if(!StringUtils.isNotBlank(listResult)){
             return ApiResultVo.error(ApiResultVoEnum.ApiException);
         }
 
@@ -56,7 +57,7 @@ public class WeiOrderApiHelper {
             if (orderIds != null && orderIds.size() > 0) {
                 orderIds.forEach(orderId -> {
                     String detailResult = pullOrderDetail(accessToken, orderId.toString());
-                    if (StringUtils.hasText(detailResult)) {
+                    if (StringUtils.isNotBlank(detailResult)) {
                         JSONObject detailJsonObject = JSONObject.parseObject(detailResult);
                         if (detailJsonObject.getInteger("errcode") == 0) {
                             Order order = JSONObject.parseObject(detailJsonObject.getString("order"), Order.class);
@@ -88,7 +89,7 @@ public class WeiOrderApiHelper {
         Map<String,Object> params = new HashMap<>();
         params.put("update_time_range",updateTimeRange);
         params.put("page_size",pageSize);
-        if(StringUtils.hasText(nextKey)){
+        if(StringUtils.isNotBlank(nextKey)){
             params.put("next_key",nextKey);
         }
 
@@ -124,7 +125,7 @@ public class WeiOrderApiHelper {
 //        String accessToken = token.getData().getAccess_token();
         String result = pullOrderDetail(accessToken, orderId.toString());
 
-        if (!StringUtils.hasText(result)) {
+        if (!StringUtils.isNotBlank(result)) {
             return ApiResultVo.error(ApiResultVoEnum.ApiException);
         }
 

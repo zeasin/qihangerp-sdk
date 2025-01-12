@@ -1,7 +1,6 @@
 package cn.qihangerp.open.common;
 
-import org.springframework.util.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,7 +26,7 @@ public class DateUtil {
         return calendar.getTime();
     }
     public static String timeStampToDate(Long timestamp) {
-        if(StringUtils.isEmpty(timestamp)) return null;
+        if(timestamp==null) return null;
         Long times = timestamp * 1000;
         String date = dateFormat.format(new Date(times));
         return date;
@@ -214,7 +213,7 @@ public class DateUtil {
 
 
     public static Long dateToStamp(Date time) {
-        if (StringUtils.isEmpty(time)) return 0l;
+        if (time==null) return 0l;
         Long res = 0l;
         res = (time.getTime() / 1000);
         return res;
@@ -292,7 +291,7 @@ public class DateUtil {
      * @return
      */
     public static String unixTimeStampToDate(long timestampString) {
-        if (StringUtils.isEmpty(timestampString)) return "";
+        if (timestampString <=0) return "";
         Long timestamp = timestampString * 1000;
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(timestamp));
         return date;

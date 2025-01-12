@@ -2,22 +2,19 @@ package cn.qihangerp.open.kwai;
 
 
 
-import cn.qihangerp.open.common.ApiResultVo;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.kwai.model.KwaiGoodsItem;
-import cn.qihangerp.open.kwai.service.KwaiGoodsApiService;
-
-import cn.qihangerp.open.common.SignMethodEnum;
-import cn.qihangerp.open.common.SignUtils;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.*;
 
 public class KwaiGoodsApiHelper {
 
 
     public static ApiResultVo<KwaiGoodsItem> pullGoodsAll(){
+        //https://open.kwaixiaodian.com/oauth/authorize?appId=ks700872692254768517&redirect_uri=xxx&scope=xxx&response_type=code&state=xxx
         String appKey = "ks700872692254768517";
         String appSecret = "7Bmb4KSuo3SB9sX7JNUETQ";
         String signSecret = "b690afccbefc07697782cad097e51e40";
@@ -77,12 +74,19 @@ public class KwaiGoodsApiHelper {
             e.printStackTrace();
         }
 
+        serverUrl += "/open/item/list/get";
+        // 组合url参数
+        StringJoiner joiner = new StringJoiner("&");
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
+        String urlP = joiner.toString();
+        serverUrl = serverUrl + "?" + urlP;
 
         // 调用接口
 //        KwaiGoodsApiService remoting = RemoteUtil.Remoting(serverUrl, KwaiGoodsApiService.class);
-////        JSONObject resultString = remoting.getGoodsList(params);
+//        JSONObject resultString = remoting.getGoodsList(params);
 //        JSONObject result = remoting.getGoodsList(params);
 //        return result;
+
         String resultString = HttpUtils.doGet(serverUrl);
         return JSONObject.parseObject(resultString);
     }

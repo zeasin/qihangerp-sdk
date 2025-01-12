@@ -1,15 +1,8 @@
 package cn.qihangerp.open.wei;
 
-import cn.qihangerp.open.common.ApiResultVo;
-import cn.qihangerp.open.common.ApiResultVoEnum;
 import cn.qihangerp.open.common.HttpUtils;
-import cn.qihangerp.open.wei.model.Product;
-
-import com.alibaba.fastjson2.JSONObject;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.util.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,7 +104,7 @@ public class WeiGoodsApiHelper {
         if(status!=null){
             params.put("status",status);
         }
-        if(StringUtils.hasText(nextKey)){
+        if(StringUtils.isNotBlank(nextKey)){
             params.put("next_key",nextKey);
         }
 

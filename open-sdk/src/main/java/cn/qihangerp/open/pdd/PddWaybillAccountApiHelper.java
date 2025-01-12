@@ -6,10 +6,9 @@ import cn.qihangerp.open.common.HttpUtils;
 import cn.qihangerp.open.pdd.model.WaybillAccount;
 import cn.qihangerp.open.common.PDDSignGenerator;
 import com.alibaba.fastjson2.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class PddWaybillAccountApiHelper {
     public static ApiResultVo<WaybillAccount> pullWaybillBranchAccountList(String clientId, String clientSecret, String accessToken) {
         log.info("=======开始拉取PDD电子面单账号信息{}=========", LocalDateTime.now());
         String resultString = pullWaybillAccountList(clientId, clientSecret, accessToken);
-        if (!StringUtils.hasText(resultString))
+        if (!StringUtils.isNotBlank(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名发生错误");
 
         // 获取结果
