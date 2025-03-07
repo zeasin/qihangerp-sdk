@@ -17,8 +17,13 @@ import java.util.*;
 public class TaoRefundApiHelper {
     private static Logger log = LoggerFactory.getLogger(TaoRefundApiHelper.class);
 
-    private static final String REFUND_FIELDS = "refund_id, tid, title, buyer_nick, seller_nick, total_fee, status, created,num, refund_fee, oid, good_status," +
+    private static final String REFUND_FIELDS = "refund_id, tid, title, buyer_nick, seller_nick, total_fee, status, created" +
+            ",num, refund_fee, oid, good_status," +
             " company_name, sid, payment, reason, desc, has_good_return,num_iid, modified,outer_id, order_status,refund_phase,dispute_type,end_time,sku,combineItemInfo,sku_info,skuInfo,combine_item_info";
+    private static final String refund_fields = "refund_id, tid, title, buyer_nick, seller_nick, total_fee, status, created" +
+            ",num, refund_fee, oid, good_status, " +
+            "company_name, sid, payment, reason, desc, has_good_return" +
+            ", modified, order_status,refund_phase,dispute_type,end_time,new_sku,sku";
     /**
      * 拉取淘系退货单
      * @param
