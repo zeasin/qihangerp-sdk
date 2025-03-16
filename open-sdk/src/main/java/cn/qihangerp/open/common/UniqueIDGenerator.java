@@ -33,7 +33,7 @@ public class UniqueIDGenerator {
             // 在 Windows 上可以使用命令行查询硬盘序列号
             if (System.getProperty("os.name").startsWith("Windows")) {
                 return executeCommand("wmic diskdrive get serialnumber");
-            } else if (System.getProperty("os.name").contains("mac")) {
+            } else if (System.getProperty("os.name").contains("mac")|| System.getProperty("os.name").contains("darwin")) {
                 //  macOS 系统
                 return executeCommand("system_profiler SPSerialATADataType | grep 'Serial Number' | sed 's/.*Serial Number: //' | tr -d '[:space:]'");
             }

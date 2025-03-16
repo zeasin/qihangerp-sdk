@@ -1,6 +1,7 @@
 package cn.qihangerp.open.common;
 
 
+import cn.qihangerp.common.utils.ip.IpUtils;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;

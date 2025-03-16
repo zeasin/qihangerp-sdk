@@ -16,7 +16,6 @@
     <name>qihangerp-sdk</name>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>api</module>
         <module>common</module>
         <module>open-sdk</module>
     </modules>
