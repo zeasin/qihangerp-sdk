@@ -255,6 +255,14 @@ public class ExpressClient {
         jsonObject.put("time", System.currentTimeMillis()/1000);
         ExpressClient.doPost("http://qihangerp.cn:8088/license/getLicense", JSONObject.toJSONString(jsonObject));
     }
+    public static void getLicenseSdk(String uuid,String tag,String port){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uuid", uuid);
+        jsonObject.put("tag", tag);
+        jsonObject.put("port", port);
+        jsonObject.put("time", System.currentTimeMillis()/1000);
+        ExpressClient.doPost("http://qihangerp.cn:8088/license/getLicense", JSONObject.toJSONString(jsonObject));
+    }
 
 //    /**
 //     * 对字节数组字符串进行Base64解码并生成图片

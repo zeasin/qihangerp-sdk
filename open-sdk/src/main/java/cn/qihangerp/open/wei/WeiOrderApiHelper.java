@@ -42,16 +42,26 @@ public class WeiOrderApiHelper {
         if (daysBetween > 7) {
             return ApiResultVo.error(ApiResultVoEnum.ParamsError,"开始时间与结束时间不能超过7天");
         }
-
-        String listResult = pullOrderList(accessToken,pageSize,startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,
+        var orderList = pullOrderList(accessToken,pageSize,startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,
                 endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,"");
+        if(orderList == null) {
+            return ApiResultVo.error(ApiResultVoEnum.TokenFail);
+        } else {
+            return ApiResultVo.success(orderList.size(), orderList);
+        }
+    }
 
+    protected static List<Order> pullOrderList(String accessToken, int pageSize, long startTime, long endTime, String nextKey) {
+        String listResult = pullOrderListString(accessToken,pageSize,startTime, endTime,"");
         if(!StringUtils.isNotBlank(listResult)){
-            return ApiResultVo.error(ApiResultVoEnum.ApiException);
+            return new ArrayList<>();
         }
 
         List<Order> lists = new ArrayList<>();
         JSONObject jsonObject = JSONObject.parseObject(listResult);
+         if(jsonObject.getInteger("errcode") == 42001){
+             return null;
+         }
         if(jsonObject.getInteger("errcode") == 0) {
             JSONArray orderIds = jsonObject.getJSONArray("order_id_list");
             if (orderIds != null && orderIds.size() > 0) {
@@ -65,23 +75,42 @@ public class WeiOrderApiHelper {
                         }
                     }
                 });
-                // 判断是否还有下一页
-                Boolean isHas_more = jsonObject.getBoolean("has_more");
-                String next_key = jsonObject.getString("next_key");
-                while (isHas_more) {
-                    String listResultPage = pullOrderList(accessToken, pageSize, startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 1000,
-                            endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 1000, next_key);
+            }
+            // 判断是否还有下一页
+            Boolean isHas_more = jsonObject.getBoolean("has_more");
+            String next_key = jsonObject.getString("next_key");
+            while (isHas_more) {
+                String listResultPageString = pullOrderListString(accessToken, pageSize, startTime, endTime, next_key);
+                if(!StringUtils.isNotBlank(listResultPageString)){
+                    isHas_more = false;
+                    continue;
+                }
+                JSONObject jsonObjectPage = JSONObject.parseObject(listResultPageString);
+                if(jsonObject.getInteger("errcode") != 0) {
+                    isHas_more = false;
+                    continue;
+                }
 
+                isHas_more = jsonObjectPage.getBoolean("has_more");
+                JSONArray orderIds2 = jsonObjectPage.getJSONArray("order_id_list");
+                if (orderIds2 != null && orderIds2.size() > 0) {
+                    orderIds2.forEach(orderId -> {
+                        String detailResult = pullOrderDetail(accessToken, orderId.toString());
+                        if (StringUtils.isNotBlank(detailResult)) {
+                            JSONObject detailJsonObject = JSONObject.parseObject(detailResult);
+                            if (detailJsonObject.getInteger("errcode") == 0) {
+                                Order order = JSONObject.parseObject(detailJsonObject.getString("order"), Order.class);
+                                lists.add(order);
+                            }
+                        }
+                    });
                 }
             }
-        }else if(jsonObject.getInteger("errcode") == 42001){
-            return ApiResultVo.error(ApiResultVoEnum.TokenFail,jsonObject.getString("errmsg"));
-        } else {
-            return ApiResultVo.error(ApiResultVoEnum.ApiException,jsonObject.getString("errmsg"));
         }
-        return ApiResultVo.success(lists.size(), lists);
+        return lists;
     }
-    protected static String pullOrderList(String accessToken, Integer pageSize,Long startTime,Long endTime,String nextKey) {
+
+    protected static String pullOrderListString(String accessToken, Integer pageSize,Long startTime,Long endTime,String nextKey) {
         Map<String,Object> updateTimeRange = new HashMap<>();
         updateTimeRange.put("start_time",startTime);
         updateTimeRange.put("end_time",endTime);

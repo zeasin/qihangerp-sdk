@@ -9,6 +9,7 @@
 
     <groupId>cn.qihangerp.open</groupId>
     <artifactId>open-sdk</artifactId>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>open-sdk</name>
