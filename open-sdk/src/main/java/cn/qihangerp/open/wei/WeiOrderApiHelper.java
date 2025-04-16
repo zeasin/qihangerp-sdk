@@ -92,6 +92,7 @@ public class WeiOrderApiHelper {
                 }
 
                 isHas_more = jsonObjectPage.getBoolean("has_more");
+                next_key = jsonObjectPage.getString("next_key");
                 JSONArray orderIds2 = jsonObjectPage.getJSONArray("order_id_list");
                 if (orderIds2 != null && orderIds2.size() > 0) {
                     orderIds2.forEach(orderId -> {
