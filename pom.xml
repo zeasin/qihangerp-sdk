@@ -10,7 +10,7 @@
 
     <groupId>cn.qihangerp</groupId>
     <artifactId>qihangerp-sdk</artifactId>
-    <version>1.0</version>
+    <version>1.5.4</version>
     <packaging>pom</packaging>
 
     <name>qihangerp-sdk</name>
