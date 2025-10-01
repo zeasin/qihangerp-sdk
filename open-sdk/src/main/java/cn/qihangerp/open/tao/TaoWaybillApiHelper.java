@@ -1,7 +1,5 @@
 package cn.qihangerp.open.tao;
 
-
-
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.model.WaybillCloudPrint;
 import cn.qihangerp.open.tao.request.WaybillCloudPrintApplyNewRequest;
@@ -11,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.time.Instant;
@@ -23,7 +22,7 @@ public class TaoWaybillApiHelper {
     private static Logger log = LoggerFactory.getLogger(TaoWaybillApiHelper.class);
 
 
-    public static ApiResultVo<WaybillCloudPrint> waybillCloudPrintApplyNew(String appKey, String appSecret, String sessionKey, WaybillCloudPrintApplyNewRequest request)  {
+    public static ApiResultVo<WaybillCloudPrint> waybillCloudPrintApplyNew(String appKey, String appSecret, String sessionKey, WaybillCloudPrintApplyNewRequest request) throws IOException {
         log.info("=======开始TAO电子面单取号{}=========", LocalDateTime.now());
         String resultString = waybillCloudPrintApplyNewRequest(appKey, appSecret, sessionKey,JSONObject.toJSONString(request));
         if (!StringUtils.hasText(resultString))
@@ -60,7 +59,7 @@ public class TaoWaybillApiHelper {
         }
     }
 
-    protected static String waybillCloudPrintApplyNewRequest(String appKey, String appSecret, String sessionKey,String jsonParam)  {
+    protected static String waybillCloudPrintApplyNewRequest(String appKey, String appSecret, String sessionKey,String jsonParam) throws IOException {
         String url = "https://gw.api.taobao.com/router/rest";// 淘宝API的URL
 
         // 获取当前时间的ISO 8601格式
@@ -95,7 +94,8 @@ public class TaoWaybillApiHelper {
 //        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value, Charset.defaultCharset())));
         String urlP = joiner.toString();
         url = url + "?" + urlP;
-        String result = HttpUtils.doGet(url);
+//        String result = HttpUtils.doGet(url);
+        String result = OkHttpClientHelper.get(url);
 //        String result = HttpUtils.doGet(url);
 
 

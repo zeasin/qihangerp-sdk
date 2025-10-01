@@ -2,7 +2,7 @@ package cn.qihangerp.open.pdd;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import cn.qihangerp.open.pdd.model.WaybillCodeModule;
 import cn.qihangerp.open.pdd.request.WaybillCloudPrintApplyNewRequest;
 import cn.qihangerp.open.common.PDDSignGenerator;
@@ -10,6 +10,7 @@ import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.java.Log;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import java.util.Map;
 @Log
 public class PddWaybillApiHelper {
 
-    public static ApiResultVo<WaybillCodeModule> getWaybillCode(String clientId, String clientSecret, String accessToken, WaybillCloudPrintApplyNewRequest request) {
+    public static ApiResultVo<WaybillCodeModule> getWaybillCode(String clientId, String clientSecret, String accessToken, WaybillCloudPrintApplyNewRequest request) throws IOException {
         log.info("=======开始PDD电子面单取号{}=========");
         String resultString = getWaybillCode(clientId, clientSecret, accessToken,JSONObject.toJSONString(request));
         if (!StringUtils.hasText(resultString))
@@ -58,7 +59,7 @@ public class PddWaybillApiHelper {
         }
     }
 
-    protected static String getWaybillCode(String clientId, String clientSecret, String accessToken,String jsonParams) {
+    protected static String getWaybillCode(String clientId, String clientSecret, String accessToken,String jsonParams) throws IOException {
         String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
 
         Map<String, String> params = new HashMap<>();
@@ -82,7 +83,8 @@ public class PddWaybillApiHelper {
 //        String result = remoting.getWaybillAccount(jsonString);
 //        System.out.println(result);
 //        return result;
-        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
-        return stringHttpResponse.body();
+//        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+//        return stringHttpResponse.body();
+        return OkHttpClientHelper.post(url,jsonString);
     }
 }

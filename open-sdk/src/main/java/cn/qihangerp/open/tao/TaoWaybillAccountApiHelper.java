@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -17,7 +18,7 @@ public class TaoWaybillAccountApiHelper {
     private static Logger log = LoggerFactory.getLogger(TaoWaybillAccountApiHelper.class);
 
 
-    public static ApiResultVo<WaybillBranchAccountList> pullWaybillBranchAccountList(String appKey, String appSecret, String sessionKey) {
+    public static ApiResultVo<WaybillBranchAccountList> pullWaybillBranchAccountList(String appKey, String appSecret, String sessionKey) throws IOException {
         log.info("=======开始拉取TAO电子面单账号信息{}=========", LocalDateTime.now());
         String resultString = pullWaybillAccountList(appKey, appSecret, sessionKey);
         if (!StringUtils.hasText(resultString))
@@ -54,7 +55,7 @@ public class TaoWaybillAccountApiHelper {
         }
     }
 
-    protected static String pullWaybillAccountList(String appKey, String appSecret, String sessionKey) {
+    protected static String pullWaybillAccountList(String appKey, String appSecret, String sessionKey) throws IOException {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
         Map<String, String> params = new HashMap<>();
         params.put("app_key", appKey);
@@ -84,7 +85,8 @@ public class TaoWaybillAccountApiHelper {
 //        String result = remoting.getWaybillList();
 //
 //        return result;
-        String resultString = HttpUtils.doGet(url);
+//        String resultString = HttpUtils.doGet(url);
+        String resultString = OkHttpClientHelper.get(url);
         return resultString;
     }
 

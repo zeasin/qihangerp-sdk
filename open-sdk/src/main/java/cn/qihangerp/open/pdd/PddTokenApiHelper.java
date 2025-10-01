@@ -3,12 +3,13 @@ package cn.qihangerp.open.pdd;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import cn.qihangerp.open.pdd.model.Token;
 import cn.qihangerp.open.common.PDDSignGenerator;
 import com.alibaba.fastjson2.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class PddTokenApiHelper {
         return  url;
     }
 
-    public static ApiResultVo<Token> getToken(String clientId, String clientSecret, String code) {
+    public static ApiResultVo<Token> getToken(String clientId, String clientSecret, String code) throws IOException {
         String result = getTokenResult(clientId, clientSecret, code);
         if (!StringUtils.hasText(result)) return ApiResultVo.error(ApiResultVoEnum.ApiException, "接口请求错误");
 
@@ -41,7 +42,7 @@ public class PddTokenApiHelper {
         Token response = JSONObject.parseObject(jsonObject.getString("pop_auth_token_create_response"), Token.class);
         return ApiResultVo.success(response);
     }
-    protected static String getTokenResult(String clientId,String clientSecret,String code){
+    protected static String getTokenResult(String clientId,String clientSecret,String code) throws IOException {
         String url = "http://gw-api.pinduoduo.com/api/router"; // API的URL
         Map<String, String> params = new HashMap<>();
         params.put("type", "pdd.pop.auth.token.create");
@@ -61,7 +62,8 @@ public class PddTokenApiHelper {
         String jsonString = JSONObject.toJSONString(params);
 //        String result = remoting.getToken(jsonString);
 //        return result;
-        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
-        return stringHttpResponse.body();
+//        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+//        return stringHttpResponse.body();
+        return OkHttpClientHelper.post(url,jsonString);
     }
 }

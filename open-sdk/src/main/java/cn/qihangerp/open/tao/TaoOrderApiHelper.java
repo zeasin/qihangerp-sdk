@@ -10,6 +10,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +36,7 @@ public class TaoOrderApiHelper {
      * @param sessionKey
      * @return
      */
-    public static ApiResultVo<TaoOrderListResponse> pullTradeList(LocalDateTime startModified, LocalDateTime endModified , String appKey, String appSecret, String sessionKey) {
+    public static ApiResultVo<TaoOrderListResponse> pullTradeList(LocalDateTime startModified, LocalDateTime endModified , String appKey, String appSecret, String sessionKey) throws IOException {
         Integer pageNo = 1;
         String resultString = pullOrderList(startModified, endModified, pageNo, appKey, appSecret, sessionKey);
         if (!StringUtils.hasText(resultString))
@@ -107,7 +108,7 @@ public class TaoOrderApiHelper {
 
     }
 
-    protected static String pullOrderList(LocalDateTime startModified,LocalDateTime endModified,Integer pageNo,String appKey, String appSecret, String sessionKey){
+    protected static String pullOrderList(LocalDateTime startModified,LocalDateTime endModified,Integer pageNo,String appKey, String appSecret, String sessionKey) throws IOException {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //        String format = LocalDateTime.now().format(df);
@@ -140,7 +141,8 @@ public class TaoOrderApiHelper {
         // 调用接口
 //        TaoOrderApiService remoting = RemoteUtil.Remoting(url, TaoOrderApiService.class);
 //        return remoting.getOrderList();
-        String resultString = HttpUtils.doGet(url);
+//        String resultString = HttpUtils.doGet(url);
+        String resultString = OkHttpClientHelper.get(url);
         return resultString;
     }
 
@@ -153,7 +155,7 @@ public class TaoOrderApiHelper {
      * @return
      * @throws
      */
-    public static ApiResultVo<TaoOrderDetailResponse> pullOrderDetail(Long tid, String appKey, String appSecret, String sessionKey) {
+    public static ApiResultVo<TaoOrderDetailResponse> pullOrderDetail(Long tid, String appKey, String appSecret, String sessionKey) throws IOException {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
         Map<String, String> params = new HashMap<>();
         params.put("app_key", appKey);
@@ -180,7 +182,8 @@ public class TaoOrderApiHelper {
         // 调用接口
 //        TaoOrderApiService remoting = RemoteUtil.Remoting(url, TaoOrderApiService.class);
 //        String resultString = remoting.getOrderDetail();
-        String resultString = HttpUtils.doGet(url);
+//        String resultString = HttpUtils.doGet(url);
+        String resultString = OkHttpClientHelper.get(url);
 
         JSONObject result = JSONObject.parseObject(resultString);
         if(result.get("error_response") == null) {

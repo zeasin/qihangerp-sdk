@@ -1,17 +1,16 @@
 package cn.qihangerp.open.pdd;
 
-import cn.qihangerp.open.common.ApiResultVo;
-import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.*;
+import cn.qihangerp.open.dou.utils.ExpressClient;
 import cn.qihangerp.open.pdd.model.Goods;
 import cn.qihangerp.open.pdd.model.GoodsResultVo;
-import cn.qihangerp.open.common.PDDSignGenerator;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,7 @@ public class PddGoodsApiHelper {
      * @return
      */
 
-    public static ApiResultVo<GoodsResultVo> pullGoodsList(String clientId, String clientSecret, String accessToken, Integer pageIndex, Integer pageSize) {
+    public static ApiResultVo<GoodsResultVo> pullGoodsList(String clientId, String clientSecret, String accessToken, Integer pageIndex, Integer pageSize) throws IOException {
 
         String result = pullGoodsListResult(clientId, clientSecret, accessToken,pageIndex,pageSize);
         if (!StringUtils.hasText(result)) return ApiResultVo.error(ApiResultVoEnum.ApiException, "接口请求错误");
@@ -46,31 +45,36 @@ public class PddGoodsApiHelper {
         return ApiResultVo.success(new GoodsResultVo(totalItem,goodsList));
     }
 
-    protected static String pullGoodsListResult(String clientId, String clientSecret, String accessToken,Integer pageIndex,Integer pageSize) {
-        String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
-
-        Map<String, String> params = new HashMap<>();
+    protected static String pullGoodsListResult(String clientId, String clientSecret, String accessToken,Integer pageIndex,Integer pageSize) throws IOException {
+        String url = "https://gw-api.pinduoduo.com/api/router";
+        Map<String, String> params = new HashMap();
         params.put("type", "pdd.goods.list.get");
         params.put("client_id", clientId);
-        params.put("access_token",accessToken);
-        params.put("timestamp", System.currentTimeMillis()/1000 +"");
-        params.put("page", pageIndex+"");
-        params.put("page_size", pageSize+"");
+        params.put("access_token", accessToken);
+        long var10002 = System.currentTimeMillis();
+        params.put("timestamp", "" + var10002 / 1000L);
+        params.put("page", "" + pageIndex);
+        params.put("page_size", "" + pageSize);
 
         try {
             String sign = PDDSignGenerator.generateSign(params, clientSecret);
             params.put("sign", sign);
-        } catch (Exception e) {
-            return "";//签名错误
+        } catch (Exception var9) {
+            return "";
         }
 
         // 调用接口
+
 //        PddGoodsApiService remoting = RemoteUtil.Remoting(url, PddGoodsApiService.class);
         String jsonString = JSONObject.toJSONString(params);
 //        String result = remoting.getGoodsList(jsonString);
 //        return result;
-        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
-        return stringHttpResponse.body();
+//        HttpResponse<String> stringHttpResponse1 = ExpressClient.doPost(url, jsonString);
+//        String resultStr = stringHttpResponse1.body();
+        String post = OkHttpClientHelper.post(url, jsonString);
+        return post;
+//        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+//        return stringHttpResponse.body();
     }
 
 

@@ -7,13 +7,14 @@ import cn.qihangerp.open.kwai.model.KwaiGoodsItem;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.*;
 
 public class KwaiGoodsApiHelper {
 
 
-    public static ApiResultVo<KwaiGoodsItem> pullGoodsAll(){
+    public static ApiResultVo<KwaiGoodsItem> pullGoodsAll() throws IOException {
         //https://open.kwaixiaodian.com/oauth/authorize?appId=ks700872692254768517&redirect_uri=xxx&scope=xxx&response_type=code&state=xxx
         String appKey = "ks700872692254768517";
         String appSecret = "7Bmb4KSuo3SB9sX7JNUETQ";
@@ -52,7 +53,7 @@ public class KwaiGoodsApiHelper {
             return ApiResultVo.error(result.getInteger("result"), result.getString("error_msg"));
         }
     }
-    protected static JSONObject pullGoodsList(Integer pageNumber,String appKey ,String appSecret,String signSecret,String token ) {
+    protected static JSONObject pullGoodsList(Integer pageNumber,String appKey ,String appSecret,String signSecret,String token ) throws IOException {
         String serverUrl = "https://openapi.kwaixiaodian.com";
         Map<String, String> params = new HashMap<>();
         params.put("appkey", appKey);
@@ -87,7 +88,8 @@ public class KwaiGoodsApiHelper {
 //        JSONObject result = remoting.getGoodsList(params);
 //        return result;
 
-        String resultString = HttpUtils.doGet(serverUrl);
+//        String resultString = HttpUtils.doGet(serverUrl);
+        String resultString = OkHttpClientHelper.get(serverUrl);
         return JSONObject.parseObject(resultString);
     }
 

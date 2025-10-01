@@ -1,6 +1,6 @@
 package cn.qihangerp.open.wei;
 
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import java.net.http.HttpResponse;
@@ -86,8 +86,10 @@ public class WeiGoodsApiHelper {
         try {
             // 创建 ObjectMapper 实例
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-            return stringHttpResponse.body();
+            String url = ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+//            return stringHttpResponse.body();
+            return OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -112,8 +114,10 @@ public class WeiGoodsApiHelper {
         try {
             // 创建 ObjectMapper 实例
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsListApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-            return stringHttpResponse.body();
+            String url = ServerUrl.serverApiUrl + ServerUrl.goodsListApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsListApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+//            return stringHttpResponse.body();
+            return OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
         }catch (Exception e){
             e.printStackTrace();
             return null;

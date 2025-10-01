@@ -3,7 +3,7 @@ package cn.qihangerp.open.wei;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import cn.qihangerp.open.wei.model.AfterSaleOrder;
 import cn.qihangerp.open.wei.vo.RefundDetailVo;
 import com.alibaba.fastjson2.JSONArray;
@@ -101,8 +101,12 @@ public class WeiRefundApiHelper {
         try {
             // 创建 ObjectMapper 实例
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.refundListApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-            return stringHttpResponse.body();
+            String url =ServerUrl.serverApiUrl + ServerUrl.refundListApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.refundListApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+//            return stringHttpResponse.body();
+
+            return OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
+
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -114,8 +118,12 @@ public class WeiRefundApiHelper {
         try {
             // 创建 ObjectMapper 实例
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.refundDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-            return stringHttpResponse.body();
+            String url = ServerUrl.serverApiUrl + ServerUrl.refundDetailApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.refundDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+//            return stringHttpResponse.body();
+
+            return OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
+
         }catch (Exception e){
             e.printStackTrace();
             return null;

@@ -1,9 +1,8 @@
 package cn.qihangerp.open.wei;
 
-
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import cn.qihangerp.open.wei.response.WeiTokenResponse;
 import cn.qihangerp.open.wei.vo.ShopApiResultVo;
 import com.alibaba.fastjson2.JSONObject;
@@ -26,7 +25,8 @@ public class WeiTokenApiHelper {
         String result = "";
         try {
             String url = ServerUrl.serverApiUrl+ServerUrl.tokenApiUrl+"?grant_type=client_credential&appid="+appId+"&secret="+secret;
-            result = HttpUtils.doGet(url);
+//            result = HttpUtils.doGet(url);
+            result = OkHttpClientHelper.get(url);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -57,7 +57,8 @@ public class WeiTokenApiHelper {
         String url = ServerUrl.serverApiUrl+ServerUrl.shopBaseInfoApiUrl+"?access_token="+accessToken;
         String result = "";
         try {
-            result = HttpUtils.doGet(url);
+//            result = HttpUtils.doGet(url);
+            result = OkHttpClientHelper.get(url);
         }catch (Exception e){
             e.printStackTrace();
         }

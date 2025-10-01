@@ -1,6 +1,5 @@
 package cn.qihangerp.open.tao;
 
-
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.response.TaoRefundResponse;
 import com.alibaba.fastjson2.JSONArray;
@@ -8,7 +7,7 @@ import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +32,7 @@ public class TaoRefundApiHelper {
      * @return
      * @throws
      */
-    public static ApiResultVo<TaoRefundResponse> pullRefund(LocalDateTime startTime, LocalDateTime endTime, String appKey, String appSecret, String sessionKey)  {
+    public static ApiResultVo<TaoRefundResponse> pullRefund(LocalDateTime startTime, LocalDateTime endTime, String appKey, String appSecret, String sessionKey) throws IOException {
         int pageNo=1;
         String resultString = pullRefundList(startTime,endTime,pageNo, appKey, appSecret, sessionKey);
         if (!StringUtils.hasText(resultString))
@@ -90,7 +89,7 @@ public class TaoRefundApiHelper {
         }
     }
 
-    protected static String pullRefundList(LocalDateTime startModified,LocalDateTime endModified,Integer pageNo, String appKey, String appSecret, String sessionKey) {
+    protected static String pullRefundList(LocalDateTime startModified,LocalDateTime endModified,Integer pageNo, String appKey, String appSecret, String sessionKey) throws IOException {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
         Map<String, String> params = new HashMap<>();
@@ -122,7 +121,8 @@ public class TaoRefundApiHelper {
         // 调用接口
 //        TaoRefundApiService remoting = RemoteUtil.Remoting(url, TaoRefundApiService.class);
 //        String result = remoting.getRefundList();
-        String resultString = HttpUtils.doGet(url);
+//        String resultString = HttpUtils.doGet(url);
+        String resultString = OkHttpClientHelper.get(url);
         return resultString;
     }
 
@@ -149,7 +149,7 @@ public class TaoRefundApiHelper {
      * @param refundId
      * @return
      */
-    public static ApiResultVo<TaoRefundResponse> pullRefundDetail(Long refundId, String appKey, String appSecret, String sessionKey){
+    public static ApiResultVo<TaoRefundResponse> pullRefundDetail(Long refundId, String appKey, String appSecret, String sessionKey) throws IOException {
         String fields = "refund_id, alipay_no, tid, oid, buyer_nick, seller_nick, total_fee, status, created, refund_fee, good_status, has_good_return, " +
                 "payment, reason, desc,modified, num_iid, title, price, num, good_return_time, company_name, sid, address, shipping_type, refund_remind_timeout, refund_phase, " +
                 "refund_version, operation_contraint,order_status,sku_id, attribute, outer_id,dispute_type,sku,end_time";
@@ -181,7 +181,8 @@ public class TaoRefundApiHelper {
         // 调用接口
 //        TaoRefundApiService remoting = RemoteUtil.Remoting(url, TaoRefundApiService.class);
 //        String resultString = remoting.getRefundDetail();
-        String resultString = HttpUtils.doGet(url);
+//        String resultString = HttpUtils.doGet(url);
+        String resultString = OkHttpClientHelper.get(url);
         if (!StringUtils.hasText(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "接口调用错误");
         // 获取结果

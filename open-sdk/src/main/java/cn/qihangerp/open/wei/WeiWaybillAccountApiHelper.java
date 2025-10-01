@@ -2,7 +2,7 @@ package cn.qihangerp.open.wei;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import cn.qihangerp.open.wei.response.WeiTokenResponse;
 import cn.qihangerp.open.wei.vo.ewaybill.AccountGetVo;
 import cn.qihangerp.open.wei.vo.ewaybill.AccountVo;
@@ -36,8 +36,10 @@ public class WeiWaybillAccountApiHelper {
 //        var res = remoting.getDeliveryList(accessToken, apiBo);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-            DeliveryGetVo res = JSONObject.parseObject(stringHttpResponse.body(), DeliveryGetVo.class);
+            String url =ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> result = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+            String result= OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
+            DeliveryGetVo res = JSONObject.parseObject(result, DeliveryGetVo.class);
 
             if (res.getErrcode() == 0) {
                 // 数据
@@ -71,9 +73,10 @@ public class WeiWaybillAccountApiHelper {
 //        var res = remoting.getEwaybillAccount(accessToken, apiBo);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-
-            AccountGetVo res = JSONObject.parseObject(stringHttpResponse.body(), AccountGetVo.class);
+            String url = ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.goodsDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+            String result= OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
+            AccountGetVo res = JSONObject.parseObject(result, AccountGetVo.class);
             if (res.getErrcode() == 0) {
                 // 数据
                 return ApiResultVo.success(res.getAccount_list().size(), res.getAccount_list());

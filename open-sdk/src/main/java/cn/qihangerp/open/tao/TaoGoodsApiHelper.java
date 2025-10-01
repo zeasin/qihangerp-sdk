@@ -8,6 +8,8 @@ import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
@@ -19,7 +21,7 @@ public class TaoGoodsApiHelper {
             "has_showcase,modified,delist_time,postage_id,seller_cids,outer_id,sold_quantity,skus";
     private static final String SKU_FIELDS = "sku_id,iid,num_iid,properties,properties_name,quantity,price,outer_id,created,modified,status,sku_spec_id,barcode";
 
-    public static ApiResultVo<TaoGoodsResponse> pullGoodsList(String appKey, String appSecret, String sessionKey) {
+    public static ApiResultVo<TaoGoodsResponse> pullGoodsList(String appKey, String appSecret, String sessionKey) throws IOException {
         log.info("=======开始全量拉取商品数据{}=========", LocalDateTime.now());
         Integer pageNo = 1;
         String resultString = pullGoodsList(pageNo, appKey, appSecret, sessionKey);
@@ -97,7 +99,7 @@ public class TaoGoodsApiHelper {
         }
     }
 
-    protected static String pullGoodsList(Integer pageNo, String appKey, String appSecret, String sessionKey) {
+    protected static String pullGoodsList(Integer pageNo, String appKey, String appSecret, String sessionKey) throws IOException {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
         Map<String, String> params = new HashMap<>();
         params.put("app_key", appKey);
@@ -124,14 +126,14 @@ public class TaoGoodsApiHelper {
         url = url + "?" + urlP;
 
         // 调用接口
-        String result = HttpUtils.doGet(url);
-
+//        String result = HttpUtils.doGet(url);
+        String result = OkHttpClientHelper.get(url);
 //        TaoGoodsApiService remoting = RemoteUtil.Remoting(url, TaoGoodsApiService.class);
 //        String result = remoting.getGoodsList();
         return result;
     }
 
-    protected static ApiResultVo<TaoGoodsSkuResponse> pullSku(Long numIid, String appKey, String appSecret, String sessionKey) {
+    protected static ApiResultVo<TaoGoodsSkuResponse> pullSku(Long numIid, String appKey, String appSecret, String sessionKey) throws IOException {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
 
         Map<String, String> params = new HashMap<>();
@@ -160,7 +162,8 @@ public class TaoGoodsApiHelper {
         // 调用接口
 //        TaoGoodsApiService remoting = RemoteUtil.Remoting(url, TaoGoodsApiService.class);
 //        String resultString = remoting.getGoodsList();
-        String resultString = HttpUtils.doGet(url);
+//        String resultString = HttpUtils.doGet(url);
+        String resultString = OkHttpClientHelper.get(url);
         if (!StringUtils.isNotBlank(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名发生错误");
 

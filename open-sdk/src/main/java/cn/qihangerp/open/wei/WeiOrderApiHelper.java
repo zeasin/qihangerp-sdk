@@ -2,14 +2,12 @@ package cn.qihangerp.open.wei;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import cn.qihangerp.open.wei.model.Order;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
-
-import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
@@ -126,8 +124,10 @@ public class WeiOrderApiHelper {
         try {
             // 创建 ObjectMapper 实例
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.orderListApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-            return stringHttpResponse.body();
+            String url = ServerUrl.serverApiUrl + ServerUrl.orderListApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.orderListApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+//            return stringHttpResponse.body();
+            return OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -139,8 +139,10 @@ public class WeiOrderApiHelper {
         try {
             // 创建 ObjectMapper 实例
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.orderDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
-            return stringHttpResponse.body();
+            String url = ServerUrl.serverApiUrl + ServerUrl.orderDetailApiUrl + "?access_token=" + accessToken;
+//            HttpResponse<String> stringHttpResponse = HttpUtils.doPostJson(ServerUrl.serverApiUrl + ServerUrl.orderDetailApiUrl + "?access_token=" + accessToken, objectMapper.writeValueAsString(params));
+//            return stringHttpResponse.body();
+            return OkHttpClientHelper.post(url,objectMapper.writeValueAsString(params));
         }catch (Exception e){
             e.printStackTrace();
             return null;

@@ -2,7 +2,7 @@ package cn.qihangerp.open.pdd;
 
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
-import cn.qihangerp.open.common.HttpUtils;
+import cn.qihangerp.open.common.OkHttpClientHelper;
 import cn.qihangerp.open.pdd.model.Order;
 import cn.qihangerp.open.pdd.model.OrderListResultVo;
 import cn.qihangerp.open.common.PDDSignGenerator;
@@ -11,6 +11,8 @@ import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +31,7 @@ public class PddOrderApiHelper {
      * @return
      */
 
-    public static ApiResultVo<OrderListResultVo> pullOrderList(String clientId, String clientSecret, String accessToken, Integer startTime, Integer endTime, Integer pageIndex, Integer pageSize) {
+    public static ApiResultVo<OrderListResultVo> pullOrderList(String clientId, String clientSecret, String accessToken, Integer startTime, Integer endTime, Integer pageIndex, Integer pageSize) throws IOException {
 
         String result = pullOrderListResult(clientId, clientSecret, accessToken,startTime,endTime,pageIndex,pageSize);
         if (!StringUtils.hasText(result)) return ApiResultVo.error(ApiResultVoEnum.ApiException, "接口请求错误");
@@ -61,7 +63,7 @@ public class PddOrderApiHelper {
 
 
 
-    protected static String pullOrderListResult(String clientId, String clientSecret, String accessToken,Integer startTime, Integer endTime,Integer pageIndex,Integer pageSize) {
+    protected static String pullOrderListResult(String clientId, String clientSecret, String accessToken,Integer startTime, Integer endTime,Integer pageIndex,Integer pageSize) throws IOException {
         String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
 
         Map<String, String> params = new HashMap<>();
@@ -91,11 +93,12 @@ public class PddOrderApiHelper {
         String jsonString = JSONObject.toJSONString(params);
 //        String result = remoting.getOrderList(jsonString);
 //        return result;
-        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
-        return stringHttpResponse.body();
+//        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+//        return stringHttpResponse.body();
+        return OkHttpClientHelper.post(url,jsonString);
     }
 
-    protected static String pullOrderDetail(String clientId, String clientSecret, String accessToken,String orderSn) {
+    protected static String pullOrderDetail(String clientId, String clientSecret, String accessToken,String orderSn) throws IOException {
         String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
 
         Map<String, String> params = new HashMap<>();
@@ -119,7 +122,8 @@ public class PddOrderApiHelper {
         String jsonString = JSONObject.toJSONString(params);
 //        String result = remoting.getOrderList(jsonString);
 //        return result;
-        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
-        return stringHttpResponse.body();
+//        HttpResponse<String> stringHttpResponse = HttpUtils.doPost(url, jsonString);
+//        return stringHttpResponse.body();
+        return OkHttpClientHelper.post(url,jsonString);
     }
 }
