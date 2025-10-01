@@ -3,7 +3,7 @@ package cn.qihangerp.sdk.demo.request;
 import lombok.Data;
 
 @Data
-public class PddGoodsPullRequest {
+public class DouGoodsPullRequest {
     private String appKey;
     private String appSecret;
     private String accessToken;
