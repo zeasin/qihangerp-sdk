@@ -22,64 +22,6 @@ public class DouOrderApiHelper {
 
 
     public static ApiResultVo<Order> pullOrderList(Long startTime, Long endTime, Integer pageIndex, Integer pageSize, String appKey, String appSecret, String accessToken) {
-//        var shop = shopService.selectShopById(shopId);
-//        if(shop == null) return new ApiResult<>(ResultVoEnum.Fail.getIndex(), "店铺不存在！");
-//        String appKey = shop.getAppkey();
-//        String appSercet = shop.getAppSercet();
-//        if(!StringUtils.hasText(appKey) || !StringUtils.hasText(appSercet)) return new ApiResult<>(ResultVoEnum.Fail.getIndex(), "参数错误：请设置appkey和serecet");
-//        String appKey = "7005157746437834253";
-//        String appSercet="8104c8b8-9085-4a80-9248-629759b4f1a3";
-//        String appKey = "7344938657423296019";
-//        String appSercet="4e704882-832a-42e5-845f-6af991ce0ce2";
-
-//         method = "order.searchList";
-//        //设置appKey和appSecret，全局设置一次
-//        GlobalConfig.initAppKey(appKey);
-//        GlobalConfig.initAppSecret(appSercet);
-//        //入参为shopId
-//        AccessToken accessToken = AccessTokenBuilder.build(4463798L); //123456是shopId
-//        if(accessToken.getCode().equals("30002")){
-//            return new ApiResult<>(ResultVoEnum.Fail.getIndex(),accessToken.getMsg());
-//        }
-//        if(!accessToken.getCode().equals("10000")){
-//            return new ApiResult<>(ResultVoEnum.Fail.getIndex(),accessToken.getMsg());
-//        }
-//        int updCount =0;
-//        int addCount =0;
-//        int failCount = 0;
-//
-//        OrderSearchListRequest orderReq = new OrderSearchListRequest();
-//        OrderSearchListParam orderParam = new OrderSearchListParam();
-//        orderParam.setPage(1L);
-//        orderParam.setSize(20L);
-//        orderParam.setOrderAsc(false);
-//        orderParam.setCreateTimeStart(startTime);
-//        orderReq.setParam(orderParam);
-//        OrderSearchListResponse orderRes = null;
-//        try {
-//            orderRes = orderReq.execute(accessToken);
-//            if(orderRes.getCode().equals("10000")){
-//                if(orderRes.getData() == null || orderRes.getData().getTotal()  == 0) return new ApiResult<>(ResultVoEnum.DataError.getIndex(),"无订单可以更新");
-//
-//                // 循环处理订单
-//                for(var order:orderRes.getData().getShopOrderList()){
-////                    DcDouyinOrdersEntity douYinOrder= JsonUtil.strToObject(JSON.toJSONString(json),DcDouyinOrdersEntity.class);
-////                    var address = JsonUtil.strToObject(douYinOrder.getPostAddr(),DcDouyinAddressVo.class);
-////                    String postAddr=new StringBuilder(address.getProvince().getName()).append(address.getCity().getName()).append(address.getTown().getName()).append(address.getDetail()).toString();
-////                    douYinOrder.setPostAddr(postAddr);
-////
-////                    var result =  douyinOrderService.editDouYinOrder(douYinOrder);
-////                    if(result.getCode() == EnumResultVo.DataExist.getIndex()) updCount++;
-////                    else if(result.getCode() == EnumResultVo.Fail.getIndex()) failCount++;
-////                    else if(result.getCode() == EnumResultVo.SUCCESS.getIndex()) addCount++;
-//                }
-//            }else{
-//                return new ApiResult<>(ResultVoEnum.Fail.getIndex(),orderRes.getSubMsg());
-//            }
-//        }catch (Exception e){
-//            return new ApiResult<>(ResultVoEnum.Fail.getIndex(),e.getMessage());
-//        }
-
         String method = "order.searchList";
         LinkedHashMap<String, Object> jsonMap = new LinkedHashMap<>();
 //        jsonMap.put("end_time",DateUtil.dateToString(new Date(),"yyyy/MM/dd HH:mm:ss"));//截至时间
@@ -154,6 +96,62 @@ public class DouOrderApiHelper {
 //                    else if(result.getCode() == EnumResultVo.Fail.getIndex()) failCount++;
 //                    else if(result.getCode() == EnumResultVo.SUCCESS.getIndex()) addCount++;
 //                }
+
+                } else {
+                    return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "请求API错误：" + resultObj.getString("sub_msg"));
+                }
+
+            }else{
+                return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "接口服务器连接异常");
+            }
+        } catch (Exception e) {
+            return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "系统异常：" + e.getMessage());
+        }
+
+    }
+
+    public static ApiResultVo<Order> pullOrderDetail(String appKey, String appSecret, String accessToken,String shopOrderId) {
+        String method = "order.orderDetail";
+        LinkedHashMap<String, Object> jsonMap = new LinkedHashMap<>();
+        jsonMap.put("shop_order_id", shopOrderId);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.putAll(jsonMap);
+
+        String paramJson = jsonObject.toJSONString();
+        long timestamp = System.currentTimeMillis() / 1000;
+
+        String signStr = "app_key" + appKey + "method" + method + "param_json" + paramJson + "timestamp" + timestamp + "v" + "2";
+        signStr = appSecret + signStr + appSecret;
+
+        String sign = MD5Utils.MD5Encode(signStr);
+
+        String sendUrl = "https://openapi-fxg.jinritemai.com/order/orderDetail";
+
+        Map<String, String> params = new HashMap<>();
+        params.put("app_key", appKey);
+        params.put("method", method);
+        params.put("access_token", accessToken);
+//        params.put("param_json",paramJson);
+        params.put("timestamp", +timestamp + "");
+        params.put("v", "2");
+        params.put("sign", sign);
+
+        try {
+            String surl = sendUrl + "?" + HttpUtil.map2Url(params);
+            HttpResponse<String> response = ExpressClient.doPost(surl, paramJson);
+            if (response.statusCode() == 200) {
+//                String resultStr = response.body();
+                JSONObject resultObj = JSONObject.parseObject(response.body());
+                if (resultObj.getInteger("code") == 10000) {
+
+                    JSONObject data = resultObj.getJSONObject("data");
+                    if (data == null) return ApiResultVo.success(new Order());
+
+                    Order shopOrderDetail = data.getObject("shop_order_detail", Order.class);
+
+                    return ApiResultVo.success(shopOrderDetail);
+
 
                 } else {
                     return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "请求API错误：" + resultObj.getString("sub_msg"));

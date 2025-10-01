@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * SkuOrderListBean
@@ -151,7 +152,7 @@ public class OrderItem {
      * extraInfo
      */
     @JsonProperty("extra_info")
-    private ExtraInfoBean extraInfo;
+    private Map<String,String> extraInfo;
     /**
      * promotionPayAmountDetails
      */
