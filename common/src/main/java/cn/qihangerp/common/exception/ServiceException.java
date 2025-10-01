@@ -1,4 +1,4 @@
-package cn.qihangerp.common.common;
+package cn.qihangerp.common.exception;
 
 /**
  * 业务异常
