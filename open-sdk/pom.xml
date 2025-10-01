@@ -6,8 +6,6 @@
         <artifactId>qihangerp-sdk</artifactId>
         <version>1.10.1</version>
     </parent>
-
-    <groupId>cn.qihangerp.open</groupId>
     <artifactId>open-sdk</artifactId>
     <packaging>jar</packaging>
 
