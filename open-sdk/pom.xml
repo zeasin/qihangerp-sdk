@@ -2,14 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cn.qihangerp</groupId>
+        <groupId>cn.qihangerp.sdk</groupId>
         <artifactId>qihangerp-sdk</artifactId>
-        <version>1.0</version>
+        <version>1.10.1</version>
     </parent>
 
     <groupId>cn.qihangerp.open</groupId>
     <artifactId>open-sdk</artifactId>
-    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>open-sdk</name>
@@ -50,9 +49,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cn.qihangerp</groupId>
+            <groupId>cn.qihangerp.sdk</groupId>
             <artifactId>common</artifactId>
-            <version>1.0</version>
+            <version>${sdk.version}</version>
         </dependency>
     </dependencies>
 </project>

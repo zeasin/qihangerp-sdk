@@ -8,9 +8,9 @@
         <relativePath/>
       </parent>
 
-    <groupId>cn.qihangerp</groupId>
+    <groupId>cn.qihangerp.sdk</groupId>
     <artifactId>qihangerp-sdk</artifactId>
-    <version>1.5.4</version>
+    <version>1.10.1</version>
     <packaging>pom</packaging>
 
     <name>qihangerp-sdk</name>
@@ -25,6 +25,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <sdk.version>1.10.1</sdk.version>
     </properties>
 
     <dependencies>
