@@ -1,7 +1,5 @@
 package cn.qihangerp.open.tao;
 
-
-
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.response.TaoOrderDetailResponse;
 import cn.qihangerp.open.tao.model.TradeItem;
@@ -9,7 +7,6 @@ import cn.qihangerp.open.tao.response.TaoOrderListResponse;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.springframework.util.StringUtils;
-
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
@@ -155,7 +152,7 @@ public class TaoOrderApiHelper {
      * @return
      * @throws
      */
-    public static ApiResultVo<TaoOrderDetailResponse> pullOrderDetail(Long tid, String appKey, String appSecret, String sessionKey) throws IOException {
+    public static ApiResultVo<TaoOrderDetailResponse> pullOrderDetail(String tid, String appKey, String appSecret, String sessionKey) throws IOException {
         String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
         Map<String, String> params = new HashMap<>();
         params.put("app_key", appKey);
@@ -166,7 +163,7 @@ public class TaoOrderApiHelper {
         params.put("format", "json");
         params.put("sign_method", "md5");
         params.put("fields", ORDER_DETAIL_FIELDS);
-        params.put("tid", tid.toString());
+        params.put("tid", tid);
         try {
             String sign = SignUtil.signTopRequest(params, appSecret);
             params.put("sign", sign);
@@ -188,11 +185,12 @@ public class TaoOrderApiHelper {
         JSONObject result = JSONObject.parseObject(resultString);
         if(result.get("error_response") == null) {
             //没有错误
-            JSONObject dataResult1 = (JSONObject) result.get("trade_fullinfo_get_response");
+            JSONObject dataResult1 =result.getJSONObject("trade_fullinfo_get_response");
 
-            JSONObject orderResult = (JSONObject) dataResult1.get("trade");
+            JSONObject orderResult =  dataResult1.getJSONObject("trade");
             if (!orderResult.isEmpty()) {
                 TaoOrderDetailResponse detail = JSONObject.parseObject(orderResult.toJSONString(), TaoOrderDetailResponse.class);
+
                 return ApiResultVo.success(detail);
             }
         }else {
