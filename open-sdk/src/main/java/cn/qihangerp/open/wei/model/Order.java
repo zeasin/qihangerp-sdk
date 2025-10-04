@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class Order {
-   private Integer create_time;//秒级时间戳
-   private Integer update_time;//秒级时间戳
+   private Long create_time;//秒级时间戳
+   private Long update_time;//秒级时间戳
    private String order_id	;//订单号
    private Integer status	;//订单状态，枚举值见OrderStatus
    private String openid	;//买家身份标识
