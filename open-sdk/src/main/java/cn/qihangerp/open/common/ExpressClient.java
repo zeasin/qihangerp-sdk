@@ -249,12 +249,7 @@ public class ExpressClient {
         return stringBuffer;
     }
 
-    public static void getLicenseSdk(String uuid){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("uuid", uuid);
-        jsonObject.put("time", System.currentTimeMillis()/1000);
-        ExpressClient.doPost("http://qihangerp.cn:8088/license/getLicense", JSONObject.toJSONString(jsonObject));
-    }
+
     public static void getLicenseSdk(String uuid,String tag,String port){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("uuid", uuid);

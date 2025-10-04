@@ -12,6 +12,9 @@ public class UniqueIDGenerator {
         try {
 //            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
             NetworkInterface networkInterface = NetworkInterface.getByName("eth0");
+            if(networkInterface==null){
+                networkInterface = NetworkInterface.getByName("llw0");
+            }
             byte[] mac = networkInterface.getHardwareAddress();
             if (mac != null) {
                 StringBuilder sb = new StringBuilder();
@@ -19,10 +22,12 @@ public class UniqueIDGenerator {
                     sb.append(String.format("%02X", mac[i]));
                     if (i < mac.length - 1) sb.append("-");
                 }
+//                System.out.println(sb.toString());
                 return sb.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
+//            System.out.println(e.getMessage());
         }
         return "00-00-00-00-00-00"; // 默认返回一个固定值
     }
@@ -62,8 +67,8 @@ public class UniqueIDGenerator {
     // 生成唯一ID
     public static String generateUniqueID() {
         String macAddress = getMacAddress();
-        String diskSerialNumber = getDiskSerialNumber();
-
+//        String diskSerialNumber = getDiskSerialNumber();
+        String diskSerialNumber = "0000-0000";
         // 将硬件信息拼接，并使用 SHA-256 哈希算法生成唯一 ID
         String combinedInfo = macAddress + diskSerialNumber;
         return UUID.nameUUIDFromBytes(combinedInfo.getBytes()).toString();

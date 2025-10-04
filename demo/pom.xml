@@ -29,7 +29,7 @@
     </scm>
     <properties>
         <java.version>17</java.version>
-        <sdk.version>1.10.1</sdk.version>
+        <sdk.version>1.10.2</sdk.version>
     </properties>
     <dependencies>
         <dependency>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>cn.qihangerp.sdk</groupId>
             <artifactId>common</artifactId>
-            <version>${sdk.version}</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>cn.qihangerp.sdk</groupId>
