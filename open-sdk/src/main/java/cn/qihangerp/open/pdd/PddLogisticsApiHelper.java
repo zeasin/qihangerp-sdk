@@ -3,27 +3,27 @@ package cn.qihangerp.open.pdd;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.common.ApiResultVoEnum;
 import cn.qihangerp.open.common.OkHttpClientHelper;
+import cn.qihangerp.open.common.PDDSignGenerator;
+import cn.qihangerp.open.pdd.model.LogisticsCompany;
 import cn.qihangerp.open.pdd.model.WaybillCodeModule;
 import cn.qihangerp.open.pdd.request.WaybillCloudPrintApplyNewRequest;
-import cn.qihangerp.open.common.PDDSignGenerator;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class PddWaybillApiHelper {
+public class PddLogisticsApiHelper {
 
-    public static ApiResultVo<WaybillCodeModule> getWaybillCode(String clientId, String clientSecret, String accessToken, WaybillCloudPrintApplyNewRequest request) throws IOException {
-        log.info("=======开始PDD电子面单取号=========");
-        String resultString = getWaybillCode(clientId, clientSecret, accessToken,JSONObject.toJSONString(request));
+    public static ApiResultVo<LogisticsCompany> getLogisticsCompany(String clientId, String clientSecret) throws IOException {
+
+        String resultString = getLogisticsCompanyStr(clientId, clientSecret);
         if (!StringUtils.hasText(resultString))
             return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名发生错误");
 
@@ -31,10 +31,8 @@ public class PddWaybillApiHelper {
         JSONObject result = JSONObject.parseObject(resultString);
         if (result.get("error_response") == null) {
             //没有错误
-            JSONObject dataResult = (JSONObject) result.get("pdd_waybill_get_response");
-
-//            JSONArray list =  dataResult.getJSONObject("subscribtions").getJSONArray("waybill_apply_subscription_info");
-            List<WaybillCodeModule> list =  dataResult.getList("modules", WaybillCodeModule.class);
+            JSONObject dataResult =result.getJSONObject("logistics_companies_get_response");
+            List<LogisticsCompany> list =  dataResult.getList("logistics_companies", LogisticsCompany.class);
 
             if (list != null) {
                 return ApiResultVo.success(list.size(),list);
@@ -60,15 +58,14 @@ public class PddWaybillApiHelper {
         }
     }
 
-    protected static String getWaybillCode(String clientId, String clientSecret, String accessToken,String jsonParams) throws IOException {
+    protected static String getLogisticsCompanyStr(String clientId, String clientSecret) throws IOException {
         String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
 
         Map<String, String> params = new HashMap<>();
-        params.put("type", "pdd.waybill.get");
+        params.put("type", "pdd.logistics.companies.get");
         params.put("client_id", clientId);
-        params.put("access_token",accessToken);
         params.put("timestamp", System.currentTimeMillis()/1000 +"");
-        params.put("param_waybill_cloud_print_apply_new_request", jsonParams);
+
 
 
         try {

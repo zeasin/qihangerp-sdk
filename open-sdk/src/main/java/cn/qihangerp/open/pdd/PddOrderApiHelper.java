@@ -61,7 +61,21 @@ public class PddOrderApiHelper {
         return ApiResultVo.success(new OrderListResultVo(hasNext,orderList));
     }
 
+    public static ApiResultVo<Order> pullOrderDetail(String clientId, String clientSecret, String accessToken, String orderSn) throws IOException {
 
+        String result = pullOrderDetailStr(clientId, clientSecret, accessToken,orderSn);
+        if (!StringUtils.hasText(result)) return ApiResultVo.error(ApiResultVoEnum.ApiException, "接口请求错误");
+
+        JSONObject jsonObject = JSONObject.parseObject(result);
+        if(jsonObject.getString("error_response") !=null)
+            return ApiResultVo.error(ApiResultVoEnum.ApiException, jsonObject.getJSONObject("error_response").getString("error_msg"));
+
+        if(jsonObject.getJSONObject("order_info_get_response") == null) return ApiResultVo.error(ApiResultVoEnum.ApiException, "接口返回数据错误");
+
+        Order order = jsonObject.getJSONObject("order_info_get_response").getObject("order_info",Order.class);
+
+        return ApiResultVo.success(order);
+    }
 
     protected static String pullOrderListResult(String clientId, String clientSecret, String accessToken,Integer startTime, Integer endTime,Integer pageIndex,Integer pageSize) throws IOException {
         String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
@@ -98,7 +112,7 @@ public class PddOrderApiHelper {
         return OkHttpClientHelper.post(url,jsonString);
     }
 
-    protected static String pullOrderDetail(String clientId, String clientSecret, String accessToken,String orderSn) throws IOException {
+    protected static String pullOrderDetailStr(String clientId, String clientSecret, String accessToken,String orderSn) throws IOException {
         String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
 
         Map<String, String> params = new HashMap<>();

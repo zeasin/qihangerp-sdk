@@ -12,7 +12,7 @@ public class OrderItem {
      * goods_name
      */
     @JsonProperty("goods_name")
-    private String goods_name;
+    private String goodsName;
     /**
      * outer_goods_id
      */
