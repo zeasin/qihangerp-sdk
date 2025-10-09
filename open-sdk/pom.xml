@@ -6,7 +6,7 @@
         <artifactId>qihangerp-sdk</artifactId>
         <version>1.10.1</version>
     </parent>
-    <version>1.10.9.2</version>
+    <version>1.10.9.3</version>
     <artifactId>open-sdk</artifactId>
     <packaging>jar</packaging>
 
