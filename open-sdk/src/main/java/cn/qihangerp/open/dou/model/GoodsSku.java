@@ -24,7 +24,7 @@ public class GoodsSku {
     /**
      * id
      */
-    private long id;
+    private Long id;
     /**
      * isSuit
      */
@@ -39,12 +39,12 @@ public class GoodsSku {
      * openUserId
      */
     @com.fasterxml.jackson.annotation.JsonProperty("open_user_id")
-    private int openUserId;
+    private Long openUserId;
     /**
      * outSkuId
      */
     @com.fasterxml.jackson.annotation.JsonProperty("out_sku_id")
-    private int outSkuId;
+    private Long outSkuId;
     /**
      * preholdStepStockNum
      */
@@ -63,7 +63,7 @@ public class GoodsSku {
      * productId
      */
     @com.fasterxml.jackson.annotation.JsonProperty("product_id")
-    private long productId;
+    private Long productId;
     /**
      * productIdStr
      */
@@ -98,17 +98,17 @@ public class GoodsSku {
      * specDetailId1
      */
     @com.fasterxml.jackson.annotation.JsonProperty("spec_detail_id1")
-    private long specDetailId1;
+    private Long specDetailId1;
     /**
      * specDetailId2
      */
     @com.fasterxml.jackson.annotation.JsonProperty("spec_detail_id2")
-    private int specDetailId2;
+    private Long specDetailId2;
     /**
      * specDetailId3
      */
     @com.fasterxml.jackson.annotation.JsonProperty("spec_detail_id3")
-    private int specDetailId3;
+    private Long specDetailId3;
     /**
      * specDetailName1
      */
@@ -128,7 +128,7 @@ public class GoodsSku {
      * specId
      */
     @com.fasterxml.jackson.annotation.JsonProperty("spec_id")
-    private long specId;
+    private Long specId;
     /**
      * stepStockNum
      */

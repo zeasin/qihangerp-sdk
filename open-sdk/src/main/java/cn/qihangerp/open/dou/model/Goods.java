@@ -15,12 +15,12 @@ public class Goods {
      * sellNum
      */
     @JsonProperty("sell_num")
-    private int sellNum;
+    private Integer sellNum;
     /**
      * discountPrice
      */
     @JsonProperty("discount_price")
-    private int discountPrice;
+    private Integer discountPrice;
     /**
      * img
      */
@@ -33,7 +33,7 @@ public class Goods {
      * createTime
      */
     @JsonProperty("create_time")
-    private int createTime;
+    private Integer createTime;
     /**
      * isPackageProduct
      */
@@ -43,17 +43,17 @@ public class Goods {
      * marketPrice
      */
     @JsonProperty("market_price")
-    private int marketPrice;
+    private Integer marketPrice;
     /**
      * payPype
      */
     @JsonProperty("pay_type")
-    private int payPype;
+    private Integer payPype;
     /**
      * outProductId
      */
     @JsonProperty("out_product_id")
-    private int outProductId;
+    private Long outProductId;
     /**
      * extra
      */
@@ -66,22 +66,22 @@ public class Goods {
     /**
      * status
      */
-    private int status;
+    private Integer status;
     /**
      * productType
      */
     @JsonProperty("product_type")
-    private int productType;
+    private Integer productType;
     /**
      * specId
      */
     @JsonProperty("spec_id")
-    private long specId;
+    private Long specId;
     /**
      * updateTime
      */
     @JsonProperty("update_time")
-    private int updateTime;
+    private Integer updateTime;
     /**
      * description
      */
@@ -90,17 +90,17 @@ public class Goods {
      * productId
      */
     @JsonProperty("product_id")
-    private long productId;
+    private Long productId;
     /**
      * checkStatus
      */
     @JsonProperty("check_status")
-    private int checkStatus;
+    private Integer checkStatus;
     /**
      * cosRatio
      */
     @JsonProperty("cos_ratio")
-    private int cosRatio;
+    private Integer cosRatio;
     /**
      * outerProductId
      */
@@ -122,19 +122,19 @@ public class Goods {
         /**
          * first_cid
          */
-        private int first_cid;
+        private Integer first_cid;
         /**
          * second_cid
          */
-        private int second_cid;
+        private Integer second_cid;
         /**
          * third_cid
          */
-        private int third_cid;
+        private Integer third_cid;
         /**
          * fourth_cid
          */
-        private int fourth_cid;
+        private Integer fourth_cid;
         /**
          * first_cname
          */

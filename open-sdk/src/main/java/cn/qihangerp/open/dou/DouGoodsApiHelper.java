@@ -62,6 +62,8 @@ public class DouGoodsApiHelper {
                             ApiResultVo<GoodsSku> goodsSku = getGoodsSku(appKey, appSercet, accessToken, g.getProductId());
                             if(goodsSku.getCode()==0){
                                 g.setSkuList(goodsSku.getList());
+                            }else{
+                                return ApiResultVo.error(goodsSku.getMsg());
                             }
                         }
                     }

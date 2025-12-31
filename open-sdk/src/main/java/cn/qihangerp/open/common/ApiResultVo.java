@@ -118,6 +118,13 @@ public class ApiResultVo<T> {
         result.setMsg("SUCCESS");
         return result;
     }
+    public static <T> ApiResultVo<T> error(String msg)
+    {
+        ApiResultVo<T> result = new ApiResultVo<>();
+        result.setCode(ApiResultVoEnum.ApiException.getIndex());
+        result.setMsg(msg);
+        return result;
+    }
 
     public static <T> ApiResultVo<T> error(ApiResultVoEnum apiResultVoEnum)
     {
