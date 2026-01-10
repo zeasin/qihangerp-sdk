@@ -1,22 +1,16 @@
 package cn.qihangerp.sdk.demo.controller.pdd;
 
-import cn.qihangerp.common.common.AjaxResult;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.pdd.PddGoodsApiHelper;
 import cn.qihangerp.open.pdd.model.GoodsResultVo;
 import cn.qihangerp.sdk.demo.request.PddGoodsPullRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @RequestMapping("/pdd/goods")
 @RestController

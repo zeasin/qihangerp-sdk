@@ -74,6 +74,34 @@ public class TaoOrderListResponse {
     private String total_fee;
     private String type;
 
+    private String seller_memo;
+    private String buyer_memo;
+    private String buyer_message;
+
+    public String getSeller_memo() {
+        return seller_memo;
+    }
+
+    public void setSeller_memo(String seller_memo) {
+        this.seller_memo = seller_memo;
+    }
+
+    public String getBuyer_memo() {
+        return buyer_memo;
+    }
+
+    public void setBuyer_memo(String buyer_memo) {
+        this.buyer_memo = buyer_memo;
+    }
+
+    public String getBuyer_message() {
+        return buyer_message;
+    }
+
+    public void setBuyer_message(String buyer_message) {
+        this.buyer_message = buyer_message;
+    }
+
     public String getAdjust_fee() {
         return adjust_fee;
     }

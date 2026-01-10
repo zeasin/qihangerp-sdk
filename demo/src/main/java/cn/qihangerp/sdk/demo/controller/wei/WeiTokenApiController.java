@@ -1,10 +1,9 @@
 package cn.qihangerp.sdk.demo.controller.wei;
 
-import cn.qihangerp.common.common.AjaxResult;
-import cn.qihangerp.common.enums.HttpStatus;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.wei.WeiTokenApiHelper;
 import cn.qihangerp.open.wei.response.WeiTokenResponse;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.sdk.demo.request.DouTokenGetRequest;
 import cn.qihangerp.sdk.demo.request.WeiTokenGetRequest;
 import lombok.AllArgsConstructor;

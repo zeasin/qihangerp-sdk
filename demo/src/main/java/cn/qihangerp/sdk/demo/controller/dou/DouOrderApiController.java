@@ -1,6 +1,6 @@
 package cn.qihangerp.sdk.demo.controller.dou;
 
-import cn.qihangerp.common.common.AjaxResult;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.dou.DouGoodsApiHelper;
 import cn.qihangerp.open.dou.DouOrderApiHelper;

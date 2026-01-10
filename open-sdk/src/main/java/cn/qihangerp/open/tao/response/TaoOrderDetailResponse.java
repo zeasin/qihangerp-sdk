@@ -96,6 +96,12 @@ public class TaoOrderDetailResponse {
     private String type;
     @JsonProperty("you_xiang")
     private Boolean youXiang;
+    @JsonProperty("seller_memo")
+    private String sellerMemo;
+    @JsonProperty("buyer_memo")
+    private String buyerMemo;
+    @JsonProperty("buyer_message")
+    private String buyerMessage;
 
     @NoArgsConstructor
     @Data

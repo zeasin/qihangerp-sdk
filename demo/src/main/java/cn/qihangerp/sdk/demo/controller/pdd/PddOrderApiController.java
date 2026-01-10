@@ -1,6 +1,6 @@
 package cn.qihangerp.sdk.demo.controller.pdd;
 
-import cn.qihangerp.common.common.AjaxResult;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.pdd.PddGoodsApiHelper;
 import cn.qihangerp.open.pdd.model.GoodsResultVo;

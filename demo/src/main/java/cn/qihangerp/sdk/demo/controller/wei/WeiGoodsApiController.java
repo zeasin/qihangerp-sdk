@@ -1,7 +1,6 @@
 package cn.qihangerp.sdk.demo.controller.wei;
 
-import cn.qihangerp.common.common.AjaxResult;
-import cn.qihangerp.open.wei.WeiGoodsApiHelper;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.open.wei.WeiGoodsApiService;
 import cn.qihangerp.sdk.demo.request.WeiGoodsPullRequest;
 import lombok.AllArgsConstructor;

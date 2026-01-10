@@ -1,12 +1,9 @@
 package cn.qihangerp.sdk.demo.controller.tao;
 
-import cn.qihangerp.common.common.AjaxResult;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.open.common.ApiResultVo;
-import cn.qihangerp.open.tao.TaoGoodsApiHelper;
 import cn.qihangerp.open.tao.TaoOrderApiHelper;
-import cn.qihangerp.open.tao.response.TaoGoodsResponse;
 import cn.qihangerp.open.tao.response.TaoOrderDetailResponse;
-import cn.qihangerp.sdk.demo.request.TaoGoodsPullRequest;
 import cn.qihangerp.sdk.demo.request.TaoOrderDetailRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

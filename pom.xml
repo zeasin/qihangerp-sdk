@@ -10,13 +10,13 @@
 
     <groupId>cn.qihangerp.sdk</groupId>
     <artifactId>qihangerp-sdk</artifactId>
-    <version>2.1.1</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <name>qihangerp-sdk</name>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>common</module>
+<!--        <module>common</module>-->
         <module>open-sdk</module>
         <module>demo</module>
     </modules>
@@ -26,7 +26,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <sdk.version>2.1.1</sdk.version>
     </properties>
 
     <dependencies>

@@ -1,21 +1,15 @@
 package cn.qihangerp.sdk.demo.controller.dou;
 
-import cn.qihangerp.common.common.AjaxResult;
-import cn.qihangerp.common.enums.HttpStatus;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.dou.DouGoodsApiHelper;
 import cn.qihangerp.open.dou.model.GoodsListResultVo;
 import cn.qihangerp.sdk.demo.request.DouGoodsPullRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 @RequestMapping("/dou/goods")

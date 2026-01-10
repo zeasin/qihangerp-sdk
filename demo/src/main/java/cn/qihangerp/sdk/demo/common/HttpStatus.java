@@ -1,4 +1,4 @@
-package cn.qihangerp.common.enums;//package com.qihang.oms.api.common;
+package cn.qihangerp.sdk.demo.common;//package com.qihang.oms.api.common;
 
 /**
  * 返回状态码

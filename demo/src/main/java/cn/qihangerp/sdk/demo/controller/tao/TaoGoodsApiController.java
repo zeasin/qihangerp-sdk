@@ -1,24 +1,16 @@
 package cn.qihangerp.sdk.demo.controller.tao;
 
-import cn.qihangerp.common.common.AjaxResult;
-import cn.qihangerp.common.enums.HttpStatus;
-import cn.qihangerp.common.utils.StringUtils;
+import cn.qihangerp.sdk.demo.common.AjaxResult;
 import cn.qihangerp.open.common.ApiResultVo;
 import cn.qihangerp.open.tao.TaoGoodsApiHelper;
 import cn.qihangerp.open.tao.response.TaoGoodsResponse;
 import cn.qihangerp.sdk.demo.request.TaoGoodsPullRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @RequestMapping("/tao/goods")
