@@ -52,7 +52,7 @@ public class AfterSale {
      * goodsId
      */
     @JsonProperty("goods_id")
-    private int goodsId;
+    private Long goodsId;
     /**
      * goodsName
      */
@@ -72,7 +72,7 @@ public class AfterSale {
      * id
      */
     @JsonProperty("id")
-    private int id;
+    private Long id;
     /**
      * orderAmount
      */
