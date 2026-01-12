@@ -88,5 +88,34 @@ public class PddRefundApiHelper {
 //        return stringHttpResponse.body();
         return OkHttpClientHelper.post(url,jsonString);
     }
+    public static ApiResultVo<AfterSale>  pullRefundDetil(String clientId, String clientSecret, String accessToken, String afterSalesId,String orderSn) throws IOException {
+        String result = pullRefundDetailResult(clientId, clientSecret, accessToken, afterSalesId, orderSn);
+        if (!StringUtils.hasText(result)) return ApiResultVo.error(ApiResultVoEnum.ApiException, "接口请求错误");
+        AfterSale afterSale = JSONObject.parseObject(result, AfterSale.class);
+        return ApiResultVo.success(afterSale);
+    }
+    protected static String pullRefundDetailResult(String clientId, String clientSecret, String accessToken,String afterSalesId,String orderSn) throws IOException {
+        String url = "https://gw-api.pinduoduo.com/api/router"; // API的URL
+
+        Map<String, String> params = new HashMap<>();
+        params.put("type", "pdd.refund.information.get");
+        params.put("client_id", clientId);
+        params.put("access_token",accessToken);
+        params.put("timestamp", System.currentTimeMillis()/1000 +"");
+
+        // 主体字段
+        params.put("after_sales_id", afterSalesId);
+        params.put("order_sn", orderSn);
+
+        try {
+            String sign = PDDSignGenerator.generateSign(params, clientSecret);
+            params.put("sign", sign);
+        } catch (Exception e) {
+            return "";//签名错误
+        }
+        // 调用接口
+        String jsonString = JSONObject.toJSONString(params);
+        return OkHttpClientHelper.post(url,jsonString);
+    }
 
 }

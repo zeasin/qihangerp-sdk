@@ -62,7 +62,7 @@ public class AfterSale {
      * goodsNumber
      */
     @JsonProperty("goods_number")
-    private String goodsNumber;
+    private Integer goodsNumber;
     /**
      * goodsPrice
      */
@@ -77,7 +77,7 @@ public class AfterSale {
      * orderAmount
      */
     @JsonProperty("order_amount")
-    private String orderAmount;
+    private Double orderAmount;
     /**
      * orderSn
      */
@@ -97,7 +97,7 @@ public class AfterSale {
      * refundAmount
      */
     @JsonProperty("refund_amount")
-    private String refundAmount;
+    private Double refundAmount;
     /**
      * refundOperatorRole
      */
@@ -128,6 +128,8 @@ public class AfterSale {
      */
     @JsonProperty("tracking_number")
     private String trackingNumber;
+    @JsonProperty("express_no")
+    private String expressNo;
     /**
      * updatedTime
      */
