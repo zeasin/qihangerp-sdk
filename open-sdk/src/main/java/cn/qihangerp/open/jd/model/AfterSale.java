@@ -22,7 +22,7 @@ public class AfterSale {
      * applyTime
      */
     @JsonProperty("applyTime")
-    private Long applyTime;
+    private String applyTime;
     /**
      * approveName
      */
@@ -137,7 +137,7 @@ public class AfterSale {
      * skuId
      */
     @JsonProperty("skuId")
-    private long skuId;
+    private Long skuId;
     /**
      * skuType
      */
@@ -157,7 +157,7 @@ public class AfterSale {
      * updateDate
      */
     @JsonProperty("updateDate")
-    private long updateDate;
+    private String updateDate;
     /**
      * wareName
      */
