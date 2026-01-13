@@ -140,4 +140,6 @@ public class AfterSale {
      */
     @JsonProperty("user_shipping_status")
     private String userShippingStatus;
+    @JsonProperty("shipping_status")
+    private String shippingStatus;
 }
