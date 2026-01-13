@@ -34,7 +34,7 @@ public class AfterSaleOrder implements Serializable {
     /**
      * 商品
      */
-    private JSONObject product_info;
+    private ProductInfo product_info;
 
     /**
      * 退款详情
@@ -44,7 +44,7 @@ public class AfterSaleOrder implements Serializable {
     /**
      * 用户退货信息
      */
-    private JSONObject return_info;
+    private ReturnInfo return_info;
 
 
     /**
@@ -87,7 +87,29 @@ public class AfterSaleOrder implements Serializable {
     /**
      * detail json
      */
-    private JSONObject details;
+    private AfterSaleOrderDetail details;
+    @Data
+    public static class AfterSaleOrderDetail{
+        private String desc;
+        private Boolean receive_product;
+        private String tel_number;
+        private JSONObject media_infos;
+    }
+    @Data
+    public static class ReturnInfo{
+        private String waybill_id;
+        private String delivery_id;
+        private String delivery_name;
+    }
 
+    @Data
+    public static class ProductInfo{
+        private String product_id;
+        private String sku_id;
+        private Integer count;
+        private Boolean fast_refund;
+        private String sku_code;
+        private JSONObject gift_product_list;
+    }
     private static final long serialVersionUID = 1L;
 }
