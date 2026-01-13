@@ -63,6 +63,10 @@ public class TaoRefundResponse {
     private String sellerNick;
     @JsonProperty("sku")
     private String sku;
+    @JsonProperty("sid")
+    private String sid;
+    @JsonProperty("company_name")
+    private String companyName;
     @JsonProperty("status")
     private String status;
     @JsonProperty("tid")

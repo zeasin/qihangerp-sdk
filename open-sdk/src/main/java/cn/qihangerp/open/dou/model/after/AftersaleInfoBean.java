@@ -41,7 +41,7 @@ public class AftersaleInfoBean {
      * refundAmount
      */
     @JsonProperty("refund_amount")
-    private int refundAmount;
+    private Integer refundAmount;
     /**
      * returnLogisticsCode
      */
@@ -76,7 +76,7 @@ public class AftersaleInfoBean {
      * refundPostAmount
      */
     @JsonProperty("refund_post_amount")
-    private int refundPostAmount;
+    private Integer refundPostAmount;
     /**
      * aftersaleId
      */
@@ -96,7 +96,7 @@ public class AftersaleInfoBean {
      * returnPromotionAmount
      */
     @JsonProperty("return_promotion_amount")
-    private int returnPromotionAmount;
+    private Integer returnPromotionAmount;
     /**
      * aftersaleSubType
      */
@@ -131,7 +131,7 @@ public class AftersaleInfoBean {
      * createTime
      */
     @JsonProperty("create_time")
-    private int createTime;
+    private Integer createTime;
     /**
      * aftersaleNum
      */
@@ -146,7 +146,7 @@ public class AftersaleInfoBean {
      * refundTaxAmount
      */
     @JsonProperty("refund_tax_amount")
-    private int refundTaxAmount;
+    private Integer refundTaxAmount;
     /**
      * arbitrateBlame
      */
@@ -171,12 +171,12 @@ public class AftersaleInfoBean {
      * updateTime
      */
     @JsonProperty("update_time")
-    private int updateTime;
+    private Integer updateTime;
     /**
      * applyTime
      */
     @JsonProperty("apply_time")
-    private int applyTime;
+    private Integer applyTime;
     /**
      * leftUrgeSmsCount
      */

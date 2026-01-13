@@ -16,7 +16,7 @@ public class RelatedOrderInfoBean {
      * payAmount
      */
     @JsonProperty("pay_amount")
-    private int payAmount;
+    private Integer payAmount;
     /**
      * shopSkuCode
      */
@@ -31,7 +31,7 @@ public class RelatedOrderInfoBean {
      * aftersalePayAmount
      */
     @JsonProperty("aftersale_pay_amount")
-    private int aftersalePayAmount;
+    private Integer aftersalePayAmount;
     /**
      * aftersaleItemNum
      */
@@ -41,12 +41,12 @@ public class RelatedOrderInfoBean {
      * postAmount
      */
     @JsonProperty("post_amount")
-    private int postAmount;
+    private Integer postAmount;
     /**
      * taxAmount
      */
     @JsonProperty("tax_amount")
-    private int taxAmount;
+    private Integer taxAmount;
     /**
      * productName
      */
@@ -56,7 +56,7 @@ public class RelatedOrderInfoBean {
      * productId
      */
     @JsonProperty("product_id")
-    private long productId;
+    private Long productId;
     /**
      * productImage
      */
@@ -71,7 +71,7 @@ public class RelatedOrderInfoBean {
      * createTime
      */
     @JsonProperty("create_time")
-    private int createTime;
+    private Integer createTime;
     /**
      * isOverseaOrder
      */
@@ -81,17 +81,17 @@ public class RelatedOrderInfoBean {
      * aftersalePostAmount
      */
     @JsonProperty("aftersale_post_amount")
-    private int aftersalePostAmount;
+    private Integer aftersalePostAmount;
     /**
      * promotionPayAmount
      */
     @JsonProperty("promotion_pay_amount")
-    private int promotionPayAmount;
+    private Integer promotionPayAmount;
     /**
      * price
      */
     @JsonProperty("price")
-    private int price;
+    private Integer price;
     /**
      * logisticsCompanyName
      */
