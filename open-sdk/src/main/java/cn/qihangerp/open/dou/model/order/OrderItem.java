@@ -17,12 +17,12 @@ public class OrderItem {
      * shopCostAmount
      */
     @JsonProperty("shop_cost_amount")
-    private int shopCostAmount;
+    private Integer shopCostAmount;
     /**
      * confirmReceiptTime
      */
     @JsonProperty("confirm_receipt_time")
-    private int confirmReceiptTime;
+    private Integer confirmReceiptTime;
     /**
      * productIdStr
      */
@@ -47,17 +47,17 @@ public class OrderItem {
      * orderAmount
      */
     @JsonProperty("order_amount")
-    private int orderAmount;
+    private Integer orderAmount;
     /**
      * promotionPlatformAmount
      */
     @JsonProperty("promotion_platform_amount")
-    private int promotionPlatformAmount;
+    private Integer promotionPlatformAmount;
     /**
      * sumAmount
      */
     @JsonProperty("sum_amount")
-    private int sumAmount;
+    private Integer sumAmount;
     /**
      * accountList
      */
@@ -107,7 +107,7 @@ public class OrderItem {
      * createTime
      */
     @JsonProperty("create_time")
-    private int createTime;
+    private Integer createTime;
     /**
      * bTypeDesc
      */
@@ -127,7 +127,7 @@ public class OrderItem {
      * fourthCid
      */
     @JsonProperty("fourth_cid")
-    private int fourthCid;
+    private Long fourthCid;
     /**
      * outSkuId
      */
@@ -147,7 +147,7 @@ public class OrderItem {
      * taxAmount
      */
     @JsonProperty("tax_amount")
-    private int taxAmount;
+    private Integer taxAmount;
     /**
      * extraInfo
      */
@@ -162,7 +162,7 @@ public class OrderItem {
      * payAmount
      */
     @JsonProperty("pay_amount")
-    private int payAmount;
+    private Integer payAmount;
     /**
      * preSaleType
      */
@@ -182,17 +182,17 @@ public class OrderItem {
      * updateTime
      */
     @JsonProperty("update_time")
-    private int updateTime;
+    private Integer updateTime;
     /**
      * thirdCid
      */
     @JsonProperty("third_cid")
-    private int thirdCid;
+    private Long thirdCid;
     /**
      * logisticsReceiptTime
      */
     @JsonProperty("logistics_receipt_time")
-    private int logisticsReceiptTime;
+    private Integer logisticsReceiptTime;
     /**
      * inventoryList
      */
@@ -212,7 +212,7 @@ public class OrderItem {
      * modifyPostAmount
      */
     @JsonProperty("modify_post_amount")
-    private int modifyPostAmount;
+    private Integer modifyPostAmount;
     /**
      * skuOrderTagUi
      */
@@ -227,7 +227,7 @@ public class OrderItem {
      * authorId
      */
     @JsonProperty("author_id")
-    private int authorId;
+    private Long authorId;
     /**
      * authorName
      */
@@ -242,12 +242,12 @@ public class OrderItem {
      * promotionRedpackTalentAmount
      */
     @JsonProperty("promotion_redpack_talent_amount")
-    private int promotionRedpackTalentAmount;
+    private Integer promotionRedpackTalentAmount;
     /**
      * goodsPrice
      */
     @JsonProperty("goods_price")
-    private int goodsPrice;
+    private Integer goodsPrice;
     /**
      * orderTypeDesc
      */
@@ -262,12 +262,12 @@ public class OrderItem {
      * roomId
      */
     @JsonProperty("room_id")
-    private int roomId;
+    private Long roomId;
     /**
      * promotionPayAmount
      */
     @JsonProperty("promotion_pay_amount")
-    private int promotionPayAmount;
+    private Integer promotionPayAmount;
     /**
      * code
      */
@@ -282,7 +282,7 @@ public class OrderItem {
      * promotionShopAmount
      */
     @JsonProperty("promotion_shop_amount")
-    private int promotionShopAmount;
+    private Integer promotionShopAmount;
     /**
      * supplierId
      */
@@ -297,7 +297,7 @@ public class OrderItem {
      * payTime
      */
     @JsonProperty("pay_time")
-    private int payTime;
+    private Integer payTime;
     /**
      * themeType
      */
@@ -317,7 +317,7 @@ public class OrderItem {
      * secondCid
      */
     @JsonProperty("second_cid")
-    private int secondCid;
+    private Long secondCid;
     /**
      * outWarehouseIds
      */
@@ -327,7 +327,7 @@ public class OrderItem {
      * biz
      */
     @JsonProperty("biz")
-    private int biz;
+    private Long biz;
     /**
      * orderStatus
      */
@@ -337,12 +337,12 @@ public class OrderItem {
      * appId
      */
     @JsonProperty("app_id")
-    private int appId;
+    private Long appId;
     /**
      * pageId
      */
     @JsonProperty("page_id")
-    private int pageId;
+    private Long pageId;
     /**
      * needSerialNumber
      */
@@ -352,7 +352,7 @@ public class OrderItem {
      * skuId
      */
     @JsonProperty("sku_id")
-    private long skuId;
+    private Long skuId;
     /**
      * outProductId
      */
@@ -362,7 +362,7 @@ public class OrderItem {
      * authorCostAmount
      */
     @JsonProperty("author_cost_amount")
-    private int authorCostAmount;
+    private Integer authorCostAmount;
     /**
      * sendPay
      */
@@ -372,7 +372,7 @@ public class OrderItem {
      * productId
      */
     @JsonProperty("product_id")
-    private long productId;
+    private Long productId;
     /**
      * orderId
      */
@@ -407,7 +407,7 @@ public class OrderItem {
      * packingChargeAmount
      */
     @JsonProperty("packing_charge_amount")
-    private int packingChargeAmount;
+    private Integer packingChargeAmount;
     /**
      * postAddr
      */
@@ -417,22 +417,22 @@ public class OrderItem {
      * postAmount
      */
     @JsonProperty("post_amount")
-    private int postAmount;
+    private Integer postAmount;
     /**
      * shipTime
      */
     @JsonProperty("ship_time")
-    private int shipTime;
+    private Integer shipTime;
     /**
      * promotionRedpackAmount
      */
     @JsonProperty("promotion_redpack_amount")
-    private int promotionRedpackAmount;
+    private Integer promotionRedpackAmount;
     /**
      * appointmentShipTime
      */
     @JsonProperty("appointment_ship_time")
-    private int appointmentShipTime;
+    private Integer appointmentShipTime;
     /**
      * skuCustomizationInfo
      */
@@ -442,17 +442,17 @@ public class OrderItem {
      * modifyAmount
      */
     @JsonProperty("modify_amount")
-    private int modifyAmount;
+    private Integer modifyAmount;
     /**
      * promotionAmount
      */
     @JsonProperty("promotion_amount")
-    private int promotionAmount;
+    private Integer promotionAmount;
     /**
      * expShipTime
      */
     @JsonProperty("exp_ship_time")
-    private int expShipTime;
+    private Integer expShipTime;
     /**
      * reduceStockTypeDesc
      */
@@ -482,7 +482,7 @@ public class OrderItem {
      * orderExpireTime
      */
     @JsonProperty("order_expire_time")
-    private int orderExpireTime;
+    private Integer orderExpireTime;
     /**
      * encryptPostReceiver
      */
@@ -492,7 +492,7 @@ public class OrderItem {
      * postInsuranceAmount
      */
     @JsonProperty("post_insurance_amount")
-    private int postInsuranceAmount;
+    private Integer postInsuranceAmount;
     /**
      * parentOrderId
      */
@@ -512,7 +512,7 @@ public class OrderItem {
      * cBiz
      */
     @JsonProperty("c_biz")
-    private int cBiz;
+    private Long cBiz;
     /**
      * receiveType
      */
@@ -527,7 +527,7 @@ public class OrderItem {
      * onlyPlatformCostAmount
      */
     @JsonProperty("only_platform_cost_amount")
-    private int onlyPlatformCostAmount;
+    private Integer onlyPlatformCostAmount;
     /**
      * bType
      */
@@ -567,17 +567,17 @@ public class OrderItem {
      * finishTime
      */
     @JsonProperty("finish_time")
-    private int finishTime;
+    private Integer finishTime;
     /**
      * firstCid
      */
     @JsonProperty("first_cid")
-    private int firstCid;
+    private Long firstCid;
     /**
      * originAmount
      */
     @JsonProperty("origin_amount")
-    private int originAmount;
+    private Integer originAmount;
     /**
      * hasTax
      */
@@ -587,7 +587,7 @@ public class OrderItem {
      * promotionRedpackPlatformAmount
      */
     @JsonProperty("promotion_redpack_platform_amount")
-    private int promotionRedpackPlatformAmount;
+    private Integer promotionRedpackPlatformAmount;
     /**
      * originId
      */
@@ -597,7 +597,7 @@ public class OrderItem {
      * platformCostAmount
      */
     @JsonProperty("platform_cost_amount")
-    private int platformCostAmount;
+    private Integer platformCostAmount;
     /**
      * spec
      */
@@ -607,7 +607,7 @@ public class OrderItem {
      * promotionTalentAmount
      */
     @JsonProperty("promotion_talent_amount")
-    private int promotionTalentAmount;
+    private Integer promotionTalentAmount;
     /**
      * afterSaleInfo
      */

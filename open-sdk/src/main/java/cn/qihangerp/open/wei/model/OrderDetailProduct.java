@@ -23,6 +23,7 @@ public class OrderDetailProduct {
   private String out_sku_id	;//	商品外部skuid
   private Boolean is_discounted	;//	是否有优惠金额，非必填，默认为false
   private Integer estimate_price	;//	优惠后sku总价，非必填，is_discounted为true时有值
+  private Integer merchant_discounted_price	;//	商家优惠金额，单位为分
   private Boolean is_change_price;//	bool	是否修改过价格，非必填，默认为false
   private Integer change_price;//	number	改价后sku总价，非必填，is_change_price为true时有值
   private String out_warehouse_id;//	string	区域库存id
