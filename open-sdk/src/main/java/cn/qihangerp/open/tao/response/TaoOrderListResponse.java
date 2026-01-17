@@ -1,7 +1,5 @@
 package cn.qihangerp.open.tao.response;
 
-import cn.qihangerp.open.tao.model.TradeItem;
-
 import java.util.List;
 
 public class TaoOrderListResponse {
@@ -54,7 +52,7 @@ public class TaoOrderListResponse {
     private String modified;
     private boolean no_shipping;
     private String oaid;
-    private List<TradeItem> orders;
+    private List<TaoOrderItem> orders;
     private String pay_time;
     private String payment;
     private String post_fee;
@@ -206,11 +204,11 @@ public class TaoOrderListResponse {
         this.oaid = oaid;
     }
 
-    public List<TradeItem> getOrders() {
+    public List<TaoOrderItem> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<TradeItem> orders) {
+    public void setOrders(List<TaoOrderItem> orders) {
         this.orders = orders;
     }
 

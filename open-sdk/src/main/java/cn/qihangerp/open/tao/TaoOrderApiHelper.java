@@ -2,7 +2,7 @@ package cn.qihangerp.open.tao;
 
 import cn.qihangerp.open.common.*;
 import cn.qihangerp.open.tao.response.TaoOrderDetailResponse;
-import cn.qihangerp.open.tao.model.TradeItem;
+import cn.qihangerp.open.tao.response.TaoOrderItem;
 import cn.qihangerp.open.tao.response.TaoOrderListResponse;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -19,12 +19,12 @@ public class TaoOrderApiHelper {
             "receiver_mobile,receiver_phone,title,seller_flag,has_buyer_message,credit_card_fee,mark_desc,consign_time,end_time,sid,yfx_fee,has_yfx" +
             ",type,status,orders,rx_audit_status,seller_memo,buyer_memo,buyer_message,pay_time,created,modified,buyer_nick,buyer_open_uid" +
             ",alipay_no,buyer_alipay_no,buyer_email,num_iid,num,price,total_fee,adjust_fee,post_fee,discount_fee,payment,received_payment" +
-            ",available_confirm_fee,commission_fee,oaid,promotion_details,tmall_coupon_fee,logistics_company,invoice_no";
+            ",available_confirm_fee,commission_fee,oaid,promotion_details,tmall_coupon_fee,logistics_company,invoice_no,is_sh_ship";
     private static final String ORDER_DETAIL_FIELDS = "tid,receiver_name,receiver_country,receiver_state,receiver_city,receiver_district,receiver_town,receiver_address," +
             "receiver_mobile,receiver_phone,title,seller_flag,has_buyer_message,credit_card_fee,mark_desc,consign_time,end_time,sid,yfx_fee,has_yfx" +
             ",type,status,orders,rx_audit_status,seller_memo,buyer_memo,buyer_message,pay_time,created,modified,buyer_nick,buyer_open_uid" +
             ",alipay_no,buyer_alipay_no,buyer_email,num_iid,num,price,total_fee,adjust_fee,post_fee,discount_fee,payment,received_payment" +
-            ",available_confirm_fee,commission_fee,oaid,promotion_details,tmall_coupon_fee,logistics_infos,LogisticsInfos,logistics_company,invoice_no";
+            ",available_confirm_fee,commission_fee,oaid,promotion_details,tmall_coupon_fee,logistics_infos,LogisticsInfos,logistics_company,invoice_no,is_sh_ship";
     /**
      * 更新订单（循环分页）
      *
@@ -55,7 +55,7 @@ public class TaoOrderApiHelper {
                     // 转换orders
                     JSONObject s = (JSONObject) item;
                     JSONObject ss = (JSONObject) s.get("orders");
-                    List<TradeItem> orders = JSONArray.parseArray(ss.get("order").toString(), TradeItem.class);
+                    List<TaoOrderItem> orders = JSONArray.parseArray(ss.get("order").toString(), TaoOrderItem.class);
                     tradeBean.setOrders(orders);
                     tradeBeans.add(tradeBean);
                 }
@@ -75,7 +75,7 @@ public class TaoOrderApiHelper {
                             // 转换orders
                             JSONObject s = (JSONObject) item;
                             JSONObject ss = (JSONObject) s.get("orders");
-                            List<TradeItem> orders = JSONArray.parseArray(ss.get("order").toString(), TradeItem.class);
+                            List<TaoOrderItem> orders = JSONArray.parseArray(ss.get("order").toString(), TaoOrderItem.class);
                             tradeBean.setOrders(orders);
                             tradeBeans.add(tradeBean);
                         }
