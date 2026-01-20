@@ -97,6 +97,8 @@ public class DouOrderApiHelper {
 //                    else if(result.getCode() == EnumResultVo.SUCCESS.getIndex()) addCount++;
 //                }
 
+                } else if(resultObj.getInteger("code") == 40003){
+                    return ApiResultVo.error(ApiResultVoEnum.TokenFail.getIndex(), resultObj.getString("sub_msg"));
                 } else {
                     return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "请求API错误：" + resultObj.getString("sub_msg"));
                 }
