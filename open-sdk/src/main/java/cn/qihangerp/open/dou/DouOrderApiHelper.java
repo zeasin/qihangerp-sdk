@@ -11,6 +11,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.net.http.HttpResponse;
 import java.util.*;
@@ -22,16 +23,121 @@ public class DouOrderApiHelper {
 
 
     public static ApiResultVo<Order> pullOrderList(Long startTime, Long endTime, Integer pageIndex, Integer pageSize, String appKey, String appSecret, String accessToken) {
+        String resultStr = pullOrderListString(pageIndex, pageSize, startTime, endTime, 1, appKey, appSecret, accessToken);
+        if(StringUtils.isEmpty(resultStr)) return ApiResultVo.error("请求接口异常");
+        try {
+                JSONObject resultObj = JSONObject.parseObject(resultStr);
+                if (resultObj.getInteger("code") == 10000) {
+
+                    Integer total = resultObj.getJSONObject("data").getInteger("total");
+
+                    if (total == 0) return ApiResultVo.success(0, new ArrayList<>());
+//                    JSONArray jsonArray = resultObj.getJSONObject("data").getJSONArray("shop_order_list");
+//                    for (var js:jsonArray) {
+//                        String s = JSONObject.toJSONString(js);
+//                        s = "";
+//                    }
+                    List<Order> orderList = JSONArray.parseArray(resultObj.getJSONObject("data").getString("shop_order_list"), Order.class);
+//                    List<Order> orderList = JSONArray.parseArray(resultObj.getJSONObject("data").getString("shop_order_list"), Order.class);
+//                    for (var order : douOrderList) {
+//                        String s = "";
+//                    }
+                    return ApiResultVo.success(total, orderList);
+//                for(var json:jsonArray){
+//                    DcDouyinOrdersEntity douYinOrder= JsonUtil.strToObject(JSON.toJSONString(json),DcDouyinOrdersEntity.class);
+//                    var address = JsonUtil.strToObject(douYinOrder.getPostAddr(),DcDouyinAddressVo.class);
+//                    String postAddr=new StringBuilder(address.getProvince().getName()).append(address.getCity().getName()).append(address.getTown().getName()).append(address.getDetail()).toString();
+//                    douYinOrder.setPostAddr(postAddr);
+//
+//                    var result =  douyinOrderService.editDouYinOrder(douYinOrder);
+//                    if(result.getCode() == EnumResultVo.DataExist.getIndex()) updCount++;
+//                    else if(result.getCode() == EnumResultVo.Fail.getIndex()) failCount++;
+//                    else if(result.getCode() == EnumResultVo.SUCCESS.getIndex()) addCount++;
+//                }
+
+            }else{
+                return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "接口服务器连接异常");
+            }
+        } catch (Exception e) {
+            return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "系统异常：" + e.getMessage());
+        }
+
+    }
+
+    public static ApiResultVo<Order> updateOrderList(Long startTime, Long endTime, Integer pageIndex, Integer pageSize, String appKey, String appSecret, String accessToken) {
+        String resultStr = pullOrderListString(pageIndex, pageSize, startTime, endTime, 2, appKey, appSecret, accessToken);
+        if(StringUtils.isEmpty(resultStr)) return ApiResultVo.error("请求接口异常");
+        try {
+            JSONObject resultObj = JSONObject.parseObject(resultStr);
+            if (resultObj.getInteger("code") == 10000) {
+
+                Integer total = resultObj.getJSONObject("data").getInteger("total");
+
+                if (total == 0) return ApiResultVo.success(0, new ArrayList<>());
+//                    JSONArray jsonArray = resultObj.getJSONObject("data").getJSONArray("shop_order_list");
+//                    for (var js:jsonArray) {
+//                        String s = JSONObject.toJSONString(js);
+//                        s = "";
+//                    }
+                List<Order> orderList = JSONArray.parseArray(resultObj.getJSONObject("data").getString("shop_order_list"), Order.class);
+//                    List<Order> orderList = JSONArray.parseArray(resultObj.getJSONObject("data").getString("shop_order_list"), Order.class);
+//                    for (var order : douOrderList) {
+//                        String s = "";
+//                    }
+                return ApiResultVo.success(total, orderList);
+//                for(var json:jsonArray){
+//                    DcDouyinOrdersEntity douYinOrder= JsonUtil.strToObject(JSON.toJSONString(json),DcDouyinOrdersEntity.class);
+//                    var address = JsonUtil.strToObject(douYinOrder.getPostAddr(),DcDouyinAddressVo.class);
+//                    String postAddr=new StringBuilder(address.getProvince().getName()).append(address.getCity().getName()).append(address.getTown().getName()).append(address.getDetail()).toString();
+//                    douYinOrder.setPostAddr(postAddr);
+//
+//                    var result =  douyinOrderService.editDouYinOrder(douYinOrder);
+//                    if(result.getCode() == EnumResultVo.DataExist.getIndex()) updCount++;
+//                    else if(result.getCode() == EnumResultVo.Fail.getIndex()) failCount++;
+//                    else if(result.getCode() == EnumResultVo.SUCCESS.getIndex()) addCount++;
+//                }
+
+            }else{
+                return ApiResultVo.error(resultObj.getString("msg") );
+            }
+        } catch (Exception e) {
+            return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "系统异常：" + e.getMessage());
+        }
+
+    }
+
+    /**
+     *
+     * @param pageIndex
+     * @param pageSize
+     * @param startTime
+     * @param endTime
+     * @param orderBy 1、createTime 2、updateTime
+     * @param appKey
+     * @param appSecret
+     * @param accessToken
+     * @return
+     */
+    protected static String pullOrderListString(Integer pageIndex, Integer pageSize, Long startTime, Long endTime, Integer orderBy,String appKey, String appSecret, String accessToken) {
         String method = "order.searchList";
         LinkedHashMap<String, Object> jsonMap = new LinkedHashMap<>();
 //        jsonMap.put("end_time",DateUtil.dateToString(new Date(),"yyyy/MM/dd HH:mm:ss"));//截至时间
 //        jsonMap.put("end_time",DateUtil.unixTimeStampToDate2(endTime,"yyyy/MM/dd HH:mm:ss"));//截至时间
 //        jsonMap.put("is_desc","1");//设置了此字段即为desc (最近的在前), 不设置默认asc
-        jsonMap.put("order_by", "update_time");
+        if (orderBy == 1) {
+            jsonMap.put("create_time_end", endTime);
+            jsonMap.put("create_time_start", startTime);
+            jsonMap.put("order_by", "create_time");
+        }else if(orderBy==2) {
+            jsonMap.put("order_by", "update_time");
+        }
         jsonMap.put("page", pageIndex);//查询的第几页,默认值为0, 第一页下标从0开始
         jsonMap.put("size", pageSize);//每页大小 默认为10, 最大100
-        jsonMap.put("update_time_end", endTime);
-        jsonMap.put("update_time_start", startTime);
+        if(orderBy==2){
+            jsonMap.put("update_time_end", endTime);
+            jsonMap.put("update_time_start", startTime);
+        }
+
 
 //        jsonMap.put("start_time",DateUtil.unixTimeStampToDate2(startTime,"yyyy/MM/dd HH:mm:ss"));//开始时间
 //        jsonMap.put("start_time","2020/05/03 00:00:01");//开始时间
@@ -67,49 +173,14 @@ public class DouOrderApiHelper {
             String surl = sendUrl + "?" + HttpUtil.map2Url(params);
             HttpResponse<String> response = ExpressClient.doPost(surl, paramJson);
             if (response.statusCode() == 200) {
-//                String resultStr = response.body();
-                JSONObject resultObj = JSONObject.parseObject(response.body());
-                if (resultObj.getInteger("code") == 10000) {
-
-                    Integer total = resultObj.getJSONObject("data").getInteger("total");
-
-                    if (total == 0) return ApiResultVo.success(0, new ArrayList<>());
-//                    JSONArray jsonArray = resultObj.getJSONObject("data").getJSONArray("shop_order_list");
-//                    for (var js:jsonArray) {
-//                        String s = JSONObject.toJSONString(js);
-//                        s = "";
-//                    }
-                    List<Order> orderList = JSONArray.parseArray(resultObj.getJSONObject("data").getString("shop_order_list"), Order.class);
-//                    List<Order> orderList = JSONArray.parseArray(resultObj.getJSONObject("data").getString("shop_order_list"), Order.class);
-//                    for (var order : douOrderList) {
-//                        String s = "";
-//                    }
-                    return ApiResultVo.success(total, orderList);
-//                for(var json:jsonArray){
-//                    DcDouyinOrdersEntity douYinOrder= JsonUtil.strToObject(JSON.toJSONString(json),DcDouyinOrdersEntity.class);
-//                    var address = JsonUtil.strToObject(douYinOrder.getPostAddr(),DcDouyinAddressVo.class);
-//                    String postAddr=new StringBuilder(address.getProvince().getName()).append(address.getCity().getName()).append(address.getTown().getName()).append(address.getDetail()).toString();
-//                    douYinOrder.setPostAddr(postAddr);
-//
-//                    var result =  douyinOrderService.editDouYinOrder(douYinOrder);
-//                    if(result.getCode() == EnumResultVo.DataExist.getIndex()) updCount++;
-//                    else if(result.getCode() == EnumResultVo.Fail.getIndex()) failCount++;
-//                    else if(result.getCode() == EnumResultVo.SUCCESS.getIndex()) addCount++;
-//                }
-
-                } else if(resultObj.getInteger("code") == 40003){
-                    return ApiResultVo.error(ApiResultVoEnum.TokenFail.getIndex(), resultObj.getString("sub_msg"));
-                } else {
-                    return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "请求API错误：" + resultObj.getString("sub_msg"));
-                }
-
+                String resultStr = response.body();
+                return  resultStr;
             }else{
-                return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "接口服务器连接异常");
+                return "";
             }
         } catch (Exception e) {
-            return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "系统异常：" + e.getMessage());
+            return "";
         }
-
     }
 
     public static ApiResultVo<Order> pullOrderDetail(String appKey, String appSecret, String accessToken,String shopOrderId) {
