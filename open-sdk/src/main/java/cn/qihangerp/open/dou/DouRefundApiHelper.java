@@ -10,6 +10,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.net.http.HttpResponse;
 import java.util.HashMap;
@@ -21,19 +22,73 @@ public class DouRefundApiHelper {
     private static Logger log = LoggerFactory.getLogger(DouRefundApiHelper.class);
 
     /**
-     * 更新退货订单
+     * 拉取售后（按申请时间）
      * @param
      * @return
      */
+    public static ApiResultVo<AfterSale> pullAfterSaleList(Long startTime, Long endTime, Integer pageIndex, Integer pageSize, String appKey, String appSecret, String accessToken) {
+        String result = pullAfterSaleListStr(startTime, endTime, pageIndex, pageSize, 1, appKey, appSecret, accessToken);
+        if (StringUtils.isEmpty(result)) return ApiResultVo.error("请求接口异常");
 
-    public static ApiResultVo<AfterSale> pullAfterSaleList(Long startTime, Long endTime, Integer pageIndex, Integer pageSize, String appKey, String appSecret, String accessToken){
+        JSONObject resultObj = JSONObject.parseObject(result);
+        if (resultObj.getInteger("code") == 10000) {
+            Integer total = resultObj.getJSONObject("data").getInteger("total");
+
+            if (total == 0) return ApiResultVo.error(ApiResultVoEnum.ApiException.getIndex(), "无订单可以更新");
+
+            List<AfterSale> list = JSONArray.parseArray(resultObj.getJSONObject("data").getString("items"), AfterSale.class);
+            return ApiResultVo.success(total, list);
+        } else {
+            return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "请求API错误：" + resultObj.getString("sub_msg"));
+        }
+    }
+    /**
+     * 更新售后（按更新时间）
+     * @param
+     * @return
+     */
+    public static ApiResultVo<AfterSale> updateAfterSaleList(Long startTime, Long endTime, Integer pageIndex, Integer pageSize, String appKey, String appSecret, String accessToken) {
+        String result = pullAfterSaleListStr(startTime, endTime, pageIndex, pageSize, 1, appKey, appSecret, accessToken);
+        if (StringUtils.isEmpty(result)) return ApiResultVo.error("请求接口异常");
+
+        JSONObject resultObj = JSONObject.parseObject(result);
+        if (resultObj.getInteger("code") == 10000) {
+            Integer total = resultObj.getJSONObject("data").getInteger("total");
+
+            if (total == 0) return ApiResultVo.error(ApiResultVoEnum.ApiException.getIndex(), "无订单可以更新");
+
+            List<AfterSale> list = JSONArray.parseArray(resultObj.getJSONObject("data").getString("items"), AfterSale.class);
+            return ApiResultVo.success(total, list);
+        } else {
+            return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "请求API错误：" + resultObj.getString("sub_msg"));
+        }
+    }
+
+    /**
+     *
+     * @param startTime
+     * @param endTime
+     * @param pageIndex
+     * @param pageSize
+     * @param orderBy 1、apply_time 2、update_time
+     * @param appKey
+     * @param appSecret
+     * @param accessToken
+     * @return
+     */
+    public static String pullAfterSaleListStr(Long startTime, Long endTime, Integer pageIndex, Integer pageSize, Integer orderBy,String appKey, String appSecret, String accessToken){
         String method = "afterSale.List";
 //        String method = "afterSale.orderList";
 //        String refundMethod="refund.orderList";
 
         LinkedHashMap<String, Object> jsonMap =new LinkedHashMap<>();
-        String[] orderBy = {"update_time desc"};
-        jsonMap.put("order_by",orderBy);
+
+        if (orderBy == 1) {
+            jsonMap.put("order_by",new String[]{"apply_time desc"});
+        }else if(orderBy==2) {
+            jsonMap.put("order_by",new String[]{"update_time desc"});
+        }
+
         jsonMap.put("page",pageIndex);
         jsonMap.put("size",pageSize);
         jsonMap.put("update_end_time",endTime);//截至时间
@@ -70,27 +125,13 @@ public class DouRefundApiHelper {
         try {
             String surl = sendUrl + "?" + HttpUtil.map2Url(params);
             HttpResponse<String> response = ExpressClient.doPost(surl, paramJson);
-//            HttpResponse<String> response = ExpressClient.doPost(sendUrl+"/afterSale/orderList", HttpUtil.map2Url(params));
             if (response.statusCode() == 200) {
-//                JSONObject obj = JSONObject.parseObject(response.body()).getJSONObject("data");
-                JSONObject resultObj = JSONObject.parseObject(response.body());
-                if (resultObj.getInteger("code") == 10000) {
-                    Integer total = resultObj.getJSONObject("data").getInteger("total");
-
-                    if (total == 0) return ApiResultVo.error(ApiResultVoEnum.ApiException.getIndex(), "无订单可以更新");
-
-                    List<AfterSale> list = JSONArray.parseArray(resultObj.getJSONObject("data").getString("items"), AfterSale.class);
-                    return ApiResultVo.success(total, list);
-                } else {
-                    return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "请求API错误：" + resultObj.getString("sub_msg"));
-                }
-
+                return response.body();
             }else{
-                return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "接口服务器连接异常");
+                return "";
             }
-
         } catch (Exception e) {
-            return ApiResultVo.error(ApiResultVoEnum.Fail.getIndex(), "系统异常：" + e.getMessage());
+            return "";
         }
     }
 
