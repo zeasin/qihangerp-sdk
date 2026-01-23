@@ -36,7 +36,7 @@ public class WeiRefundApiHelper {
         }
         List<AfterSaleOrder> lists = new ArrayList<>();
 
-        String listResult = pullRefundList(accessToken,startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,"");
+        String listResult = pullRefundList(1,accessToken,startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()/1000,"");
 
         if(!StringUtils.isNotBlank(listResult)){
             return ApiResultVo.error(ApiResultVoEnum.ApiException);
@@ -59,7 +59,7 @@ public class WeiRefundApiHelper {
                 Boolean isHas_more = jsonObject.getBoolean("has_more");
                 String next_key = jsonObject.getString("next_key");
                 while (isHas_more) {
-                    String listResultPage = pullRefundList(accessToken, startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 1000,
+                    String listResultPage = pullRefundList(1,accessToken, startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 1000,
                             endTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 1000, next_key);
 
                 }
@@ -89,11 +89,24 @@ public class WeiRefundApiHelper {
 
     }
 
-    protected static String pullRefundList(String accessToken ,Long startTime,Long endTime,String nextKey) {
+    /**
+     *
+     * @param orderBy 1、create_time 2、update_time
+     * @param accessToken
+     * @param startTime
+     * @param endTime
+     * @param nextKey
+     * @return
+     */
+    protected static String pullRefundList(Integer orderBy,String accessToken ,Long startTime,Long endTime,String nextKey) {
         Map<String,Object> params = new HashMap<>();
-        params.put("begin_create_time",startTime);
-        params.put("end_create_time",endTime);
-
+        if(orderBy==1) {
+            params.put("begin_create_time", startTime);
+            params.put("end_create_time", endTime);
+        }else if(orderBy==2){
+            params.put("begin_update_time", startTime);
+            params.put("end_update_time", endTime);
+        }
         if(StringUtils.isNotBlank(nextKey)){
             params.put("next_key",nextKey);
         }

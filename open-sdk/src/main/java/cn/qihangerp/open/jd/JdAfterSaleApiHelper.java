@@ -89,8 +89,8 @@ public class JdAfterSaleApiHelper {
         params.put("timestamp", DateUtil.getCurrentDateTime());
         try {
             Map<String, Object> pmap = new TreeMap();
-//            pmap.put("checkTimeEnd", endTimeStr);
-//            pmap.put("checkTimeStart", startTimeStr);
+            pmap.put("applyTimeStart", endTimeStr);
+            pmap.put("applyTimeEnd", startTimeStr);
             pmap.put("pageIndex", pageNo);
             pmap.put("pageSize", pageSize);
             pmap.put("showSku",true);
@@ -202,8 +202,10 @@ public class JdAfterSaleApiHelper {
         params.put("timestamp", DateUtil.getCurrentDateTime());
         try {
             Map<String, Object> pmap = new TreeMap();
-            pmap.put("approveTimeBegin", startTimeStr);
-            pmap.put("approveTimeEnd", endTimeStr);
+//            pmap.put("approveTimeBegin", startTimeStr);
+            pmap.put("applyTimeBegin", startTimeStr);
+//            pmap.put("approveTimeEnd", endTimeStr);
+            pmap.put("applyTimeEnd", endTimeStr);
             pmap.put("buId", sellerId.toString());
             pmap.put("operatePin", "testPin");
             pmap.put("operateNick", "testPin");

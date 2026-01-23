@@ -1,5 +1,6 @@
 package cn.qihangerp.open.wei.model;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
 
@@ -93,7 +94,7 @@ public class AfterSaleOrder implements Serializable {
         private String desc;
         private Boolean receive_product;
         private String tel_number;
-        private JSONObject media_infos;
+        private JSONArray media_infos;
     }
     @Data
     public static class ReturnInfo{
@@ -109,7 +110,7 @@ public class AfterSaleOrder implements Serializable {
         private Integer count;
         private Boolean fast_refund;
         private String sku_code;
-        private JSONObject gift_product_list;
+        private JSONArray gift_product_list;
     }
     private static final long serialVersionUID = 1L;
 }
