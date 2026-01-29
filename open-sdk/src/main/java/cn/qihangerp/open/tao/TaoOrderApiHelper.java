@@ -25,15 +25,8 @@ public class TaoOrderApiHelper {
             ",type,status,orders,rx_audit_status,seller_memo,buyer_memo,buyer_message,pay_time,created,modified,buyer_nick,buyer_open_uid" +
             ",alipay_no,buyer_alipay_no,buyer_email,num_iid,num,price,total_fee,adjust_fee,post_fee,discount_fee,payment,received_payment" +
             ",available_confirm_fee,commission_fee,oaid,promotion_details,tmall_coupon_fee,logistics_infos,LogisticsInfos,logistics_company,invoice_no,is_sh_ship";
-    /**
-     * 更新订单（循环分页）
-     *
-     * @param appKey
-     * @param appSecret
-     * @param sessionKey
-     * @return
-     */
-    public static ApiResultVo<TaoOrderListResponse> pullTradeList(LocalDateTime startModified, LocalDateTime endModified , String appKey, String appSecret, String sessionKey) throws IOException {
+
+    public static ApiResultVo<TaoOrderListResponse> pullOrderList(LocalDateTime startModified, LocalDateTime endModified , String appKey, String appSecret, String sessionKey) throws IOException {
         Integer pageNo = 1;
         String resultString = pullOrderList(startModified, endModified, pageNo, appKey, appSecret, sessionKey);
         if (!StringUtils.hasText(resultString))
@@ -43,7 +36,7 @@ public class TaoOrderApiHelper {
         JSONObject result = JSONObject.parseObject(resultString);
         if (result.get("error_response") == null) {
             //没有错误
-            JSONObject dataResult = (JSONObject) result.get("trades_sold_increment_get_response");
+            JSONObject dataResult = (JSONObject) result.get("trades_sold_get_response");
             Boolean hasNext = (Boolean) dataResult.get("has_next");
             JSONObject orderListResult = (JSONObject) dataResult.get("trades");
             //组合的订单列表
@@ -111,6 +104,125 @@ public class TaoOrderApiHelper {
 //        String format = LocalDateTime.now().format(df);
         Map<String, String> params = new HashMap<>();
         params.put("app_key", appKey);
+        params.put("method", "taobao.trades.sold.get");
+        params.put("v", "2.0");
+        params.put("session", sessionKey);
+        params.put("timestamp", DateUtil.getCurrentDateTime());
+        params.put("format", "json");
+        params.put("sign_method", "md5");
+        params.put("start_created", startModified.format(df));
+        params.put("end_created", endModified.format(df));
+        params.put("page_no", pageNo.toString());
+        params.put("fields", ORDER_List_FIELDS);
+        params.put("use_has_next", "true");
+        params.put("page_size", "50");
+        try {
+            String sign = SignUtil.signTopRequest(params, appSecret);
+            params.put("sign", sign);
+        }catch (Exception e){
+            return "";//签名错误
+        }
+        // 组合url参数
+        StringJoiner joiner = new StringJoiner("&");
+        params.forEach((key, value) -> joiner.add(key + "=" + URLEncoder.encode(value)));
+        String urlP = joiner.toString();
+        url = url + "?" + urlP;
+
+        // 调用接口
+//        TaoOrderApiService remoting = RemoteUtil.Remoting(url, TaoOrderApiService.class);
+//        return remoting.getOrderList();
+//        String resultString = HttpUtils.doGet(url);
+        String resultString = OkHttpClientHelper.get(url);
+        return resultString;
+    }
+
+
+    /**
+     * 更新订单（循环分页）
+     *
+     * @param appKey
+     * @param appSecret
+     * @param sessionKey
+     * @return
+     */
+    public static ApiResultVo<TaoOrderListResponse> pullIncrementOrderList(LocalDateTime startModified, LocalDateTime endModified , String appKey, String appSecret, String sessionKey) throws IOException {
+        Integer pageNo = 1;
+        String resultString = updateOrderList(startModified, endModified, pageNo, appKey, appSecret, sessionKey);
+        if (!StringUtils.hasText(resultString))
+            return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名发生错误");
+
+        // 获取结果
+        JSONObject result = JSONObject.parseObject(resultString);
+        if (result.get("error_response") == null) {
+            //没有错误
+            JSONObject dataResult = (JSONObject) result.get("trades_sold_increment_get_response");
+            Boolean hasNext = (Boolean) dataResult.get("has_next");
+            JSONObject orderListResult = (JSONObject) dataResult.get("trades");
+            //组合的订单列表
+            List<TaoOrderListResponse> tradeBeans = new ArrayList<>();
+            if (orderListResult != null) {
+                for (Object item : (JSONArray) orderListResult.get("trade")) {
+
+                    TaoOrderListResponse tradeBean = JSONObject.parseObject(item.toString(), TaoOrderListResponse.class);
+                    // 转换orders
+                    JSONObject s = (JSONObject) item;
+                    JSONObject ss = (JSONObject) s.get("orders");
+                    List<TaoOrderItem> orders = JSONArray.parseArray(ss.get("order").toString(), TaoOrderItem.class);
+                    tradeBean.setOrders(orders);
+                    tradeBeans.add(tradeBean);
+                }
+                //循环取下一页
+                while (hasNext) {
+                    pageNo++;
+                    String resultString1 = updateOrderList(startModified, endModified, pageNo, appKey, appSecret, sessionKey);
+                    JSONObject result1 = JSONObject.parseObject(resultString1);
+                    //没有错误
+                    JSONObject dataResult1 = (JSONObject) result1.get("trades_sold_increment_get_response");
+                    hasNext = (Boolean) dataResult1.get("has_next");
+                    JSONObject orderListResult1 = (JSONObject) dataResult1.get("trades");
+                    if (orderListResult1 != null) {
+                        for (Object item : (JSONArray) orderListResult1.get("trade")) {
+//                            String s = JSONObject.toJSONString(item);
+                            TaoOrderListResponse tradeBean = JSONObject.parseObject(JSONObject.toJSONString(item), TaoOrderListResponse.class);
+                            // 转换orders
+                            JSONObject s = (JSONObject) item;
+                            JSONObject ss = (JSONObject) s.get("orders");
+                            List<TaoOrderItem> orders = JSONArray.parseArray(ss.get("order").toString(), TaoOrderItem.class);
+                            tradeBean.setOrders(orders);
+                            tradeBeans.add(tradeBean);
+                        }
+                    }
+                }
+//                return new PullResult(tradeBeans.size(), tradeBeans);
+                return ApiResultVo.success(tradeBeans.size(), tradeBeans);
+            } else {
+//                return new PullResult(0, tradeBeans);
+                return ApiResultVo.success(0, tradeBeans);
+            }
+
+        } else {
+            // 有错误
+            JSONObject errorInfo = (JSONObject) result.get("error_response");
+            if (errorInfo.get("code").toString().equals("27")) {
+                // SessionKey非法
+                return ApiResultVo.error(ApiResultVoEnum.TokenFail.getIndex(), errorInfo.get("sub_msg").toString());
+            } else if (errorInfo.get("code").toString().equals("25")) {
+                return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "签名错误，有可能是appSecret错了");
+            } else if (errorInfo.get("code").toString().equals("29")) {
+                return ApiResultVo.error(ApiResultVoEnum.SystemException.getIndex(), "错误的AppKey");
+            } else {
+                return ApiResultVo.error(ApiResultVoEnum.ParamsError.getIndex(), errorInfo.get("sub_msg").toString());
+            }
+        }
+
+    }
+
+    protected static String updateOrderList(LocalDateTime startModified,LocalDateTime endModified,Integer pageNo,String appKey, String appSecret, String sessionKey) throws IOException {
+        String url = "https://api.taobao.com/router/rest"; // 淘宝API的URL
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        String format = LocalDateTime.now().format(df);
+        Map<String, String> params = new HashMap<>();
+        params.put("app_key", appKey);
         params.put("method", "taobao.trades.sold.increment.get");
         params.put("v", "2.0");
         params.put("session", sessionKey);
@@ -122,7 +234,7 @@ public class TaoOrderApiHelper {
         params.put("page_no", pageNo.toString());
         params.put("fields", ORDER_List_FIELDS);
         params.put("use_has_next", "true");
-        params.put("page_size", "40");
+        params.put("page_size", "50");
         try {
             String sign = SignUtil.signTopRequest(params, appSecret);
             params.put("sign", sign);
